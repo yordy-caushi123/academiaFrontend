@@ -1,0 +1,106 @@
+<div>
+  <h4 class="mb-4 text-muted">Cambiar Contraseña</h4>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="card border-0 rounded-0">
+        <div class="card-body">
+         
+          <form id="regiration_form" method="post">
+            <h5 class="text-muted mb-3 mt-3">Consideraciónes y recomendaciones:</h5>
+            <ul class="list-group ml-4">
+              <li style="text-align: justify;">Usted es responsable del uso o abuso de cualquier actividad realizada con sus credenciales, así esta haya sido delegada con su consentimiento.</li>
+              <li style="text-align: justify;">No compartas tus contraseñas con nadie. Si lo haces, dejará de ser secreta y estarás dando acceso a
+                otras personas a tu privacidad.</li>
+              <li style="text-align: justify;">Debe tomar recaudos para asegurar que otros no logren accesos no autorizados con sus credenciales.</li>
+            </ul>
+
+            <h5 class="text-muted mb-3 mt-3">Recuerde:</h5>
+            <ul class="list-group ml-4">
+              <li style="text-align: justify;">La contraseña debe tener al menos ocho caracteres.</li>
+              <li style="text-align: justify;">Elija una combinación entre mayúsculas y minúsculas.</li>
+              <li style="text-align: justify;">Elija una combinación entre letras y números.</li>
+              <li style="text-align: justify;">Incluya caracteres no alfanuméricos.</li>
+              <li style="text-align: justify;">Elija una contraseña que pueda recordar.</li>
+            </ul>
+            <!--<table style="width: 100%;">
+              <thead>
+                <tr>
+                  <th width="50%"><h5 class="text-muted mb-3 mt-3">Consideraciónes y recomendaciones:</h5></th>
+                  <th width="50%"><h5 class="text-muted mb-3 mt-3">Recuerde:</h5></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td width="50%">
+                    <ul class="list-group ml-4">
+                      <li style="text-align: justify;">Usted es responsable del uso o abuso de cualquier actividad realizada con sus credenciales, así esta haya sido delegada con su consentimiento.</li>
+                      <li style="text-align: justify;">No compartas tus contraseñas con nadie. Si lo haces, dejará de ser secreta y estarás dando acceso a
+                        otras personas a tu privacidad.</li>
+                      <li style="text-align: justify;">Debe tomar recaudos para asegurar que otros no logren accesos no autorizados con sus credenciales.</li>
+                    </ul>
+                  </td>
+                  <td width="50%">
+                    <ul class="list-group ml-4">
+                      <li style="text-align: justify;">La contraseña debe tener al menos ocho caracteres.</li>
+                      <li style="text-align: justify;">Elija una combinación entre mayúsculas y minúsculas.</li>
+                      <li style="text-align: justify;">Elija una combinación entre letras y números.</li>
+                      <li style="text-align: justify;">Incluya caracteres no alfanuméricos.</li>
+                      <li style="text-align: justify;">Elija una contraseña que pueda recordar.</li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>-->
+
+            <br>
+
+            <table style="width: 100%;">
+              <tbody>
+                <tr>
+                  <td style="width: 30%;">
+                    <div class="form-row">
+                      <div class="form-group col-lg-12">
+                        <label class="col-form-label text-nowrap text-muted">Nueva Contraseña:</label>
+                        <input type="password" class="form-control rounded-0" autocomplete="off" required
+                          [(ngModel)]="nuevaContrasena" name="nuevaContrasena" minlength="8" (keyup)="modificarNivelContrasena($event)">
+                      </div>
+                    </div>
+        
+                    <div class="form-row">
+                      <div class="form-group col-lg-12">
+                        <label class="col-form-label text-nowrap text-muted">Confirmar Contraseña:</label>
+                        <input type="password" class="form-control rounded-0" autocomplete="off" required
+                          [(ngModel)]="confirmarNuevaContrasena" name="confirmarNuevaContrasena" minlength="8" (keyup)="confirmarNuevaContrasenaEvento($event)">
+                      </div>
+                    </div>
+                  </td>
+                  <td style="width: 70%;" style="text-align: center;">
+                    <h3 style="font-weight: bold;" *ngIf="(8>nuevaContrasena.length)">Nivel</h3>
+                    <h3 style="font-weight: bold;" *ngIf="(nivelContrasena==1 && nuevaContrasena.length>7)">Nivel: Muy Bajo</h3>
+                    <h3 style="font-weight: bold;" *ngIf="(nivelContrasena==2 && nuevaContrasena.length>7)">Nivel: Bajo </h3>
+                    <h3 style="font-weight: bold;" *ngIf="(nivelContrasena==3 && nuevaContrasena.length>7)">Nivel: Medio</h3>
+                    <h3 style="font-weight: bold;" *ngIf="(nivelContrasena==4 && nuevaContrasena.length>7)">Nivel: Alto</h3>
+                    <h3 style="font-weight: bold;" *ngIf="(nivelContrasena==5 && nuevaContrasena.length>7)">Nivel: Muy Alto</h3>
+                    <img width="70%" *ngIf="(8>nuevaContrasena.length)" src="../../../../assets/img/nivel0.jpg" class="img-thumbnail">
+                    <img width="70%" *ngIf="(nivelContrasena==1 && nuevaContrasena.length>7)" src="../../../../assets/img/nivel1.jpg" class="img-thumbnail">
+                    <img width="70%" *ngIf="(nivelContrasena==2 && nuevaContrasena.length>7)" src="../../../../assets/img/nivel2.jpg" class="img-thumbnail">
+                    <img width="70%" *ngIf="(nivelContrasena==3 && nuevaContrasena.length>7)" src="../../../../assets/img/nivel3.jpg" class="img-thumbnail">
+                    <img width="70%" *ngIf="(nivelContrasena==4 && nuevaContrasena.length>7)" src="../../../../assets/img/nivel4.jpg" class="img-thumbnail">
+                    <img width="70%" *ngIf="(nivelContrasena==5 && nuevaContrasena.length>7)" src="../../../../assets/img/nivel5.jpg" class="img-thumbnail">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <span class="text-nowrap" style="color: red;" *ngIf="mensaje.length!=0">{{mensaje}}</span>
+            <br>
+
+            <input type="button" name="submit" class="btn btn-success rounded-0 col-lg-2 mb-3 mt-3"
+              value="Cambiar contraseña" (click)="cambiarContrasena()" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

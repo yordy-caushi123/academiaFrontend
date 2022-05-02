@@ -1,0 +1,215 @@
+<div>
+  <h4 class="mb-4 text-muted">Movimientos Bibliográficos</h4>
+
+  <div class="row">
+    <div class="col-md-12 col-lg-12 mb-4">
+      <div class="card border-0 rounded-0">
+        <div class="card-body">
+          <div class="clearfix">
+
+            <div class="float-left col-xl-8">
+
+              <!--Filtros-->
+              <div class="form-row">
+                <div class="form-group col-xl-4">
+                  <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                    placeholder="Buscar por Ficha Bibliográfica...">
+                </div>
+                <div class="form-group col-xl-2">
+                  <select class="form-control form-control-sm rounded-0">
+                    <option value="0">Seleccione Tipo</option>
+                    <option value="1">Libro</option>
+                    <option value="2">Revista</option>
+                  </select>
+                </div>
+                <div class="form-group col-xl-2">
+                  <select class="form-control form-control-sm rounded-0">
+                    <option value="0">Seleccione Estado</option>
+                    <option value="1">Prestado</option>
+                    <option value="2">Disponible</option>
+                  </select>
+                </div>
+                <div class="form-group col-xl-2">
+                  <button class="btn btn-success btn-sm float-right w-100 rounded-0"
+                    (click)="abrirModalRegistrarFichaBibliografica()">Prestar &nbsp;<i class="far fa-calendar-alt"></i></button>
+                </div>
+                <div class="form-group col-xl-2">
+                  <button class="btn btn-success btn-sm float-right w-100 rounded-0">Exportar &nbsp;<i
+                      class="far fa-file-pdf"></i></button>
+                </div>
+              </div>
+
+              <!--Fichas Bibliográficas-->
+              <div class="table-responsive-md">
+                <table class="table table-hover table-sm border">
+                  <thead>
+                    <tr>
+                      <th scope="col" width="5%" style="text-align: center;">N</th>
+                      <th scope="col">Título</th>
+                      <th scope="col" width="5%" style="text-align: center;">Ejemplar</th>
+                      <th scope="col" width="10%" style="text-align: center;">Fecha Pres.</th>
+                      <th scope="col" width="10%" style="text-align: center;">Fecha Devo.</th>
+                      <th scope="col" width="5%" style="text-align: center;">Estado</th>
+                      <!--<th scope="col" width="10%" style="text-align: center;">Acciones</th>-->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let movimiento of movimientosBibliograficos |paginate: config ; let i = index">
+                      <td scope="row" class="align-middle" style="text-align: center;">
+                        {{ config.itemsPerPage * (config.currentPage - 1) + (i+1) }}</td>
+                      <td class="align-middle" title="Mostrar Información" (click)="mostrarInformacionMovimientoBibliografico()" style="cursor: pointer;">{{movimiento.titulo}}</td>
+                      <td class="align-middle" style="text-align: center;">{{movimiento.ejemplar}}</td>
+                      <td class="align-middle" style="text-align: center;">{{movimiento.fechaPrestamo}}</td>
+                      <td class="align-middle" style="text-align: center;">{{movimiento.fechaRegreso}}</td>
+                      <td class="align-middle" *ngIf="movimiento.estado=='Disponible'" title="Reservar"
+                          style="text-align: center; color: green; cursor: pointer;"
+                          (click)="abrirModalReservarEjemplar()"><i class="far fa-calendar"></i>
+                      </td>
+                      <td class="align-middle" *ngIf="movimiento.estado=='Prestado'" title="No Disponible"
+                          style="text-align: center; color: grey;"><i class="fas fa-ban"></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div class="col-md-12 mt-4 mx-auto" style="text-align: center;"
+                  *ngIf="hayMovimientosBibliograficos() && movimientosBibliograficos.length>=15">
+                  <pagination-controls (pageChange)="pageChange($event)" id="movimientosBibliograficos"
+                    previousLabel="Anterior" nextLabel="Siguiente" autoHide="true">
+                  </pagination-controls>
+                </div>
+
+                <ng-template #sinMovimientosBibliograficos>
+                  <div class="row" style="text-align: center;">
+                    <td class="col-xl-12" style="text-align: center;">
+                      <h3>No se encontraron <span class="text-muted">Movimientos Bibliográficos</span></h3>
+                    </td>
+                    <td class="col-xl-12">
+                      <img src="../../../../assets/img/vacio.png" alt="No hay Movimientos Bibliográficos registradas"
+                        width="30%">
+                    </td>
+
+                  </div>
+                </ng-template>
+
+              </div>
+
+            </div>
+
+            <div class="float-left col-xl-4 border" *ngIf="fichaBibliograficaSeleccionada">
+
+              <div class="form-row mt-3">
+                <div class="form-group col-xl-4" style="cursor: pointer;">
+                  <img src="../../../assets/img/portada.jpg" style="width: 100%;">
+                </div>
+                <div class="form-group col-xl-8">
+                  <div>
+                    <span class="text-muted font-weight-bold" style="font-size: 15px;">Autor: &nbsp;</span>
+                    <span style="font-size: 15px;">Escuela Nacional de Inteligencia</span>
+                  </div>
+                  <div>
+                    <span class="text-muted font-weight-bold" style="font-size: 15px;">Autor Institucional:
+                      &nbsp;</span>
+                    <span style="font-size: 15px;">ESIN</span>
+                  </div>
+                  <div>
+                    <span class="text-muted font-weight-bold" style="font-size: 15px;">Número Correlativo: &nbsp;</span>
+                    <span style="font-size: 15px;">00000001</span>
+                  </div>
+                  <div>
+                    <span class="text-muted font-weight-bold" style="font-size: 15px;">Área: &nbsp;</span>
+                    <span style="font-size: 15px;">Escuela Nacional de Inteligencia</span>
+                  </div>
+                  <br>
+                  <div style="text-align: justify;">
+                    <span class="text-muted font-weight-bold" style="font-size: 15px;">Descripción: &nbsp;</span>
+                    <span style="font-size: 15px;">Aquí debe ir una pequeña descripción del contenido de la Ficha
+                      Bibliográfica y que se tiene que ver de donde se saca o si simlemente no se pone nada de
+                      "descripción".</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <ul class="nav nav-tabs w-100">
+                  <li class="nav-item" style="cursor: pointer;" (click)="cambioInformacionFichaBibliografica(1)">
+                    <a class="nav-link" [class.active]="datos" [class.text-primary]="datos">Datos</a>
+                  </li>
+                  <li class="nav-item" style="cursor: pointer;" (click)="cambioInformacionFichaBibliografica(2)">
+                    <a class="nav-link" [class.active]="ejemplares" [class.text-primary]="ejemplares">Ejemplares</a>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="form-row" style="text-align: justify;" *ngIf="datos">
+                Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido
+                el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona
+                que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró
+                hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de
+                relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los
+                60s con la creación de las hojas "Letraset", las cuales contenian pasajes de Lorem Ipsum, y más
+                recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones
+                de Lorem Ipsum.
+              </div>
+
+              <div class="form-row" style="text-align: justify;" *ngIf="ejemplares">
+                <div class="table-responsive-md w-100">
+                  <table class="table table-hover table-sm border">
+                    <thead>
+                      <tr>
+                        <th scope="col" width="3%" style="text-align: center;">N</th>
+                        <th scope="col" width="7%" style="text-align: center;">Año</th>
+                        <th scope="col" width="10%">Idioma</th>
+                        <th scope="col">Editorial</th>
+                        <th scope="col" width="5%" style="text-align: center;">Edic</th>
+                        <th scope="col" width="15%" style="text-align: center;">Ingreso</th>
+                        <th scope="col" width="5%" style="text-align: center;">Estado</th>
+                        <!--<th scope="col" width="5%" style="text-align: center;">Acción</th>-->
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let ejemplar of ejemplaresFichaBibliografica |paginate: config ; let k = index">
+                        <td scope="row" class="align-middle" style="text-align: center;">{{k+1}}</td>
+                        <td class="align-middle" style="text-align: center;">{{ejemplar.ano_publicacion}}</td>
+                        <td class="align-middle">{{ejemplar.idioma}}</td>
+                        <td class="align-middle">{{ejemplar.editorial}}</td>
+                        <td class="align-middle" style="text-align: center;">{{ejemplar.edicion}}</td>
+                        <td class="align-middle" style="text-align: center;">{{ejemplar.modo_ingreso}}</td>
+                        <td class="align-middle" *ngIf="ejemplar.estado=='Disponible'" title="Reservar"
+                          style="text-align: center; color: green; cursor: pointer;"
+                          (click)="abrirModalReservarEjemplar()"><i class="far fa-calendar"></i>
+                        </td>
+                        <td class="align-middle" *ngIf="ejemplar.estado=='No Disponible'" title="No Disponible"
+                          style="text-align: center; color: grey;"><i class="fas fa-ban"></i></td>
+                        <!--<td class="align-middle" style="text-align: center;">
+                          <a class="text-primary" (click)="editarEjemplar(k)" title="Editar Ejemplar"
+                            style="cursor: pointer;">
+                            <i class="fas fa-edit"></i>
+                          </a>&nbsp;
+                          <a class="text-danger" (click)="eliminarEjemplar(k)" title="Eliminar Ejemplar"
+                            style="cursor: pointer;">
+                            <i class="far fa-trash-alt"></i>
+                          </a>
+                        </td>-->
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+              
+            </div>
+
+            <div class="float-left col-xl-4 border" *ngIf="!fichaBibliograficaSeleccionada"
+              style="text-align: justify;">
+              <h5 class="text-muted">No ha seleccionado ningún Movimiento Bibliográfico</h5>
+              <img src="../../../assets/img/vacio.png" width="100%">
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,57 @@
+<nav class="navbar navbar-expand-md fixed-top navbar-dark flex-fill">
+  <!-- <button class="sidebar-toggler ml-4" type="button">
+    <i class="fa fa-navicon"></i>
+  </button> -->
+
+
+  <!-- header -->
+  <div class="navbar-header pl-2 pr-2 ml-3 text-center">
+    <a class="navbar-brand m-0 w-100" href="#">
+      <!-- <i class="fa fa-flash mr-1"></i> -->
+      <!--<img src="./assets/img/l" alt="lightning logo" width="35px">-->
+      <span class="ml-1" style="color: white;"></span>
+    </a>
+  </div>
+
+
+  <!-- sidebar toggler -->
+  <div class="sidebar-toggler ml-auto mr-3">
+    <a class="btn nav-link" (click)="toggleSidebar()"><i class="fa fa-bars"></i></a>
+  </div>
+
+
+  <!-- left box -->
+  <ul class="navbar-nav flex-fill mt-1 align-items-center left-nav">
+    <li class="nav-item navicon">
+      <a class="btn nav-link" (click)="toggleSidebarPin()"><i class="fa fa-bars"></i></a>
+    </li>
+  </ul>
+
+  
+  <!-- right menu -->
+  <div class="collapse navbar-collapse right-nav" id="collapseBasic" [collapse]="isCollapsed">
+    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+
+      <li class="nav-item font-weight-bold mr-4">
+        <form class="form-inline">
+          <img src="./assets/img/incognito.png" class="img-fluid" width="30px" style="border-radius: 70%;" *ngIf="imagenUsuario.length==0">
+          <img src="{{imagenUsuario}}" class="img-fluid" width="30px" style="border-radius: 70%;" *ngIf="imagenUsuario.length!=0">
+          <a class="nav-link" style="color: white; text-align: center;">
+            {{nombreUsuario}}
+          </a>
+
+          &nbsp; &nbsp; &nbsp; 
+          <a class="nav-link" style="color: white; text-align: center; cursor: pointer;" title="Cambiar contraseña" href="#" routerLink="/cambiarContrasena">
+            <i class="fas fa-unlock-alt"></i>
+          </a>
+
+          &nbsp; &nbsp; 
+          <a class="nav-link color-cabecera font-weight-bold efecto-cabecera" style="color: white; text-align: center; cursor: pointer;"  title="Cerrar sesión" (click)="logOut()">
+            <i class="fas fa-sign-out-alt" style="color: white;"></i>Salir
+          </a>
+        </form>
+      </li>
+    </ul>
+  </div>
+
+</nav>

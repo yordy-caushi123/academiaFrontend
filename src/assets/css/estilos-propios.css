@@ -1,0 +1,7 @@
+.submenu{
+    display: block;
+}
+
+.modal {
+    overflow-y: auto;
+}

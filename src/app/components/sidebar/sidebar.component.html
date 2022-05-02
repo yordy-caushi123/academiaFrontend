@@ -1,0 +1,111 @@
+<aside class="sidebar shadow-sm">
+
+  <div class="sidebar-profile d-flex flex-column justify-content-center pt-3 pb-3">
+    <div class="picture-wrapper mb-2">
+      <div class="user-picture m-auto">
+        <img src="./assets/img/logo-icon.png" class="img-fluid" alt="">
+      </div>
+    </div>
+    <div class="profile-details text-center">
+      <p class="mb-0 text-uppercase name">ACADEMIA SELECCIÓN</p>
+      <!--<small class="text-uppercase role">Academia Selección</small>-->
+    </div>
+  </div>
+
+  <nav class="sidebar-menu pt-3 pb-3">
+    <!--<div class="menu-header mb-2">
+      Componentes
+    </div>-->
+    <ul class="menu-items">
+      
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Inicio">
+        <a (click)="validarInicioMenu()" routerLink="/inicio" [class.active]="inicioActivoMenu">
+          <i class="fas fa-home"></i>
+          <span>Inicio</span>
+        </a>
+      </li>
+
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Alumnos">
+        <a (click)="validarAlumnoMenu()" routerLink="/alumnos" [class.active]="alumnoActivoMenu">
+          <i class="fas fa-graduation-cap"></i>
+          <span>Alumnos</span>
+        </a>
+      </li>
+
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Matriculas">
+        <a (click)="validarMatriculaMenu()" routerLink="/matriculas" [class.active]="matriculaActivoMenu">
+          <i class="fas fa-ticket-alt"></i>
+          <span>Matriculas</span>
+        </a>
+      </li>
+
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Alumnos">
+        <a (click)="validarMovimientoMenu()" routerLink="/movimientos" [class.active]="movimientoActivoMenu">
+          <i class="fas fa-coins"></i>
+          <span>Movimientos</span>
+        </a>
+      </li>
+
+
+      <!--<li class="sidebar-dropdown" *ngIf="user==1">
+        <a style="cursor: pointer;" (click)="validarUsuarioMenu()" aria-expanded="true" [class.active]="usuarioActivoMenu">
+          <i class="fas fa-user"></i>
+          <span>Usuarios</span>
+        </a>
+        <div class="sidebar-submenu">
+          <ul>
+            <li>
+              <a href="#" routerLink="/registrarUsuario">
+                <span style="padding-left: 14px;">Registrar Usuario</span>
+              </a>
+            </li>
+            <li >
+              <a href="#" routerLink="/listarUsuarios">
+                <span style="padding-left: 14px;">Listar Usuarios</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="sidebar-dropdown" *ngIf="user==1" title="Gestión de Fichas Bibliográficas">
+        <a (click)="validarFichaMenu()" routerLink="/fichasBibliograficas" [class.active]="fichaActivoMenu">
+          <i class="fas fa-book"></i>
+          <span>Fichas Bibliográficas</span>
+        </a>
+      </li>
+
+      <li class="sidebar-dropdown" *ngIf="user==1" title="Gestión de Préstamos">
+        <a (click)="validarPrestamoMenu()" routerLink="/prestamos" [class.active]="prestamoActivoMenu">
+          <i class="far fa-calendar"></i>
+          <span>Préstamos</span>
+        </a>
+      </li>
+
+      <li class="sidebar-dropdown" *ngIf="user==1" title="Auditorías">
+        <a (click)="validarAuditoriaMenu()" routerLink="/listarBitacoras" [class.active]="auditoriaActivoMenu">
+          <i class="fas fa-clipboard-list"></i>
+          <span>Bitácoras</span>
+        </a>
+      </li>-->
+
+
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4">
+        <a href="#" (click)="logOut()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Salir</span>
+        </a>
+      </li>
+
+
+      <!--<li>
+        <a (click)="validarEventoMenu()"  routerLink="/notifications"[class.active]="eventoActivoMenu">
+          <i class="fas fa-calendar-week"></i>
+          <span>Eventos</span>
+        </a>
+      </li>-->
+
+
+      
+    </ul> 
+  </nav>
+</aside>

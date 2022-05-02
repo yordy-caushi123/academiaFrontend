@@ -1,0 +1,565 @@
+<div>
+  <h4 class="mb-4 text-muted">Actualizar Usuario</h4>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="card border-0 rounded-0">
+        <div class="card-body">
+          <h5 class="text-muted mb-3 mt-3">Información Básica</h5>
+          <form id="regiration_form" method="post">
+            <div>
+              <div class="row">
+
+                <div class="col-sm-10">
+
+                  <div class="form-row">
+                    <div class="form-group col-xl-3">
+                      <label class="col-form-label text-nowrap">DNI:</label>
+                      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
+                        [(ngModel)]="dni" name="dni" readonly maxlength="8">
+                      <span class="text-nowrap" style="color: red; font-size: 12px;"
+                        *ngIf="(dni.length!=8 || !servicio.soloNumeros(dni))">Obligatorio - 8 dígitos</span>
+                    </div>
+
+                    <div class="form-group col-xl-3">
+                      <label class="col-form-label text-nowrap">Nombre de Usuario:</label>
+                      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
+                        [(ngModel)]="username" name="username" readonly>
+                    </div>
+
+                    <div class="form-group col-xl-3">
+                      <label class="col-form-label text-nowrap">Fecha de alta</label>
+                      <input type="date" class="form-control form-control-sm rounded-0" autocomplete="off" required
+                        [(ngModel)]="fechaAlta" name="fechaAlta" readonly>
+                      <span class="text-nowrap" style="color: red; font-size: 12px;" *ngIf="fechaAlta.length==0">*Campo
+                        obligatorio</span>
+                    </div>
+
+                    <div class="form-group col-xl-3">
+                      <label class="col-form-label text-nowrap">Fecha de baja</label>
+                      <input type="date" class="form-control form-control-sm rounded-0" autocomplete="off" required
+                        [(ngModel)]="fechaBaja" name="fechaBaja" [disabled]="!mostrarCampos">
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-xl-3">
+                      <label class="col-form-label text-nowrap">Apellido Paterno:</label>
+                      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
+                        [(ngModel)]="paterno" name="paterno"
+                        [disabled]="!mostrarPersonales" maxlength="50">
+                      <span class="text-nowrap" style="color: red; font-size: 12px;"
+                        *ngIf="(!servicio.caracteresEspacio(paterno) || paterno.length==0)">*Obligatorio - Sólo
+                        letras</span>
+                    </div>
+                    <div class="form-group col-xl-3">
+                      <label class="col-form-label text-nowrap">Apellido Materno:</label>
+                      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
+                        [(ngModel)]="materno" name="materno" [disabled]="!mostrarPersonales" maxlength="50">
+                      <span class="text-nowrap" style="color: red; font-size: 12px;"
+                        *ngIf="(!servicio.caracteresEspacio(materno) || materno.length==0)">*Obligatorio - Sólo
+                        letras</span>
+                    </div>
+                    <div class="form-group col-xl-6">
+                      <label class="col-form-label text-nowrap ">Nombres:</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
+                          [(ngModel)]="nombres" name="nombres"
+                          [disabled]="!mostrarPersonales" maxlength="100">
+                        <div style="cursor: pointer;" class="input-group-prepend" (click)="abrirModalEditarPersona()"
+                          *ngIf="funcionario.id_persona!=null" title="Editar datos personales">
+                          <div class="input-group-text"><i class="fas fa-edit"></i></div>
+                        </div>
+                      </div>
+                      <span class="text-nowrap" style="color: red; font-size: 12px;"
+                        *ngIf="(!servicio.caracteresEspacio(nombres) || nombres.length==0)">*Obligatorio - Sólo
+                        letras</span>
+                    </div>
+                  </div>
+
+                  <hr>
+
+                  <div class="form-row">
+                    <div class="form-group col-xl-3">
+                      <label class="col-form-label text-nowrap ">Correo Electrónico:</label>
+                      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
+                        [(ngModel)]="correo" name="correo" [disabled]="!mostrarCampos" maxlength="50">
+                      <span class="text-nowrap" style="color: red; font-size: 12px;"
+                        *ngIf="(servicio.esEmail(correo) || correo.length==0)">*Obligatorio - Correo válido</span>
+                    </div>
+
+                    <div class="form-group col-xl-3">
+                      <label class="col-form-label text-nowrap">Tipo de Usuario:</label>
+                      <select class="form-control form-control-sm rounded-0" required [(ngModel)]="tipo" name="tipo"
+                        (change)="cambioTipo($event)" [disabled]="!mostrarCampos">
+                        <option value="0">Tipo de Usuario</option>
+                        <option value="1">Administrador</option>
+                        <option value="2">Coordinador</option>
+                        <option value="3">Sector</option>
+                        <option value="4">Operador</option>
+                      </select>
+                      <span class="text-nowrap" style="color: red; font-size: 12px;" *ngIf="tipo==0">*Campo
+                        obligatorio</span>
+                    </div>
+
+                    <div class="form-group col-xl-6" *ngIf="mostrarLocal">
+                      <label class="col-form-label text-nowrap">Entidad a la que pertenece:</label>
+                      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
+                        [(ngModel)]="procedencia" name="procedencia" [disabled]="true" maxlength="200">
+                    </div>
+
+                    <div class="form-group col-xl-6" *ngIf="mostrarSectores">
+                      <label class="col-form-label text-nowrap">Entidad a la que pertenece</label>
+                      <select class="form-control form-control-sm rounded-0" [disabled]="!mostrarCampos"
+                        (change)="cambioSector($event)" [(ngModel)]="sectorSeleccionado" name="sectorSeleccionado">
+                        <option value="0">Seleccione Sector</option>
+                        <option *ngFor="let sector of sectores" value="{{sector.id_sector}}">{{sector.nombre_sector}}
+                        </option>
+                      </select>
+                      <span class="text-nowrap" style="color: red; font-size: 12px;"
+                        *ngIf="sectorSeleccionado==0">*Campo obligatorio</span>
+                    </div>
+
+                    <div class="form-group col-xl-6" *ngIf="mostrarOperadores">
+                      <label class="col-form-label text-nowrap">Entidad a la que pertenece</label>
+                      <select class="form-control form-control-sm rounded-0" [disabled]="!mostrarCampos"
+                        (change)="cambioOperador($event)" [(ngModel)]="operadorSeleccionado"
+                        name="operadorSeleccionado">
+                        <option value="0">Seleccione Operador</option>
+                        <option *ngFor="let operador of operadores" value="{{operador.id_operador}}">
+                          {{operador.nombre_operador}}</option>
+                      </select>
+                      <span class="text-nowrap" style="color: red; font-size: 12px;"
+                        *ngIf="operadorSeleccionado==0">*Campo obligatorio</span>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-xl-3">
+                      <label class="col-form-label text-nowrap">Teléfono Fijo:</label>
+                      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
+                        [(ngModel)]="fijo" name="fijo" [disabled]="!mostrarCampos" minlength="7" maxlength="9">
+                      <span class="text-nowrap" style="color: red; font-size: 12px;"
+                        *ngIf="((fijo.length!=0 && fijo.length!=7 && fijo.length!=8 && fijo.length!=9) || !servicio.soloNumeros(fijo))">*7,
+                        8 o 9 dígitos</span>
+                    </div>
+
+                    <div class="form-group col-xl-3">
+                      <label class="col-form-label text-nowrap">Anexo:</label>
+                      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
+                        [(ngModel)]="anexo" name="anexo" [disabled]="!mostrarCampos" minlength="1" maxlength="4">
+                      <span class="text-nowrap" style="color: red; font-size: 12px;"
+                        *ngIf="((anexo.length!=0 && anexo.length!=1 && anexo.length!=2 && anexo.length!=3 && anexo.length!=4) || !servicio.soloNumeros(anexo))">*1
+                        a 4 dígitos</span>
+                    </div>
+
+                    <div class="form-group col-xl-3">
+                      <label class="col-form-label text-nowrap">Celular 1:</label>
+                      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
+                        [(ngModel)]="movil" name="movil" [disabled]="!mostrarCampos" maxlength="9">
+                      <span class="text-nowrap" style="color: red; font-size: 12px;"
+                        *ngIf="(!servicio.soloNumeros(movil) || movil.length!=9)">*Obligatorio - 9 dígitos</span>
+                    </div>
+
+                    <div class="form-group col-xl-3">
+                      <label class="col-form-label text-nowrap">Celular 2:</label>
+                      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
+                        [(ngModel)]="movil2" name="movil2" [disabled]="!mostrarCampos" maxlength="9">
+                      <span class="text-nowrap" style="color: red; font-size: 12px;"
+                        *ngIf="((movil2.length!=0 && movil2.length!=9) || !servicio.soloNumeros(movil2))">*9
+                        dígitos</span>
+                    </div>
+                  </div>
+
+                </div>
+
+
+                <div class="col-sm-2" style="text-align:center;">
+                  <div style="text-align:center;">
+                    <img *ngIf="!mostrarImagen" src="../../../../assets/img/incognito.png" class="img-thumbnail"
+                      alt="avatar">
+                    <img *ngIf="mostrarImagen" src="{{imagen}}" class="img-thumbnail" alt="avatar">
+                    <br><br>
+                    <!--<input type="file" name="file-5[]" (change)="comprobarExtension2()" id="file-5"
+                      class="inputfile inputfile-4" data-multiple-caption="{count} files selected" multiple
+                      [disabled]="!mostrarCampos" />
+                    <div style="text-align: center;">
+                      <label for="file-5" style="text-align: center;">
+                        <a class="btn text-muted rounded-0"><i class="fa fa-upload"></i></a>
+                        <span class="text-muted" style="font-weight: bold; cursor: pointer;">Cambiar imagen</span>
+                      </label>
+                    </div>-->
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="form-row mt-3">
+                <div class="form-group col-lg-2" style="text-align: left;">
+                  <!--Llamada al Modal-->
+                  <a class="btn btn-sm btn-info mr-2" (click)="abrirModalAgregarDocumento()"
+                    title="Agregar Documento: {{archivos.length}} documento(s) por agregar">
+                    <i class="far fa-file"></i>
+                  </a>
+
+                  <a class="btn btn-sm btn-info mr-2" (click)="abrirModalMostrarDocumentos()"
+                    title="Listar Documentos: {{documentos.length}} Documento(s) almacenado(s)">
+                    <i class="far fa-folder-open"></i>
+                  </a>
+                </div>
+
+                <div class="form-group col-lg-6">
+                </div>
+
+                <!--Modal Agregar Documento-->
+                <div class="modal fade" id="asignarDocumento" tabindex="-1" data-backdrop="static" data-keyboard="false"
+                  role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title text-muted" id="exampleModalLabel2">Agregar Documento(s)</h4>
+                        <button type="button" class="close" (click)="cerrarModalAgregarDocumento2()" aria-label="Close" title="Cerrar / Eliminar todas las selecciones">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+
+                      <div class="modal-body">
+                        <ngx-dropzone (change)="onSelectDocumentos($event)" [expandable]="true">
+                          <ngx-dropzone-label>Selecciona o arrastra los documentos</ngx-dropzone-label>
+                          <ngx-dropzone-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let d of archivos" [file]="d"
+                            [removable]="true" (removed)="onRemoveDocumentos(d,k)">
+                            <ngx-dropzone-label>{{ d.name }}</ngx-dropzone-label>
+                          </ngx-dropzone-preview>
+                        </ngx-dropzone>
+
+                        <br>
+                        <div class="form-row">
+                          <div class="form-group col-xl-12">
+                            <table *ngIf="archivos.length>=0" width="100%">
+                              <tr *ngFor="let x of archivos; let i = index"
+                                style=" border-bottom-style: dashed; border-bottom-width: 2px; height: 40px;">
+                                <td width="3%">{{i+1}}</td>
+                                <td width="70%">{{x.name}}</td>
+                                <td width="27%" style="text-align: right;"><input type="date" id="fecha{{i+1}}"></td>
+                              </tr>
+                            </table>
+                          </div>
+                        </div>
+
+                        <div class="form-row">
+                          <div class="form-group col-lg-5"></div>
+                          <div class="form-group col-lg-2">
+                            <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                              (click)="cerrarModalAgregarDocumento()">Guardar
+                            </button>
+                          </div>
+                          <div class="form-group col-lg-5"></div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <!--Fin modal Agregar Documento-->
+
+                <!--Modal ProgressBar-->
+                <div class="modal fade" id="barraProgreso" tabindex="-1" data-backdrop="static" data-keyboard="false"
+                  role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 *ngIf="totalArchivosProcesados!=totalArchivos" class="modal-title text-muted"
+                          id="exampleModalLabel2">
+                          Cargando Archivos - {{totalArchivosProcesados}} de {{totalArchivos}} archivos guardados</h4>
+                        <h4 *ngIf="totalArchivosProcesados==totalArchivos" class="modal-title text-muted"
+                          id="exampleModalLabel2">Carga
+                          completada - {{totalArchivosProcesados}} archivos guardados</h4>
+                        <button type="button" class="close" (click)="cerrarModalBarraProgreso()" aria-label="Close"
+                          *ngIf="totalArchivosProcesados==totalArchivos">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="row" style="text-align: center;" *ngIf="totalArchivosProcesados!=totalArchivos">
+                          <td class="col-xl-12">
+                            <img src="../../../../assets/img/loading4.gif" width="30%">
+                          </td>
+                        </div>
+                        <div class="row" style="text-align: center;" *ngIf="totalArchivosProcesados!=totalArchivos">
+                          <td class="col-xl-12">
+                            <h3 class="modal-title text-danger" style="font-weight: bold;">Procesando, por favor
+                              espere...</h3>
+                          </td>
+                        </div>
+                        <div class="row" style="text-align: center;" *ngIf="totalArchivosProcesados==totalArchivos">
+                          <td class="col-xl-12">
+                            <img src="../../../../assets/img/check.gif" width="50%">
+                          </td>
+                        </div>
+                        <div class="row" style="text-align: center;" *ngIf="totalArchivosProcesados==totalArchivos">
+                          <td class="col-xl-12">
+                            <h3 class="modal-title text-succes" style="font-weight: bold;">¡COMPLETADO!</h3>
+                          </td>
+                        </div>
+                        <label class="col-form-label text-nowrap text-muted"
+                          *ngIf="totalArchivosProcesados!=totalArchivos">&nbsp;
+                          &nbsp; &nbsp; Nombre: {{nombreArchivo}}</label>
+                        <progress-bar [progress]="porcentajeArchivo" [color]="'#488aff'"
+                          *ngIf="totalArchivosProcesados!=totalArchivos">
+                        </progress-bar>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--Fin modal Registrar Tipo de Documento-->
+
+                <!--Modal Mostrar Documentos-->
+                <div class="modal fade" id="mostrarDocumentos" tabindex="-1" data-backdrop="static"
+                  data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 *ngIf="!false" class="modal-title text-muted" id="exampleModalLabel2">Listar Documentos
+                          Anexos
+                        </h4>
+                        <button type="button" class="close" (click)="cerrarModalMostrarDocumentos()" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+
+                      <div class="modal-body">
+
+                        <div class="table-responsive-md">
+                          <table class="table table-hover table-sm" *ngIf="documentos.length!=0">
+                            <thead>
+                              <tr>
+                                <th scope="col" width="4%" style="color: #6c757d;">N°</th>
+                                <th scope="col" width="14%" style="color: #6c757d;">Fecha</th>
+                                <th scope="col" style="color: #6c757d;">Nombre del documento</th>
+                                <th scope="col" width="15%" style="text-align: center; color: #6c757d;">Acción</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let doc of documentos; let i = index">
+                                <td scope="row" class="align-middle">{{i+1}}</td>
+                                <td scope="row" class="align-middle">{{doc.fecha_documento}}</td>
+                                <td scope="row" class="align-middle" id="documento{{i+1}}"><span
+                                    style="cursor: pointer; text-decoration: underline; color: blue;"
+                                    (click)="descargarArchivo(i)">{{doc.nombre_documento}}</span></td>
+                                <td class="align-middle" style="text-align: center;">
+                                  <a class="btn btn-sm btn-primary rounded-0 mr-2" title="Editar fecha del documento"
+                                    (click)="editarFechaDocumento(i)">
+                                    <i class="fas fa-edit"></i>
+                                  </a>
+                                  <a class="btn btn-sm btn-danger rounded-0" title="Eliminar documento"
+                                    (click)="eliminarDocumento(i)">
+                                    <i class="fas fa-trash-alt"></i>
+                                  </a>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+
+                          <div class="row" style="text-align: center;" *ngIf="documentos.length==0">
+                            <td class="col-xl-12" style="text-align: center;">
+                              <h4>No se encontraron <span class="text-muted">Documentos anexos</span></h4>
+                            </td>
+                            <td class="col-xl-12">
+                              <img src="../../../../assets/img/vacio.png" alt="No hay documentos almacenados"
+                                width="30%">
+                            </td>
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <!--Fin modal Mostrar Documentos-->
+
+                <!--Modal Editar Persona-->
+                <div class="modal fade" id="editarPersona" tabindex="-1" data-backdrop="static" data-keyboard="false"
+                  role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title text-muted" id="exampleModalLabel2">Editar Datos Personales</h4>
+                        <button type="button" class="close" (click)="cerrarModalEditarPersona()" aria-label="Close"
+                          title="Cerrar / Cancelar">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+
+                      <div class="modal-body">
+
+                        <div class="row">
+                          <div class="col-sm-10">
+                            <div class="form-row">
+                              <div class="form-group col-xl-3">
+                                <label class="col-form-label text-nowrap">DNI:</label>
+                                <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                                  required [(ngModel)]="funcionario2.dni_persona" name="dni2" maxlength="8">
+                                <span class="text-nowrap" style="color: red; font-size: 12px;"
+                                  *ngIf="(funcionario2.dni_persona.length!=8 || !servicio.soloNumeros(funcionario2.dni_persona))">Obligatorio
+                                  - 8 dígitos</span>
+                              </div>
+
+                              <div class="form-group col-xl-9">
+
+                              </div>
+                            </div>
+
+                            <div class="form-row">
+                              <div class="form-group col-xl-3">
+                                <label class="col-form-label text-nowrap">Apellido Paterno:</label>
+                                <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                                  required [(ngModel)]="funcionario2.paterno_persona" name="paterno2"
+                                  maxlength="50">
+                                <span class="text-nowrap" style="color: red; font-size: 12px;"
+                                  *ngIf="(!servicio.caracteresEspacio(funcionario2.paterno_persona) || funcionario2.paterno_persona.length==0)">*Obligatorio
+                                  - Sólo
+                                  letras</span>
+                              </div>
+                              <div class="form-group col-xl-3">
+                                <label class="col-form-label text-nowrap">Apellido Materno:</label>
+                                <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                                  required [(ngModel)]="funcionario2.materno_persona" name="materno2"
+                                  maxlength="50">
+                                <span class="text-nowrap" style="color: red; font-size: 12px;"
+                                  *ngIf="(!servicio.caracteresEspacio(funcionario2.materno_persona) || funcionario2.materno_persona.length==0)">*Obligatorio
+                                  - Sólo
+                                  letras</span>
+                              </div>
+                              <div class="form-group col-xl-6">
+                                <label class="col-form-label text-nowrap ">Nombres:</label>
+                                <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                                  required [(ngModel)]="funcionario2.nombres_persona" name="nombres2"
+                                  maxlength="100">
+                                <span class="text-nowrap" style="color: red; font-size: 12px;"
+                                  *ngIf="(!servicio.caracteresEspacio(funcionario2.nombres_persona) || funcionario2.nombres_persona.length==0)">*Obligatorio
+                                  - Sólo
+                                  letras</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-2" style="text-align:center;">
+                            <div style="text-align:center;">
+                              <img *ngIf="!mostrarImagen" src="../../../../assets/img/incognito.png"
+                                class="img-thumbnail" alt="avatar">
+                              <img *ngIf="mostrarImagen" src="{{imagen}}" class="img-thumbnail" alt="avatar">
+                              <br><br>
+                            </div>
+                          </div>
+                        </div>
+
+                        <br>
+
+                        <div class="form-row">
+                          <div class="form-group col-lg-5"></div>
+                          <div class="form-group col-lg-2">
+                            <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                              (click)="cerrarModalEditarPersona2()">Guardar
+                            </button>
+                          </div>
+                          <div class="form-group col-lg-5"></div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <!--Fin modal Editar Persona-->
+
+                <!--Modal Editar Fecha Documento-->
+                <div class="modal fade" id="editarFechaDocumento" tabindex="-1" data-backdrop="static"
+                  data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title text-muted" id="exampleModalLabel2">Editar Fecha de Documento</h4>
+                        <button type="button" class="close" (click)="cerrarModalEditarFechaDocumento()"
+                          aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+
+                      <div class="modal-body">
+
+                        <div class="form-row">
+                          <div class="form-group col-lg-3">
+                            <label class="col-form-label text-nowrap text-muted" style="font-weight: bold;">Nombre
+                              documento:</label>
+                          </div>
+                          <div class="form-group col-lg-9">
+                            <label class="col-form-label text-nowrap text-muted">{{documento.nombre_documento}}</label>
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-lg-3">
+                            <label class="col-form-label text-nowrap text-muted"
+                              style="font-weight: bold;">Fecha:</label>
+                          </div>
+                          <div class="form-group col-lg-9">
+                            <label class="col-form-label text-nowrap text-muted">{{documento.fecha_documento}}</label>
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-lg-3">
+                            <label class="col-form-label text-nowrap text-muted" style="font-weight: bold;">Nueva
+                              Fecha:</label>
+                          </div>
+                          <div class="form-group col-lg-9">
+                            <label class="col-form-label text-nowrap text-muted"><input type="date"
+                                id="fechaNueva"></label>
+                          </div>
+                        </div>
+
+                        <br>
+                        <div class="form-row">
+                          <div class="form-group col-lg-4">
+                          </div>
+                          <div class="form-group col-lg-4">
+                            <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                              (click)="cerrarModalEditarFechaDocumento2()">Guardar
+                            </button>
+                          </div>
+                          <div class="form-group col-lg-4">
+                          </div>
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <!--Fin modal Editar Fecha de Documento-->
+
+              </div>
+
+            </div>
+
+            <!--<input type="button" name="submit" class="btn btn-success rounded-0 col-lg-2 mt-2 mb-3" value="Guardar Cambios"
+              (click)="modificacion()" [disabled]="
+              (!servicio.caracteresEspacio(nombres) || nombres.length==0) || 
+              (!servicio.caracteresEspacio(paterno) || paterno.length==0) ||
+              (!servicio.caracteresEspacio(materno) || materno.length==0) ||
+              tipo==0 ||
+              (servicio.esEmail(correo) || correo.length==0) ||
+              ((fijo.length!=0 && fijo.length!=7 && fijo.length!=8 && fijo.length!=9) || !servicio.soloNumeros(fijo)) ||
+              ((anexo.length!=0 && anexo.length!=2 && anexo.length!=3 && anexo.length!=4) || !servicio.soloNumeros(anexo)) ||
+              (!servicio.soloNumeros(movil) || movil.length!=9) ||
+              ((movil2.length!=0 && movil2.length!=9) || !servicio.soloNumeros(movil2)) ||
+              fechaAlta.length==0 ||
+              (procedencia.length==0 && sectorSeleccionado==0 && operadorSeleccionado==0) ||
+              username.length==0" />-->
+            <input type="button" name="submit" class="btn btn-success rounded-0 col-lg-2 mt-2 mb-3"
+              value="Guardar Cambios" (click)="modificacion()" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

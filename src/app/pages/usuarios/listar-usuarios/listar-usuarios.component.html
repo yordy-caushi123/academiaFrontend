@@ -1,0 +1,240 @@
+<div>
+  <h4 class="text-muted mb-4">Listar Usuarios</h4>
+
+  <div class="form-row" *ngIf="registrosIniciales!=0">
+    <div class="form-group col-xl-8">
+      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required [(ngModel)]="buscar"
+        name="buscar" (keyup)="buscador($event)" placeholder="Buscar usuario: ingrese apellidos o nombres">
+    </div>
+    <div class="form-group col-xl-2">
+      <select class="form-control form-control-sm rounded-0" [(ngModel)]="tipoSeleccionado" name="tipoSeleccionado"
+        (change)="cambioTipo($event)">
+        <option value="0">Seleccione tipo</option>
+        <option value="1">Administrador</option>
+        <option value="2">Coordinador</option>
+        <option value="3">Sector</option>
+        <option value="4">Operador</option>
+      </select>
+    </div>
+    <div class="form-group col-xl-2 ">
+      <button class="btn btn-success btn-sm float-right w-100 rounded-0" (click)="abrirModalExportarExcel()">Exportar a EXCEL &nbsp;<i
+          class="far fa-file-excel"></i></button>
+    </div>
+
+    <!--Modal Exportar EXCEL-->
+    <div class="modal fade" id="exportarExcel" tabindex="-1" data-backdrop="static" data-keyboard="false"
+      role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+      <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 *ngIf="!false" class="modal-title text-muted" id="exampleModalLabel2">Seleccione los campos
+            </h4>
+            <button type="button" class="close" (click)="cerrarModalExportarExcel()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+
+            <div class="form-row">
+              <div  class="form-group col-xl-12">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" [(ngModel)]="campoNombre" (click)="cambioCampoNombre($event)" [disabled]="true">Nombre completo
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" [(ngModel)]="campoDni" (click)="cambioCampoDni($event)">DNI
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" [(ngModel)]="campoUsuario" (click)="cambioCampoUsuario($event)">Nombre de usuario
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" [(ngModel)]="campoTipo" (click)="cambioCampoTipo($event)">Tipo de Usuario
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" [(ngModel)]="campoEntidad" (click)="cambioCampoEntidad($event)">Entidad a la que pertenece
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" [(ngModel)]="campoFijo" (click)="cambioCampoFijo($event)">Teléfono fijo
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" [(ngModel)]="campoAnexo" (click)="cambioCampoAnexo($event)">Anexo
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" [(ngModel)]="campoMovil1" (click)="cambioCampMovil1($event)">Celular 1
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" [(ngModel)]="campoMovil2" (click)="cambioCampoMovil2($event)">Celular 2
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" [(ngModel)]="campoCorreo" (click)="cambioCampoCorreo($event)">Correo electrónico
+                  </label>
+                </div>
+              </div>
+
+            </div>
+
+
+            <div class="form-row">
+              <div class="form-group col-lg-4">
+              </div>
+              <div class="form-group col-lg-4">
+                <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                  (click)="cerrarModalExportarExcel2()">
+                  Exportar
+                </button>
+              </div>
+              <div class="form-group col-lg-4">
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!--Fin modal Exportar EXCEL-->
+
+    <!--Modal Descargar EXCEL-->
+    <div class="modal fade" id="descargarExcel" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog"
+      aria-labelledby="exampleModalLabel2" aria-hidden="true">
+      <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 *ngIf="!false" class="modal-title text-muted" id="exampleModalLabel2">Descargar Reporte
+            </h4>
+            <button type="button" class="close" (click)="cerrarModalDescargarExcel()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+
+            <div class="form-row">
+              <div class="form-group col-xl-4">
+                <label>Nombre del Archivo: </label>
+              </div>
+              <div class="form-group col-xl-8">
+                <label>{{nombreReporte}}</label>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-xl-4">
+                <label>Link de Descarga: </label>
+              </div>
+              <div class="form-group col-xl-8">
+                <div id="imprime"></div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!--Fin modal Descargar EXCEL-->
+
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="card border-0 rounded-0">
+        <div class="card-body">
+          <div class="table-responsive-md">
+            <table class="table table-hover table-sm" *ngIf="hayUsuarios(); else sinUsuarios">
+              <thead>
+                <tr>
+                  <th scope="col" width="3%">N°</th>
+                  <th scope="col">Usuario</th>
+                  <th scope="col" width="45%">Entidad</th>
+                  <th scope="col" width="10%">Tipo</th>
+                  <th scope="col" width="15%" style="text-align: center;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let usuario of usuarios |paginate: config ; let i = index">
+                  <td scope="row" class="align-middle">{{ config.itemsPerPage * (config.currentPage - 1) + (i+1) }}</td>
+                  <td style="text-align: justify" class="align-middle" *ngIf="usuario.estado_usuario==1"
+                    title="Agregado: {{obtenerFechaCreacion(i)}}.">
+                    {{usuario.nombreUsuario}}
+                  </td>
+                  <td style="text-align: justify" class="align-middle" *ngIf="usuario.estado_usuario==0"
+                    title="Agregado: {{obtenerFechaCreacion(i)}}. Actualizado: {{obtenerFechaModificacion(i)}}.">
+                    {{usuario.nombreUsuario}}
+                  </td>
+                  <td style="text-align: justify" class="align-middle">{{usuario.contrasena_usuario}}</td>
+                  <td style="text-align: justify" class="align-middle" *ngIf="usuario.tipo_usuario==1">Administrador
+                  </td>
+                  <td style="text-align: justify" class="align-middle" *ngIf="usuario.tipo_usuario==2">Coordinador</td>
+                  <td style="text-align: justify" class="align-middle" *ngIf="usuario.tipo_usuario==3">Sector</td>
+                  <td style="text-align: justify" class="align-middle" *ngIf="usuario.tipo_usuario==4">Operador</td>
+                  <td class="align-middle" style="text-align: center;">
+                    <a class="btn btn-sm btn-primary rounded-0 mr-2" title="Editar datos"
+                      routerLink="/actualizarUsuario/{{idEncriptadas[i]}}">
+                      <i class="far fa-edit"></i>
+                    </a>
+                    <a class="btn btn-sm btn-info rounded-0 mr-2" title="Exportar a EXCEL" (click)="exportarExcelParticular(usuario.id_usuario)">
+                      <i class="far fa-file-excel"></i>
+                    </a>
+                    <a *ngIf="usuario.estado_usuario==1"
+                      class="btn btn-sm btn-danger rounded-0" (click)="baja(usuario.id_usuario)" title="Deshabilitar Usuario">
+                      <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <a *ngIf="usuario.estado_usuario==0" class="btn btn-sm btn-success rounded-0"
+                      (click)="activacion(usuario.id_usuario)" title="Activar">
+                      <i class="fas fa-chevron-up"></i>>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="col-md-12 mt-4 mx-auto" style="text-align: center;" *ngIf="hayUsuarios() && usuarios.length>=10">
+              <pagination-controls (pageChange)="pageChange($event)" 
+                id="usuarios" 
+                previousLabel=" Anterior"
+                nextLabel="Siguiente" 
+                autoHide="true">
+              </pagination-controls>
+            </div>
+
+            <ng-template #sinUsuarios>
+              <div class="row" style="text-align: center;">
+                <td class="col-xl-12" style="text-align: center;">
+                  <h3>No se encontraron <span class="text-muted">Usuarios</span></h3>
+                </td>
+                <td class="col-xl-12">
+                  <img src="../../../../assets/img/vacio.png" alt="No hay sectores registrados" width="30%">
+                </td>
+
+              </div>
+            </ng-template>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,258 @@
+<div>
+  <h4 class="text-muted mb-4">Listado de Movimientos</h4>
+
+  <div class="form-row">
+    <div class="form-group col-xl-8">
+      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+        placeholder="Buscar movimiento..." (keyup)="buscarMovimiento($event)"/>
+    </div>
+    <div class="form-group col-xl-2">
+      <button class="btn btn-success btn-sm float-right w-100 rounded-0"
+        (click)="abrirModalInformacionMovimiento(-1)">
+        Nuevo &nbsp;<i class="fas fa-plus"></i>
+      </button>
+    </div>
+    <div class="form-group col-xl-2">
+      <button class="btn btn-success btn-sm float-right w-100 rounded-0">
+        Exportar &nbsp;<i class="far fa-file-pdf"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="card border-0 rounded-0">
+        <div class="card-body">
+          <div class="table-responsive-md">
+            <table class="table table-hover table-sm" *ngIf="hayMovimientos(); else sinMovimientos">
+              <thead>
+                <tr>
+                  <th scope="col" width="4%" style="text-align: center">N</th>
+                  <th scope="col">Id</th>
+                  <th scope="col" width="10%" style="text-align: center;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let alu of alumnos | paginate: config; let i = index">
+                  <td scope="row" class="align-middle" style="text-align: center">{{config.itemsPerPage * (config.currentPage - 1) + (i + 1)}}</td>
+                  <td class="align-middle" style="text-align: center;">
+                    <a class="btn btn-sm btn-primary rounded-0" (click)="abrirModalInformacionMovimiento(i)"
+                      title="Ver / Editar información del Movimiento" style="cursor: pointer;">
+                      <i class="fas fa-edit"></i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="col-md-12 mt-4 mx-auto" style="text-align: center" *ngIf="hayMovimientos() && movimientos.length >= 10">
+              <pagination-controls (pageChange)="pageChange($event)" id="movimientos" previousLabel="Anterior"
+                nextLabel="Siguiente" autoHide="true">
+              </pagination-controls>
+            </div>
+
+            <ng-template #sinMovimientos>
+              <div class="row" style="text-align: center">
+                <td class="col-xl-12" style="text-align: center">
+                  <h3>
+                    No se encontraron
+                    <span class="text-muted">Movimientos</span>
+                  </h3>
+                </td>
+                <td class="col-xl-12">
+                  <img src="../../../../assets/img/vacio.png" alt="No hay Movimientos registrados"
+                    width="30%" />
+                </td>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!--Modal Información de Movimiento-->
+  <div class="modal fade" id="modalInformacionMovimiento" tabindex="-1" data-backdrop="static" data-keyboard="false"
+    role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted">
+            <span *ngIf="!editar">Registrar</span><span *ngIf="editar">Editar</span> Movimiento
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalInformacionMovimiento(0)" aria-label="Close"
+            title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">Tipo de movimiento:</label>
+              <select type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="movimiento.tipo_movimiento != 0" [class.is-invalid]="movimiento.tipo_movimiento == 0"
+                [(ngModel)]="movimiento.tipo_movimiento" name="tipo_movimiento">
+                <option value="0">Seleccione tipo de movimiento</option>
+                <option value="1">Ingreso</option>
+                <option value="2">Egreso</option>
+              </select>
+            </div>
+            <div class="form-group col-xl-4" *ngIf="movimiento.tipo_movimiento != 0">
+              <label class="col-form-label text-nowrap">Fecha:</label>
+              <input type="date" class="form-control form-control-sm rounded-0 is-valid" autocomplete="off" disabled
+                name="fecha">
+            </div>
+            <div class="form-group col-xl-4" *ngIf="movimiento.tipo_movimiento != 0">
+              <label class="col-form-label text-nowrap">Número de operación:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="ingreso.numOperacion != 0" [class.is-invalid]="ingreso.numOperacion == 0"
+                [(ngModel)]="ingreso.numOperacion" name="numOperacion">
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="movimiento.tipo_movimiento == 1">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Alumno:</label>
+              <select type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="ingreso.idAlumno != 0" [class.is-invalid]="ingreso.idAlumno == 0"
+                [(ngModel)]="ingreso.idAlumno" name="idAlumno">
+                <option value="0">Seleccione Alumno</option>
+                <option value="1">Alumno 1</option>
+                <option value="2">Alumno 2</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="movimiento.tipo_movimiento == 1">
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">Tipo de ingreso:</label>
+              <select type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="ingreso.idTipoIngreso != 0" [class.is-invalid]="ingreso.idTipoIngreso == 0"
+                [(ngModel)]="ingreso.idTipoIngreso" name="idTipoIngreso">
+                <option value="0">Seleccione Tipo de ingreso</option>
+                <option value="1">Tipo de ingreso 1</option>
+                <option value="2">Tipo de ingreso 2</option>
+              </select>
+            </div>
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">Forma de pago:</label>
+              <select type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="ingreso.idFormaPago != 0" [class.is-invalid]="ingreso.idFormaPago == 0"
+                [(ngModel)]="ingreso.idFormaPago" name="idFormaPago">
+                <option value="0">Seleccione Forma de pago</option>
+                <option value="1">Forma de pago 1</option>
+                <option value="2">Forma de pago 2</option>
+              </select>
+            </div>
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">Entidad bancaria:</label>
+              <select type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="ingreso.idEntidadBancaria != 0" [class.is-invalid]="ingreso.idEntidadBancaria == 0"
+                [(ngModel)]="ingreso.idEntidadBancaria" name="idEntidadBancaria">
+                <option value="0">Seleccione Entidad bancaria</option>
+                <option value="1">Entidad bancaria 1</option>
+                <option value="2">Entidad bancaria 2</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="movimiento.tipo_movimiento == 1">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Observación:</label>
+              <textarea type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="ingreso.observacion != 0" [class.is-invalid]="ingreso.observacion == 0"
+                [(ngModel)]="ingreso.observacion" name="observacion" rows="2">
+              </textarea>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="movimiento.tipo_movimiento != 0">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Imagen:</label>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input form-control-sm" id="validatedCustomFile1 rounded-0"
+                  (change)="cambioImagen($event)"/>
+                <label class="custom-file-label" for="validatedCustomFile1">Seleccione imagen...</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="movimiento.tipo_movimiento == 1">
+            <div class="form-group col-xl-8">
+            </div>
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">Total:</label>
+              <input type="number" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="ingreso.total != 0" [class.is-invalid]="ingreso.total == 0"
+                [(ngModel)]="ingreso.total" name="total">
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="movimiento.tipo_movimiento == 1">
+            <div class="form-group col-xl-8">
+
+            </div>
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">A cuenta:</label>
+              <input type="number" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="ingreso.cuenta != 0" [class.is-invalid]="ingreso.cuenta == 0"
+                [(ngModel)]="ingreso.cuenta" name="cuenta">
+            </div>
+          </div>
+
+          
+
+
+
+          <div class="form-row" *ngIf="movimiento.tipo_movimiento == 2">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Concepto de egreso:</label>
+              <select type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="egreso.idConceptoEgreso != 0" [class.is-invalid]="egreso.idConceptoEgreso == 0"
+                [(ngModel)]="egreso.idConceptoEgreso" name="idConceptoEgreso">
+                <option value="0">Seleccione Concepto de egreso</option>
+                <option value="1">Concepto de egreso 1</option>
+                <option value="2">Concepto de egreso 2</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="movimiento.tipo_movimiento == 2">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Observación:</label>
+              <textarea type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="egreso.observacion != 0" [class.is-invalid]="egreso.observacion == 0"
+                [(ngModel)]="egreso.observacion" name="observacion" rows="2">
+              </textarea>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="movimiento.tipo_movimiento == 2">
+            <div class="form-group col-xl-8">
+            </div>
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">Total:</label>
+              <input type="number" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="egreso.total != 0" [class.is-invalid]="egreso.total == 0"
+                [(ngModel)]="egreso.total" name="total">
+            </div>
+          </div>
+
+          
+
+          <br *ngIf="movimiento.tipo_movimiento != 0"/>
+          <div class="form-row" style="justify-content: center" *ngIf="movimiento.tipo_movimiento != 0">
+            <div class="form-group col-lg-3">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalInformacionMovimiento(1)">
+                <span *ngIf="!editar">Registrar</span><span *ngIf="editar">Guardar cambios</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal Información de Movimiento-->

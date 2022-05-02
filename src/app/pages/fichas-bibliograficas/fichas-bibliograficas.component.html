@@ -1,0 +1,1388 @@
+<div>
+  <h4 class="text-muted mb-4">Listado de Fichas Bibliográficas</h4>
+
+  <div class="form-row">
+    <div class="form-group col-xl-4">
+      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+        placeholder="Buscar Ficha Bibliográfica..." />
+    </div>
+    <div class="form-group col-xl-2">
+      <select class="form-control form-control-sm rounded-0">
+        <option value="0">Seleccione Tipo</option>
+        <option value="1">Libro</option>
+        <option value="2">Revista</option>
+      </select>
+    </div>
+    <div class="form-group col-xl-2">
+      <select class="form-control form-control-sm rounded-0">
+        <option value="0">Seleccione Clasificación</option>
+        <option value="1">Clasificación 1</option>
+        <option value="2">Clasificación 2</option>
+      </select>
+    </div>
+    <div class="form-group col-xl-2">
+      <button class="btn btn-success btn-sm float-right w-100 rounded-0"
+        (click)="abrirModalRegistrarFichaBibliografica(0)">
+        Nuevo &nbsp;<i class="fas fa-plus"></i>
+      </button>
+    </div>
+    <div class="form-group col-xl-2">
+      <button class="btn btn-success btn-sm float-right w-100 rounded-0">
+        Exportar &nbsp;<i class="far fa-file-pdf"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="card border-0 rounded-0">
+        <div class="card-body">
+          <div class="table-responsive-md">
+            <table class="table table-hover table-sm" *ngIf="hayFichasBibliograficas(); else sinFichasBibliograficas">
+              <thead>
+                <tr>
+                  <th scope="col" width="4%" style="text-align: center">N</th>
+                  <th scope="col" width="8%">Código</th>
+                  <th scope="col" width="6%">Tipo</th>
+                  <th scope="col">Título</th>
+                  <th scope="col" width="10%" style="text-align: center;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="rowFichaBibliografica{{ i }}" style="cursor: pointer" *ngFor="
+                    let fichaBib of fichasBibliograficas | paginate: config;
+                    let i = index
+                  " title="Mostrar Información">
+                  <td scope="row" class="align-middle" style="text-align: center">
+                    {{
+                    config.itemsPerPage * (config.currentPage - 1) + (i + 1)
+                    }}
+                  </td>
+                  <td class="align-middle">{{ fichaBib.codigo }}</td>
+                  <td class="align-middle" *ngIf="fichaBib.tipoDocumentoCodTipodoc == 1">
+                    Libro
+                  </td>
+                  <td class="align-middle" *ngIf="fichaBib.tipoDocumentoCodTipodoc == 2">
+                    Revista
+                  </td>
+                  <td class="align-middle">{{ fichaBib.titulo }}</td>
+                  <td class="align-middle" style="text-align: center;">
+                    <a class="btn btn-sm btn-primary rounded-0" (click)="abrirModalInformacionFichaBibliografica(i)"
+                      title="Ver / Editar datos de Ficha Bibliográfica" style="cursor: pointer;">
+                      <i class="far fa-list-alt"></i>
+                    </a>&nbsp;
+                    <!--<a class="btn btn-sm btn-danger rounded-0" (click)="eliminarEjemplar(k)" title="Eliminar Ficha Bibliográfica" style="cursor: pointer;">
+                      <i class="far fa-trash-alt"></i>
+                    </a>-->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="col-md-12 mt-4 mx-auto" style="text-align: center" *ngIf="
+                hayFichasBibliograficas() && fichasBibliograficas.length >= 10
+              ">
+              <pagination-controls (pageChange)="pageChange($event)" id="fichasBibliograficas" previousLabel="Anterior"
+                nextLabel="Siguiente" autoHide="true">
+              </pagination-controls>
+            </div>
+
+            <ng-template #sinFichasBibliograficas>
+              <div class="row" style="text-align: center">
+                <td class="col-xl-12" style="text-align: center">
+                  <h3>
+                    No se encontraron
+                    <span class="text-muted">Fichas Bibliográficas</span>
+                  </h3>
+                </td>
+                <td class="col-xl-12">
+                  <img src="../../../../assets/img/vacio.png" alt="No hay Fichas Bibliográficas registradas"
+                    width="30%" />
+                </td>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Modal Registrar Ficha Bibliográfica-->
+  <div class="modal fade" id="registrarFichaBibliografica" tabindex="-1" data-backdrop="static" data-keyboard="false"
+    role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 *ngIf="!editar" class="modal-title text-muted" id="exampleModalLabel2">
+            Registrar Ficha Bibliográfica
+          </h4>
+          <h4 *ngIf="editar" class="modal-title text-muted" id="exampleModalLabel2">
+            Editar Ficha Bibliográfica
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalRegistrarFichaBibliografica()" aria-label="Close"
+            title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Título:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="biblioteca.titulo.length != 0" [class.is-invalid]="biblioteca.titulo.length == 0"
+                [(ngModel)]="biblioteca.titulo" name="titulo" />
+            </div>
+          </div>
+
+          <div class="form-row">
+
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Tipo Documento:</label>
+              <div class="input-group">
+                <select class="form-control form-control-sm rounded-0"
+                  [class.is-valid]="biblioteca.tipoDocumentoCodTipodoc != 0"
+                  [class.is-invalid]="biblioteca.tipoDocumentoCodTipodoc == 0"
+                  [(ngModel)]="biblioteca.tipoDocumentoCodTipodoc" name="tipo">
+                  <option value="0">Seleccione Tipo Documento</option>
+                  <option value="{{tipoDoc.codTipodoc}}" *ngFor="let tipoDoc of tiposDocumentos">{{tipoDoc.tipoDoc}}
+                  </option>
+                </select>
+                <div class="input-group-append" style="cursor: pointer;" title="Registrar Tipo Documento"
+                  (click)="abrirModalInfoTipoDocumento()">
+                  <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Clasificación:</label>
+              <div class="input-group">
+                <select class="form-control form-control-sm rounded-0"
+                  [class.is-valid]="biblioteca.clasificacionCodClasif.length != 0" [class.is-invalid]="
+                  biblioteca.clasificacionCodClasif.length == 0
+                " [(ngModel)]="biblioteca.clasificacionCodClasif" name="clasificacion">
+                  <option value="">Seleccione Clasificación</option>
+                  <option value="{{clasif.codClasif}}" *ngFor="let clasif of clasificaciones">{{clasif.denClasi}}
+                  </option>
+                </select>
+                <div class="input-group-append" style="cursor: pointer;" title="Registrar Clasificación"
+                  (click)="abrirModalInfoClasificacion()">
+                  <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Área:</label>
+              <div class="input-group">
+                <select class="form-control form-control-sm rounded-0" [class.is-valid]="biblioteca.areaCodArea != 0"
+                  [class.is-invalid]="biblioteca.areaCodArea == 0" [(ngModel)]="biblioteca.areaCodArea" name="area">
+                  <option value="0">Seleccione Área</option>
+                  <option value="{{ar.codArea}}" *ngFor="let ar of areas">{{ar.area}}</option>
+                </select>
+                <div class="input-group-append" style="cursor: pointer;" title="Registrar Área"
+                  (click)="abrirModalInfoArea()">
+                  <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Ubicación:</label>
+              <div class="input-group">
+                <select class="form-control form-control-sm rounded-0"
+                  [class.is-valid]="biblioteca.ubicacionCodUbi.length != 0"
+                  [class.is-invalid]="biblioteca.ubicacionCodUbi.length == 0" [(ngModel)]="biblioteca.ubicacionCodUbi"
+                  name="ubicacion">
+                  <option value="">Seleccione Ubicación</option>
+                  <option value="{{ubi.codUbi}}" *ngFor="let ubi of ubicaciones">{{ubi.denUbi}}</option>
+                </select>
+                <div class="input-group-append" style="cursor: pointer;" title="Registrar Ubicación"
+                  (click)="abrirModalInfoUbicacion()">
+                  <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-6">
+              <label class="col-form-label text-nowrap">Autor:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="biblioteca.autorPer.length != 0" [class.is-invalid]="biblioteca.autorPer.length == 0"
+                [(ngModel)]="biblioteca.autorPer" name="autorper" />
+            </div>
+            <div class="form-group col-xl-6">
+              <label class="col-form-label text-nowrap">Autor Institucional:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="biblioteca.autorInst.length != 0"
+                [class.is-invalid]="biblioteca.autorInst.length == 0" [(ngModel)]="biblioteca.autorInst"
+                name="autorinst" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-6">
+              <label class="col-form-label text-nowrap">Descripción:</label>
+              <textarea type="text" class="form-control form-control-sm rounded-0" rows="3" autocomplete="off"
+                [class.is-valid]="biblioteca.descriptor.length != 0"
+                [class.is-invalid]="biblioteca.descriptor.length == 0" [(ngModel)]="biblioteca.descriptor"
+                name="descripcion"></textarea>
+            </div>
+            <div class="form-group col-xl-6">
+              <label class="col-form-label text-nowrap">Comentario:</label>
+              <textarea type="text" class="form-control form-control-sm rounded-0" rows="3" autocomplete="off"
+                [class.is-valid]="biblioteca.comenta.length != 0" [class.is-invalid]="biblioteca.comenta.length == 0"
+                [(ngModel)]="biblioteca.comenta" name="comentario"></textarea>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">ISBN/ISSN:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" name="isbn" autocomplete="off"
+                [class.is-valid]="biblioteca.isbn.length != 0" [class.is-invalid]="biblioteca.isbn.length == 0"
+                [(ngModel)]="biblioteca.isbn" name="isbn" />
+            </div>
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Nro. Revista:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="biblioteca.nroRev.length != 0" [class.is-invalid]="biblioteca.nroRev.length == 0"
+                [(ngModel)]="biblioteca.nroRev" name="nrorev" />
+            </div>
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Periodicidad:</label>
+              <div class="input-group">
+                <select type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                  [class.is-valid]="biblioteca.periodoCodPeriodo != 0"
+                  [class.is-invalid]="biblioteca.periodoCodPeriodo == 0" [(ngModel)]="biblioteca.periodoCodPeriodo"
+                  name="periodo">
+                  <option value="0">Seleccione Periodo</option>
+                  <option value="{{per.codPeriodo}}" *ngFor="let per of periodos">{{per.descPeriodo}}</option>
+                </select>
+                <div class="input-group-append" style="cursor: pointer;" title="Registrar Periodo"
+                  (click)="abrirModalInfoPeriodo()">
+                  <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Tamaño:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="biblioteca.tamano.length != 0" [class.is-invalid]="biblioteca.tamano.length == 0"
+                [(ngModel)]="biblioteca.tamano" name="tamano" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap" *ngIf="!editar">Portada:</label>
+              <div class="custom-file" *ngIf="!editar">
+                <input type="file" class="custom-file-input form-control-sm" id="validatedCustomFile1 rounded-0"
+                  (change)="cambioImagen($event)" [class.is-invalid]="imagen == null"
+                  [class.is-valid]="imagen != null" />
+                <label class="custom-file-label" for="validatedCustomFile1">Seleccione imagen de portada...</label>
+              </div>
+            </div>
+          </div>
+
+          <br />
+          <div class="form-row" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button *ngIf="!editar" type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalRegistrarFichaBibliografica2()">
+                Registrar
+              </button>
+              <button *ngIf="editar" type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalRegistrarFichaBibliografica2()">
+                Guardar Cambios
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal Registrar Ficha Bibliográfica-->
+
+  <!--Modal Informacion Ficha Bibliográfica-->
+  <div class="modal fade bd-example-modal-xl" id="informacionFichaBibliografica" tabindex="-1" data-backdrop="static"
+    data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!--<h4 class="modal-title text-muted" id="exampleModalLabel2">Información Ficha Bibliográfica</h4>-->
+          <button type="button" class="close" (click)="cerrarModalInformacionFichaBibliografica()" aria-label="Close"
+            title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="col-md-4">
+              <img id="imagen" src="" alt="" width="100%" class="float-left">
+            </div>
+            <div class="col-md-8 pl-3 pr-2">
+              <div
+                style="text-align: center; background-color: rgb(241, 71, 9); color: white; border-radius: 5px; padding: 5px; display: table; width: 100%;">
+                <h2 style="display: table-cell; vertical-align: middle;">{{ biblioteca.titulo }}</h2>
+              </div>
+              <br>
+              <div>
+                <span style="font-weight: bold; font-size: 18px;">Autor: </span> <span style="font-size: 18px;">{{
+                  biblioteca.autorPer }}</span>
+              </div>
+              <br>
+              <div style="text-align: justify;">
+                <span style="font-weight: bold; font-size: 18px;">Comentario: </span> <span style="font-size: 18px;">{{
+                  biblioteca.comenta }}</span>
+              </div>
+
+              <br>
+              <ul class="nav nav-tabs">
+                <li class="nav-item">
+                  <a class="nav-link active" style="font-size: 18px;">Ejemplares</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                    aria-expanded="false" style="font-size: 18px;">Acciones</a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" style="font-size: 18px;">Actualizar Ficha Bibliográfica</a>
+                    <a class="dropdown-item" style="font-size: 18px;">Cambiar Portada</a>
+                    <a class="dropdown-item" style="font-size: 18px;" (click)="abrirModalRegistrarEjemplar(-1)">Agregar
+                      Ejemplar</a>
+                  </div>
+                </li>
+              </ul>
+              <div class="table-responsive-md">
+                <table class="table table-hover table-sm" *ngIf="hayEjemplares()">
+                  <thead>
+                    <tr>
+                      <th scope="col" width="5%" style="text-align: center">N</th>
+                      <th scope="col" width="6%">Año</th>
+                      <th scope="col" style="text-align: center;" width="10%">Versión</th>
+                      <th scope="col" width="10%">Idioma</th>
+                      <th scope="col" style="text-align: center;" width="17%">Estado</th>
+                      <th scope="col" style="text-align: center;" width="20%"></th>
+                      <th scope="col" width="15%" style="text-align: center;">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let ejem of ejemplaresFichaBibliografica; let k = index">
+                      <td scope="row" class="align-middle" style="text-align: center">{{(k + 1)}}</td>
+                      <td class="align-middle">{{ ejem.aaPublic }}</td>
+                      <td class="align-middle" style="text-align: center;">{{ ejem.versionCodVersion }}</td>
+                      <td class="align-middle" *ngIf="ejem.idiomaCodIdioma == 1">Español</td>
+                      <td class="align-middle" *ngIf="ejem.idiomaCodIdioma == 2">Inglés</td>
+                      <td class="align-middle" style="text-align: center;" *ngIf="ejem.estadoEjemplarCodEst == 0"><span class="rounded bg-danger text-white p-1 font-weight-bold">&nbsp;No disponible&nbsp;</span></td>
+                      <td class="align-middle" style="text-align: center;" *ngIf="ejem.estadoEjemplarCodEst == 1"><span class="rounded bg-success text-white p-1 font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;Disponible&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                      <td></td>
+                      <td class="align-middle" style="text-align: center;">
+                        <div class="btn-group dropup">
+                          <button type="button" class="btn btn-primary rounded-0" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false" title="Desplegar lista">
+                            <i class="far fa-list-alt"></i>
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" style="cursor: pointer;" (click)="abrirModalRegistrarEjemplar(k)">Actualizar Ejemplar</a>
+                            <a class="dropdown-item" style="cursor: pointer;">Reservar Ejemplar</a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <!--<ng-template #sinEjemplares>
+                                <div class="row" style="text-align: center">
+                                  <td class="col-xl-12" style="text-align: center">
+                                    <h3>
+                                      No se encontraron
+                                      <span class="text-muted">Ejemplares</span>
+                                    </h3>
+                                  </td>
+                                  <td class="col-xl-12">
+                                    <img src="../../../../assets/img/vacio.png" alt="No hay Fichas Bibliográficas registradas"
+                                      width="30%" />
+                                  </td>
+                                </div>
+                              </ng-template>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal Informacion Ficha Bibliografica-->
+
+  <!--Modal Registrar Ejemplar-->
+  <div class="modal fade" id="registrarEjemplar" tabindex="-1" data-backdrop="static" data-keyboard="false"
+    role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 *ngIf="!editar" class="modal-title text-muted" id="exampleModalLabel2">Registrar Ejemplar</h4>
+          <h4 *ngIf="editar" class="modal-title text-muted" id="exampleModalLabel2">Actualizar Ejemplar</h4>
+          <button type="button" class="close" (click)="cerrarModalRegistrarEjemplar()" aria-label="Close"
+            title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Estado del Ejemplar:</label>
+              <div class="input-group">
+                <select class="form-control form-control-sm rounded-0" [class.is-valid]="ejemplar.stsEjemp != 0"
+                  [class.is-invalid]="ejemplar.stsEjemp  == 0" [(ngModel)]="ejemplar.stsEjemp" name="status">
+                  <option value="0">Seleccione Estado</option>
+                  <option value="{{estEjem.codEstEjem}}" *ngFor="let estEjem of estadosEjemplares">{{estEjem.descEstEjem}}</option>
+                </select>
+                <div class="input-group-append" style="cursor: pointer;" title="Registrar Estado Ejemplar"
+                  (click)="abrirModalInfoEstadoEjemplar()">
+                  <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Año Publicación:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" [class.is-valid]="ejemplar.aaPublic.length != 0"
+                [class.is-invalid]="ejemplar.aaPublic.length == 0" [(ngModel)]="ejemplar.aaPublic" name="aapublic">
+            </div>
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Idioma:</label>
+              <div class="input-group">
+                <select class="form-control form-control-sm rounded-0" [class.is-valid]="ejemplar.idiomaCodIdioma != 0"
+                  [class.is-invalid]="ejemplar.idiomaCodIdioma == 0" [(ngModel)]="ejemplar.idiomaCodIdioma" name="idioma">
+                  <option value="0">Seleccione Idioma</option>
+                  <option value="{{id.codIdioma}}" *ngFor="let id of idiomas">{{id.descIdioma}}</option>
+                </select>
+                <div class="input-group-append" style="cursor: pointer;" title="Registrar Idioma"
+                  (click)="abrirModalInfoIdioma()">
+                  <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Pais:</label>
+              <select class="form-control form-control-sm rounded-0" [class.is-valid]="ejemplar.paisCodPais.length != 0"
+                [class.is-invalid]="ejemplar.paisCodPais.length == 0" [(ngModel)]="ejemplar.paisCodPais" name="pais" (change)="cambioPais($event)">
+                <option value="">Seleccione Pais</option>
+                <option value="{{p.codPais}}" *ngFor="let p of paises">{{p.descPais}}</option>
+              </select>
+            </div>
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Ciudad:</label>
+              <div class="input-group">
+                <select class="form-control form-control-sm rounded-0" [class.is-valid]="ejemplar.ciudadCodCiudad != 0"
+                  [class.is-invalid]="ejemplar.ciudadCodCiudad == 0" [(ngModel)]="ejemplar.ciudadCodCiudad" name="ciudad"
+                  [disabled]="ejemplar.paisCodPais.length == 0">
+                  <option value="0">Seleccione Ciudad</option>
+                  <option value="{{c.codCiudad}}" *ngFor="let c of ciudades">{{c.descCiudad}}</option>
+                </select>
+                <div class="input-group-append" style="cursor: pointer;" title="Registrar Ciudad"
+                  (click)="abrirModalInfoCiudad()">
+                  <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Editorial:</label>
+              <div class="input-group">
+                <select class="form-control form-control-sm rounded-0"
+                  [class.is-valid]="ejemplar.editorialCodEditorial != 0"
+                  [class.is-invalid]="ejemplar.editorialCodEditorial == 0" [(ngModel)]="ejemplar.editorialCodEditorial"
+                  name="editorial">
+                  <option value="0">Seleccione Editorial</option>
+                  <option value="{{e.codEditorial}}" *ngFor="let e of editoriales">{{e.descEditorial}}</option>
+                </select>
+                <div class="input-group-append" style="cursor: pointer;" title="Registrar Editorial"
+                  (click)="abrirModalInfoEditorial()">
+                  <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Edición:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="ejemplar.edicion.length != 0" [class.is-invalid]="ejemplar.edicion.length == 0"
+                [(ngModel)]="ejemplar.edicion" name="edicion" />
+            </div>
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Característica:</label>
+              <div class="input-group">
+                <select class="form-control form-control-sm rounded-0"
+                  [class.is-valid]="ejemplar.caracteristicaCodCaract != 0"
+                  [class.is-invalid]="ejemplar.caracteristicaCodCaract == 0"
+                  [(ngModel)]="ejemplar.caracteristicaCodCaract" name="caracteristica">
+                  <option value="0">Seleccione Característica</option>
+                  <option value="{{car.codCaract}}" *ngFor="let car of caracteristicas">{{car.descCaract}}</option>
+                </select>
+                <div class="input-group-append" style="cursor: pointer;" title="Registrar Característica"
+                  (click)="abrirModalInfoCaracteristica()">
+                  <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Versión:</label>
+              <div class="input-group">
+                <select class="form-control form-control-sm rounded-0" [class.is-valid]="ejemplar.versionCodVersion != 0"
+                  [class.is-invalid]="ejemplar.versionCodVersion == 0" [(ngModel)]="ejemplar.versionCodVersion"
+                  name="version">
+                  <option value="0">Seleccione Versión</option>
+                  <option value="{{ver.codVersion}}" *ngFor="let ver of versiones">{{ver.descVersion}}</option>
+                </select>
+                <div class="input-group-append" style="cursor: pointer;" title="Registrar Versión"
+                  (click)="abrirModalInfoVersion()">
+                  <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Total de páginas:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="ejemplar.totpag.length != 0" [class.is-invalid]="ejemplar.totpag.length == 0"
+                [(ngModel)]="ejemplar.totpag" name="paginas" />
+            </div>
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Modo de Ingreso:</label>
+              <div class="input-group">
+                <select class="form-control form-control-sm rounded-0"
+                  [class.is-valid]="ejemplar.modoIngresoCodModIng != 0"
+                  [class.is-invalid]="ejemplar.modoIngresoCodModIng == 0" [(ngModel)]="ejemplar.modoIngresoCodModIng"
+                  name="modoingreso">
+                  <option value="0">Seleccione Modo de Ingreso</option>
+                  <option value="{{mod.codModIng}}" *ngFor="let mod of modosIngreso">{{mod.descModIng}}</option>
+                </select>
+                <div class="input-group-append" style="cursor: pointer;" title="Registrar Modo de Ingreso"
+                  (click)="abrirModalInfoModoIngreso()">
+                  <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Tipo moneda:</label>
+              <div class="input-group">
+                <select class="form-control form-control-sm rounded-0"
+                  [class.is-valid]="ejemplar.tipoMonedaCodTipMon != 0"
+                  [class.is-invalid]="ejemplar.tipoMonedaCodTipMon == 0" [(ngModel)]="ejemplar.tipoMonedaCodTipMon"
+                  name="tipomoneda">
+                  <option value="0">Seleccione Tipo de moneda</option>
+                  <option value="{{tip.codTipMon}}" *ngFor="let tip of tiposMoneda">{{tip.descTipMon}}</option>
+                </select>
+                <div class="input-group-append" style="cursor: pointer;" title="Registrar Tipo de Moneda"
+                  (click)="abrirModalInfoTipoMoneda()">
+                  <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-xl-3">
+              <label class="col-form-label text-nowrap">Precio:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="ejemplar.precio != 0" [class.is-invalid]="ejemplar.precio == 0"
+                [(ngModel)]="ejemplar.precio" name="precio" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Observación:</label>
+              <textarea type="text" rows="3" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="ejemplar.observa.length != 0" [class.is-invalid]="ejemplar.observa.length == 0"
+                [(ngModel)]="ejemplar.observa" name="observacion"></textarea>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap" *ngIf="!editar">Documento PDF:</label>
+              <div class="custom-file" *ngIf="!editar">
+                <input type="file" class="custom-file-input form-control-sm" id="validatedCustomFile2 rounded-0"
+                  (change)="cambioDocumento($event)" [class.is-invalid]="documento == null"
+                  [class.is-valid]="documento != null" />
+                <label class="custom-file-label" for="validatedCustomFile2">Seleccione libro en PDF...</label>
+              </div>
+            </div>
+          </div>
+
+          <br>
+          <div class="form-row" style="justify-content: center">
+            <div class="form-group col-lg-2">
+              <button *ngIf="!editar" type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalRegistrarEjemplar2()">
+                Registrar
+              </button>
+              <button *ngIf="editar" type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalRegistrarEjemplar2()">
+                Guardar Cambios
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal Registrar Ejemplar-->
+
+  <!--Modal Reservar Ejemplar-->
+  <div class="modal fade" id="reservarEjemplar" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog"
+    aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted" id="exampleModalLabel2">
+            Reservar Ejemplar
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalReservarEjemplar()" aria-label="Close" title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Ficha Bibliográfica:</label>
+              <select class="form-control form-control-sm rounded-0" [class.is-valid]="fichaBibliograficaReservada != 0"
+                [class.is-invalid]="fichaBibliograficaReservada == 0" [(ngModel)]="fichaBibliograficaReservada"
+                name="fichaBibliograficaReservada">
+                <option value="0">Seleccione Ficha Bibliográfica</option>
+                <option value="1">Ficha Bibliográfica 1</option>
+                <option value="2">Ficha Bibliográfica 2</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Empleado:</label>
+              <select class="form-control form-control-sm rounded-0" [class.is-valid]="empleadoReserva != 0"
+                [class.is-invalid]="empleadoReserva == 0" [(ngModel)]="empleadoReserva" name="empleadoReserva">
+                <option value="0">Seleccione Empleado</option>
+                <option value="1">Empleado 1</option>
+                <option value="2">Empleado 2</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-6">
+              <label class="col-form-label text-nowrap">Fecha de Solicitud:</label>
+              <input type="date" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="fechaSolicitud.length != 0" [class.is-invalid]="fechaSolicitud.length == 0"
+                [(ngModel)]="fechaSolicitud" name="fechaSolicitud" />
+            </div>
+            <div class="form-group col-xl-6">
+              <label class="col-form-label text-nowrap">Fecha de Recojo:</label>
+              <input type="date" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="fechaRecojo.length != 0" [class.is-invalid]="fechaRecojo.length == 0"
+                [(ngModel)]="fechaRecojo" name="fechaRecojo" />
+            </div>
+          </div>
+
+          <div class="form-row mt-2" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalReservarEjemplar()">
+                Reservar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal Reservar Ejemplar-->
+
+
+
+
+
+
+  <!--Modal Infor área-->
+  <div class="modal fade" id="infoArea" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog"
+    aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted" id="exampleModalLabel2">
+            Registrar Área
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalInfoArea()" aria-label="Close" title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Nombre del Área:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="area.area.length != 0" [class.is-invalid]="area.area.length == 0"
+                [(ngModel)]="area.area" name="areaArea" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Estado:</label>
+              <select class="form-control form-control-sm rounded-0" [class.is-valid]="area.estado"
+                [class.is-invalid]="!area.estado" [(ngModel)]="area.estado" name="areaEstado" readonly>
+                <option value="null">Seleccione Estado</option>
+                <option value="false">No Activo</option>
+                <option value="true">Activo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row mt-2" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalInfoArea2()">
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal info área-->
+
+  <!--Modal Info Tipo Documento-->
+  <div class="modal fade" id="infoTipoDocumento" tabindex="-1" data-backdrop="static" data-keyboard="false"
+    role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted" id="exampleModalLabel2">
+            Registrar Tipo Documento
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalInfoTipoDocumento()" aria-label="Close"
+            title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Nombre del Tipo de Documento:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="tipoDocumento.tipoDoc.length != 0"
+                [class.is-invalid]="tipoDocumento.tipoDoc.length == 0" [(ngModel)]="tipoDocumento.tipoDoc"
+                name="tipoDocumentoNombre" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Estado:</label>
+              <select class="form-control form-control-sm rounded-0" [class.is-valid]="tipoDocumento.estado"
+                [class.is-invalid]="!tipoDocumento.estado" [(ngModel)]="tipoDocumento.estado" name="tipoDocumentoEstado"
+                readonly>
+                <option value="null">Seleccione Estado</option>
+                <option value="false">No Activo</option>
+                <option value="true">Activo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row mt-2" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalInfoTipoDocumento2()">
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal tipo documento-->
+
+  <!--Modal Info Clasificación-->
+  <div class="modal fade" id="infoClasificacion" tabindex="-1" data-backdrop="static" data-keyboard="false"
+    role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted" id="exampleModalLabel2">
+            Registrar Clasificación
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalInfoClasificacion()" aria-label="Close"
+            title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Nombre Clasificación:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="clasificacion.denClasi.length != 0"
+                [class.is-invalid]="clasificacion.denClasi.length == 0" [(ngModel)]="clasificacion.denClasi"
+                name="clasificacionNombre" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Estado:</label>
+              <select class="form-control form-control-sm rounded-0" [class.is-valid]="clasificacion.estado"
+                [class.is-invalid]="!clasificacion.estado" [(ngModel)]="clasificacion.estado" name="clasificacionEstado"
+                readonly>
+                <option value="null">Seleccione Estado</option>
+                <option value="false">No Activo</option>
+                <option value="true">Activo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row mt-2" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalInfoClasificacion2()">
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal Clasificación-->
+
+  <!--Modal Info Ubicacion-->
+  <div class="modal fade" id="infoUbicacion" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog"
+    aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted" id="exampleModalLabel2">
+            Registrar Ubicacion
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalInfoUbicacion()" aria-label="Close" title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Nombre Ubicación:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="ubicacion.denUbi.length != 0" [class.is-invalid]="ubicacion.denUbi.length == 0"
+                [(ngModel)]="ubicacion.denUbi" name="ubicacionNombre" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Estado:</label>
+              <select class="form-control form-control-sm rounded-0" [class.is-valid]="ubicacion.estado"
+                [class.is-invalid]="!ubicacion.estado" [(ngModel)]="ubicacion.estado" name="ubicacionEstado" readonly>
+                <option value="null">Seleccione Estado</option>
+                <option value="false">No Activo</option>
+                <option value="true">Activo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row mt-2" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalInfoUbicacion2()">
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal Ubicacion-->
+
+  <!--Modal Info Periodo-->
+  <div class="modal fade" id="infoPeriodo" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog"
+    aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted" id="exampleModalLabel2">
+            Registrar Periodo
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalInfoPeriodo()" aria-label="Close" title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Nombre Periodo:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="periodo.descPeriodo.length != 0" [class.is-invalid]="periodo.descPeriodo.length == 0"
+                [(ngModel)]="periodo.descPeriodo" name="periodoNombre" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Estado:</label>
+              <select class="form-control form-control-sm rounded-0" [class.is-valid]="periodo.estado"
+                [class.is-invalid]="!periodo.estado" [(ngModel)]="periodo.estado" name="periodoEstado" readonly>
+                <option value="null">Seleccione Estado</option>
+                <option value="false">No Activo</option>
+                <option value="true">Activo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row mt-2" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalInfoPeriodo2()">
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal Periodo-->
+
+
+
+
+
+
+
+  <!--Modal Info Estado Ejemplar-->
+  <div class="modal fade" id="infoEstadoEjemplar" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog"
+    aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted" id="exampleModalLabel2">
+            Registrar Estado Ejemplar
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalInfoEstadoEjemplar()" aria-label="Close" title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Nombre del Estado de ejemplar:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="estadoEjemplar.descEstEjem.length != 0" [class.is-invalid]="estadoEjemplar.descEstEjem.length == 0"
+                [(ngModel)]="estadoEjemplar.descEstEjem" name="estadoEjemplarNombre" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Estado:</label>
+              <select class="form-control form-control-sm rounded-0" [class.is-valid]="estadoEjemplar.estado"
+                [class.is-invalid]="!estadoEjemplar.estado" [(ngModel)]="estadoEjemplar.estado" name="estadoEjemplarEstado" readonly>
+                <option value="null">Seleccione Estado</option>
+                <option value="false">No Activo</option>
+                <option value="true">Activo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row mt-2" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalInfoEstadoEjemplar2()">
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal info Estado Ejemplar-->
+
+  <!--Modal Info Idioma-->
+  <div class="modal fade" id="infoIdioma" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog"
+    aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted" id="exampleModalLabel2">
+            Registrar Idioma
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalInfoIdioma()" aria-label="Close" title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Nombre del Idioma:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="idioma.descIdioma.length != 0" [class.is-invalid]="idioma.descIdioma.length == 0"
+                [(ngModel)]="idioma.descIdioma" name="idiomaNombre" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Estado:</label>
+              <select class="form-control form-control-sm rounded-0" [class.is-valid]="idioma.estado"
+                [class.is-invalid]="!idioma.estado" [(ngModel)]="idioma.estado" name="estadoIdioma" disabled>
+                <option value="null">Seleccione Estado</option>
+                <option value="false">No Activo</option>
+                <option value="true">Activo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row mt-2" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalInfoIdioma2()">
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal info Idioma-->
+
+  <!--Modal Info Editorial-->
+  <div class="modal fade" id="infoEditorial" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog"
+    aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted" id="exampleModalLabel2">
+            Registrar Editorial
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalInfoEditorial()" aria-label="Close" title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Nombre de la Editorial:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="editorial.descEditorial.length != 0" [class.is-invalid]="editorial.descEditorial.length == 0"
+                [(ngModel)]="editorial.descEditorial" name="editorialNombre" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Estado:</label>
+              <select class="form-control form-control-sm rounded-0" [class.is-valid]="editorial.estado"
+                [class.is-invalid]="!editorial.estado" [(ngModel)]="editorial.estado" name="estadoEditorial" disabled>
+                <option value="null">Seleccione Estado</option>
+                <option value="false">No Activo</option>
+                <option value="true">Activo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row mt-2" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalInfoEditorial2()">
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal info Editorial-->
+
+  <!--Modal Info Caracteristica-->
+  <div class="modal fade" id="infoCaracteristica" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog"
+    aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted" id="exampleModalLabel2">
+            Registrar Característica
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalInfoCaracteristica()" aria-label="Close" title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Nombre de la Caracteristica:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="caracteristica.descCaract.length != 0" [class.is-invalid]="caracteristica.descCaract.length == 0"
+                [(ngModel)]="caracteristica.descCaract" name="caracteristicaNombre" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Estado:</label>
+              <select class="form-control form-control-sm rounded-0" [class.is-valid]="caracteristica.estado"
+                [class.is-invalid]="!caracteristica.estado" [(ngModel)]="caracteristica.estado" name="caracteristicaEstado" disabled>
+                <option value="null">Seleccione Estado</option>
+                <option value="false">No Activo</option>
+                <option value="true">Activo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row mt-2" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalInfoCaracteristica2()">
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal info Editorial-->
+
+  <!--Modal Info Versión-->
+  <div class="modal fade" id="infoVersion" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog"
+    aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted" id="exampleModalLabel2">
+            Registrar Versión
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalInfoVersion()" aria-label="Close" title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Nombre de la Versión:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="version.descVersion.length != 0" [class.is-invalid]="version.descVersion.length == 0"
+                [(ngModel)]="version.descVersion" name="versionNombre" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Estado:</label>
+              <select class="form-control form-control-sm rounded-0" [class.is-valid]="version.estado"
+                [class.is-invalid]="!version.estado" [(ngModel)]="version.estado" name="versionEstado" disabled>
+                <option value="null">Seleccione Estado</option>
+                <option value="false">No Activo</option>
+                <option value="true">Activo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row mt-2" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalInfoVersion2()">
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal info Version-->
+
+  <!--Modal Info Modo INgreso-->
+  <div class="modal fade" id="infoModoIngreso" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog"
+    aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted" id="exampleModalLabel2">
+            Registrar Modo Ingreso
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalInfoModoIngreso()" aria-label="Close" title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Nombre del Modo de Ingreso:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="modoIngreso.descModIng.length != 0" [class.is-invalid]="modoIngreso.descModIng.length == 0"
+                [(ngModel)]="modoIngreso.descModIng" name="modoIngresoNombre" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Estado:</label>
+              <select class="form-control form-control-sm rounded-0" [class.is-valid]="modoIngreso.estado"
+                [class.is-invalid]="!modoIngreso.estado" [(ngModel)]="modoIngreso.estado" name="modoIngresoEstado" disabled>
+                <option value="null">Seleccione Estado</option>
+                <option value="false">No Activo</option>
+                <option value="true">Activo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row mt-2" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalInfoModoIngreso2()">
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal info mODO iNGRESO-->
+
+  <!--Modal Info Modo INgreso-->
+  <div class="modal fade" id="infoTipoMoneda" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog"
+    aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted" id="exampleModalLabel2">
+            Registrar Tipo Moneda
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalInfoTipoMoneda()" aria-label="Close" title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Nombre del Tipo de Moneda:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="tipoMoneda.descTipMon.length != 0" [class.is-invalid]="tipoMoneda.descTipMon.length == 0"
+                [(ngModel)]="tipoMoneda.descTipMon" name="tipoMonedaNombre" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Estado:</label>
+              <select class="form-control form-control-sm rounded-0" [class.is-valid]="tipoMoneda.estado"
+                [class.is-invalid]="!tipoMoneda.estado" [(ngModel)]="tipoMoneda.estado" name="tipoMonedaEstado" disabled>
+                <option value="null">Seleccione Estado</option>
+                <option value="false">No Activo</option>
+                <option value="true">Activo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row mt-2" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalInfoTipoMoneda2()">
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal info Tipo MOneda-->
+
+  <!--Modal Info Ciudad-->
+  <div class="modal fade" id="infoCiudad" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog"
+    aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted" id="exampleModalLabel2">
+            Registrar Ciudad
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalInfoCiudad()" aria-label="Close" title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Nombre de Ciudad:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="ciudad.descCiudad.length != 0" [class.is-invalid]="ciudad.descCiudad.length == 0"
+                [(ngModel)]="ciudad.descCiudad" name="ciudadNombre" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Pais:</label>
+              <select class="form-control form-control-sm rounded-0" [class.is-valid]="ciudad.paisCodPais"
+                [class.is-invalid]="!ciudad.paisCodPais" [(ngModel)]="ciudad.paisCodPais" name="ciudadPais">
+                <option value="">Seleccione Pais</option>
+                <option value="{{p.codPais}}" *ngFor="let p of paises">{{p.descPais}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-xl-12">
+              <label class="col-form-label text-nowrap">Estado:</label>
+              <select class="form-control form-control-sm rounded-0" [class.is-valid]="ciudad.estado"
+                [class.is-invalid]="!ciudad.estado" [(ngModel)]="ciudad.estado" name="ciudadEstado" disabled>
+                <option value="null">Seleccione Estado</option>
+                <option value="false">No Activo</option>
+                <option value="true">Activo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row mt-2" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalInfoCiudad2()">
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal info Tipo Ciudad-->
+</div>

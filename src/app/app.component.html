@@ -1,0 +1,27 @@
+<div *ngIf="isLogin" class="wrapper default-theme body" [ngClass]="getClasses()">
+  <app-navbar></app-navbar>
+  <main>
+    <app-sidebar></app-sidebar>
+    <div class="pages container-fluid pt-4 pb-4 pl-4 pr-4 ">
+      <router-outlet></router-outlet>
+      <hr>
+      <app-footer></app-footer>
+    </div>
+    <div class="overlay" (click)="toggleSidebar()"></div>
+  </main>
+  <!--<ng-chat  [adapter]="adapter" 
+            [userId]="userId" 
+            [historyEnabled]="true" 
+            [historyPageSize]="6" 
+            [hideFriendsList]="false"
+            [searchPlaceholder]="buscar" 
+            [title]="titulo"
+            [messagePlaceholder]="tipear" 
+            [pollFriendsList] = "actualizar"
+            [pollingInterval] = "tiempo"
+            [isViewportOnMobileEnabled]= "moviles"
+            [maximizeWindowOnNewMessage] = "maximizar"
+            (onMessagesSeen)="messageSeen($event)"></ng-chat>-->
+</div>
+
+<app-login *ngIf="!isLogin"></app-login>
