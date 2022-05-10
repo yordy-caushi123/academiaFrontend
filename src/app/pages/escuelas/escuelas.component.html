@@ -1,0 +1,131 @@
+<div>
+  <h4 class="text-muted mb-4">Listado de Escuelas</h4>
+
+  <div class="form-row">
+    <div class="form-group col-xl-8">
+      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+        placeholder="Buscar Escuelas..." (keyup)="buscarEscuela($event)"/>
+    </div>
+    <div class="form-group col-xl-2">
+      <button class="btn btn-success btn-sm float-right w-100 rounded-0"
+        (click)="abrirModalInformacionEscuela(-1)">
+        Nuevo &nbsp;<i class="fas fa-plus"></i>
+      </button>
+    </div>
+    <div class="form-group col-xl-2">
+      <button class="btn btn-success btn-sm float-right w-100 rounded-0">
+        Exportar &nbsp;<i class="far fa-file-pdf"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="card border-0 rounded-0">
+        <div class="card-body">
+          <div class="table-responsive-md">
+            <table class="table table-hover table-sm" *ngIf="hayEscuelas(); else sinEscuelas">
+              <thead>
+                <tr>
+                  <th scope="col" width="4%" style="text-align: center">N</th>
+                  <th scope="col" >Nombre</th>
+                  <th scope="col" width="8%" style="text-align: center">Sigla</th>
+                  <th scope="col" width="10%" style="text-align: center;">Acciones</th>                                 
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let escue of escuelas | paginate: config; let i = index">
+                  <td scope="row" class="align-middle" style="text-align: center">{{config.itemsPerPage * (config.currentPage - 1) + (i + 1)}}</td>
+                  <td class="align-middle" >{{ escue.nombre }}</td> 
+                  <td class="align-middle" style="text-align: center;">{{ escue.sigla }}</td>                                 
+                  <td class="align-middle" style="text-align: center;">
+                    <a class="btn btn-sm btn-primary rounded-0 mr-2" (click)="abrirModalInformacionEscuela(i)"
+                      title="Ver / Editar información de la Escuela" style="cursor: pointer;">
+                      <i class="fas fa-edit"></i>
+                    </a>                                        
+                  </td>
+                  <td class="align-middle" style="text-align: center;">
+                    <a class="btn btn-sm btn-primary rounded-0 mr-2" (click)="eliminarEscuela(config.itemsPerPage * (config.currentPage - 1) + (i))"
+                      title="eliminar información de la Escuela" style="cursor: pointer;">
+                      <i class="fas fa-trash"></i>
+                    </a> 
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="col-md-12 mt-4 mx-auto" style="text-align: center" *ngIf="hayEscuelas() &&  escuelas.length >= 10">
+              <pagination-controls (pageChange)="pageChange($event)" id="escuelas" previousLabel="Anterior"
+                nextLabel="Siguiente" autoHide="true">
+              </pagination-controls>
+            </div>
+
+            <ng-template #sinEscuelas>
+              <div class="row" style="text-align: center">
+                <td class="col-xl-12" style="text-align: center">
+                  <h3>
+                    No se encontraron
+                    <span class="text-muted">Escuelas</span>
+                  </h3>
+                </td>
+                <td class="col-xl-12">
+                  <img src="../../../../assets/img/vacio.png" alt="No hay Escuelas registrados"
+                    width="30%" />
+                </td>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!--Modal Información de Escuela-->
+  <div class="modal fade" id="modalInformacionEscuela" tabindex="-1" data-backdrop="static" data-keyboard="false"
+    role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted">
+            <span *ngIf="!editar">Registrar</span><span *ngIf="editar">Editar</span> Escuela
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalInformacionEscuela(0)" aria-label="Close"
+            title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-6">
+              <label class="col-form-label text-nowrap">Nombre</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="escuela.nombre.length != 0" [class.is-invalid]="escuela.nombre.length == 0"
+                [(ngModel)]="escuela.nombre" name="escuelaNombre" maxlength="50" />
+            </div>                       
+          </div> 
+          <div class="form-row">
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">Sigla</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="escuela.sigla.length != 0" [class.is-invalid]="escuela.sigla.length == 0"
+                [(ngModel)]="escuela.sigla" name="escuelaSigla" maxlength="50" />
+            </div>                       
+          </div>           
+
+          <br />
+          <div class="form-row" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalInformacionEscuela(1)">
+                <span *ngIf="!editar">Registrar</span> <span *ngIf="editar">Guardar cambios</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal Información de Escuela-->

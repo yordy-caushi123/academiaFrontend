@@ -16,6 +16,7 @@ import { GuardService as guard} from './servicios/guard.service';
 import { AlumnosComponent } from './pages/alumnos/alumnos.component';
 import { MatriculasComponent } from './pages/matriculas/matriculas.component';
 import { MovimientosComponent } from './pages/movimientos/movimientos.component';
+import { EscuelasComponent } from './pages/escuelas/escuelas.component';
 
 
 const routes: Routes = [
@@ -34,6 +35,7 @@ const routes: Routes = [
   {path: 'alumnos', component: AlumnosComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
   {path: 'matriculas', component: MatriculasComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
   {path: 'movimientos', component: MovimientosComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
+  {path: 'escuelas', component: EscuelasComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
 
   {path: '**', redirectTo: 'inicio', pathMatch: 'full'}
 ];

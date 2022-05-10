@@ -36,6 +36,7 @@ import { MovimientosBibliograficosComponent } from './pages/movimientos-bibliogr
 import { AlumnosComponent } from './pages/alumnos/alumnos.component';
 import { MatriculasComponent } from './pages/matriculas/matriculas.component';
 import { MovimientosComponent } from './pages/movimientos/movimientos.component';
+import { EscuelasComponent } from './pages/escuelas/escuelas.component';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import { MovimientosComponent } from './pages/movimientos/movimientos.component'
     AlumnosComponent,
     MatriculasComponent,
     MovimientosComponent,
+    EscuelasComponent,
   ],
   imports: [
     BrowserModule,

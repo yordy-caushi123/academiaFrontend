@@ -46,6 +46,13 @@
         </a>
       </li>
 
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Escuelas">
+        <a (click)="validarEscuelaMenu()" routerLink="/escuelas" [class.active]="escuelaActivoMenu">
+          <i class="fas fa-school"></i>         
+          <span>Escuelas</span>
+        </a>
+      </li>
+
 
       <!--<li class="sidebar-dropdown" *ngIf="user==1">
         <a style="cursor: pointer;" (click)="validarUsuarioMenu()" aria-expanded="true" [class.active]="usuarioActivoMenu">

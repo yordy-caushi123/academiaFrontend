@@ -17,6 +17,7 @@ export class SidebarComponent implements OnInit {
   alumnoActivoMenu: boolean;
   matriculaActivoMenu: boolean;
   movimientoActivoMenu: boolean;
+  escuelaActivoMenu: boolean;
 
   vistaAdminCordi: boolean = false;
 
@@ -32,6 +33,7 @@ export class SidebarComponent implements OnInit {
     this.alumnoActivoMenu = false;
     this.matriculaActivoMenu = false;
     this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
 
     if (this.tokenService.getToken()) {
       this.isLogin = true;
@@ -63,6 +65,8 @@ export class SidebarComponent implements OnInit {
     this.alumnoActivoMenu = false;
     this.matriculaActivoMenu = false;
     this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
+
   }
 
   validarAlumnoMenu(){
@@ -70,6 +74,8 @@ export class SidebarComponent implements OnInit {
     this.alumnoActivoMenu = true;
     this.matriculaActivoMenu = false;
     this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
+
   }
 
   validarMatriculaMenu(){
@@ -77,6 +83,8 @@ export class SidebarComponent implements OnInit {
     this.alumnoActivoMenu = false;
     this.matriculaActivoMenu = true;
     this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
+
   }
 
   validarMovimientoMenu(){
@@ -84,6 +92,15 @@ export class SidebarComponent implements OnInit {
     this.alumnoActivoMenu = false;
     this.matriculaActivoMenu = false;
     this.movimientoActivoMenu = true;
+    this.escuelaActivoMenu= false;
+  }
+
+  validarEscuelaMenu(){
+    this.inicioActivoMenu = false;
+    this.alumnoActivoMenu = false;
+    this.matriculaActivoMenu = false;
+    this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= true;
   }
 
   logOut(): void {
