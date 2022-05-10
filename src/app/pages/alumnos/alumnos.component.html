@@ -41,11 +41,11 @@
                   <td class="align-middle">{{ alu.nombres }}, {{alu.apellidos}}</td>
                   <td class="align-middle" style="text-align: center;">{{ alu.telefono }}</td>
                   <td class="align-middle" style="text-align: center;">
-                    <a class="btn btn-sm btn-primary rounded-0 mr-2" (click)="abrirModalInformacionAlumno(i)"
+                    <a class="btn btn-sm btn-primary rounded-0 mr-2" (click)="abrirModalInformacionAlumno(config.itemsPerPage * (config.currentPage - 1) + (i + 1))"
                       title="Ver / Editar información del Alumno" style="cursor: pointer;">
                       <i class="fas fa-edit"></i>
                     </a>
-                    <a class="btn btn-sm btn-primary rounded-0" (click)="abrirModalInformacionApoderado(i)" title="Información del Apoderado" style="cursor: pointer;">
+                    <a class="btn btn-sm btn-primary rounded-0" (click)="abrirModalInformacionApoderado(config.itemsPerPage * (config.currentPage - 1) + (i + 1))" title="Información del Apoderado" style="cursor: pointer;">
                       <i class="fas fa-user-shield"></i>
                     </a>
                   </td>

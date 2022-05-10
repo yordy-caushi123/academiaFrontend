@@ -8,8 +8,6 @@ import { Router } from '@angular/router';
 import { AppService } from 'src/app/servicios/app.service';
 import { ToastrService } from 'ngx-toastr';
 import * as CryptoJS from 'crypto-js';
-import { Bitacora } from 'src/app/entidades/bitacora';
-import { BitacorasService } from 'src/app/servicios/bitacoras.service';
 import { TokenService } from 'src/app/servicios/token.service';
 
 declare const $: any;
@@ -51,7 +49,6 @@ export class ListarUsuariosComponent implements OnInit {
               private router: Router,
               private servicio: AppService,
               public toastr: ToastrService,
-              private bitacorasServicio: BitacorasService,
               private tokenService: TokenService) { }
 
   ngOnInit() {
@@ -108,15 +105,6 @@ export class ListarUsuariosComponent implements OnInit {
           //this.usuario.idUsuario_modificacion=Number(sessionStorage.getItem('IdKey'));
           //this.usuario.ip_modificacion=sessionStorage.getItem("LOCAL_IP").toString();
           this.usuariosServicio.modificacion(codigo, this.usuario).subscribe(data => {
-
-            let bitacora: Bitacora = new Bitacora();
-            bitacora.nombreUsuario = this.tokenService.getName();
-            bitacora.accion = 4;
-            bitacora.descripcion = "Deshabilitó al usuario: "  +this.usuario.nombreUsuario;
-            bitacora.contenidoInicial = JSON.stringify(this.usuario);
-            bitacora.contenidoModificado = JSON.stringify(data);
-            bitacora.ip = sessionStorage.getItem("LOCAL_IP");
-            this.bitacorasServicio.alta(bitacora).subscribe();
 
             swal.fire(
               'Procesado',
@@ -428,15 +416,6 @@ export class ListarUsuariosComponent implements OnInit {
         link.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + data;
         obj.appendChild(link);
         $("#descargarExcel").modal("show");
-
-        let bitacora: Bitacora = new Bitacora();
-        bitacora.nombreUsuario = this.tokenService.getName();
-        bitacora.accion = 5;
-        bitacora.descripcion = "Realizó reporte de Usuarios";
-        bitacora.contenidoInicial = JSON.stringify(this.usuarios);
-        bitacora.contenidoModificado = ""
-        bitacora.ip = sessionStorage.getItem("LOCAL_IP");
-        this.bitacorasServicio.alta(bitacora).subscribe();
       }
       else{
         this.toastr.error("No se pudo obtener el reporte solicitado","Error");
@@ -464,14 +443,6 @@ export class ListarUsuariosComponent implements OnInit {
         obj.appendChild(link);
         $("#descargarExcel").modal("show");
 
-        let bitacora: Bitacora = new Bitacora();
-        bitacora.nombreUsuario = this.tokenService.getName();;
-        bitacora.accion = 5;
-        bitacora.descripcion = "Realizó reporte de Usuario";
-        bitacora.contenidoInicial = JSON.stringify(this.usuarios.find( x => x.idUsuario === i ));
-        bitacora.contenidoModificado = ""
-        bitacora.ip = sessionStorage.getItem("LOCAL_IP");
-        this.bitacorasServicio.alta(bitacora).subscribe();
       }
       else{
         this.toastr.error("No se pudo obtener el reporte solicitado","Error");

@@ -6,14 +6,8 @@ import { Router } from '@angular/router';
 import { AppService } from 'src/app/servicios/app.service';
 import swal from 'sweetalert2'
 import { ToastrService } from 'ngx-toastr';
-import { Documento } from 'src/app/entidades/documento';
-import { DocumentosService } from 'src/app/servicios/documentos.service';;
-import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { ArchivosService } from 'src/app/servicios/archivos.service';
 import { NuevoUsuario } from 'src/app/modelos/nuevo-usuario';
 import { AuthService } from 'src/app/servicios/auth.service';
-import { Bitacora } from 'src/app/entidades/bitacora';
-import { BitacorasService } from 'src/app/servicios/bitacoras.service';
 import { TokenService } from 'src/app/servicios/token.service';
 
 declare const $: any;
@@ -60,7 +54,6 @@ export class RegistrarUsuarioComponent implements OnInit {
   mostrarCampos: boolean = false;
   mostrarPersonales: boolean = false;
 
-  documentos: Documento[] = [];
   archivos: File[] = [];
   fechas: String[] = [];
   nombreArchivo: String = '';
@@ -75,12 +68,7 @@ export class RegistrarUsuarioComponent implements OnInit {
   constructor(private usuariosServicio: UsuariosService,
     private router: Router,
     public servicio: AppService,
-    public toastr: ToastrService,
-    private documentosServicio: DocumentosService,
-    private archivosService: ArchivosService,
-    private authServicio: AuthService,
-    private tokenService: TokenService,
-    private bitacorasServicio: BitacorasService) { }
+    public toastr: ToastrService) { }
 
   ngOnInit() {
     $(".modal").modal("hide");

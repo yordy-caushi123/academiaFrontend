@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-//import { ServicioService } from 'src/app/Conexion/servicio.service';
-import { Services } from '@angular/core/src/view';
 import { TokenService } from 'src/app/servicios/token.service';
 import { Router } from '@angular/router';
-import { Bitacora } from 'src/app/entidades/bitacora';
-import { BitacorasService } from 'src/app/servicios/bitacoras.service';
-
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -25,8 +20,7 @@ export class SidebarComponent implements OnInit {
   roles: string[];
   user: number = 0;
 
-  constructor(private tokenService: TokenService, private router: Router,
-              private bitacorasServicio: BitacorasService) { }
+  constructor(private tokenService: TokenService, private router: Router) { }
 
   ngOnInit() {
     this.inicioActivoMenu = true;
@@ -104,13 +98,6 @@ export class SidebarComponent implements OnInit {
   }
 
   logOut(): void {
-    let bitacora: Bitacora = new Bitacora();
-    bitacora.nombreUsuario= this.tokenService.getUserName();
-    bitacora.accion = 1;
-    bitacora.descripcion = "Cierre de sesión exitoso";
-    bitacora.ip = sessionStorage.getItem("LOCAL_IP");
-    this.bitacorasServicio.alta(bitacora).subscribe();
-
     this.tokenService.logOut();
     this.isLogin = false;
     this.user = 0;

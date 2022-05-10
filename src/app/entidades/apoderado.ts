@@ -4,6 +4,7 @@ export class Apoderado {
     nombres: string;
     apellidos: string;
     telefono: string;
+    estado: boolean;
 
     constructor(){
       this.id = 0;
@@ -11,5 +12,6 @@ export class Apoderado {
       this.nombres = '';
       this.apellidos = '';
       this.telefono = '';
+      this.estado = true;
     }
 }
