@@ -27,12 +27,8 @@ import { ActualizarUsuarioComponent } from './pages/usuarios/actualizar-usuario/
 import {LoginComponent} from './pages/login/login.component';
 
 import { InicioComponent } from './pages/inicio/inicio.component';
-import { ListarBitacorasComponent } from './pages/bitacoras/listar-bitacoras/listar-bitacoras.component';
 import { InterceptorService } from './servicios/interceptor.service';
 import { CambiarContrasenaComponent } from './pages/usuarios/cambiar-contrasena/cambiar-contrasena.component';
-import { VerBitacoraComponent } from './pages/bitacoras/ver-bitacora/ver-bitacora.component';
-import { FichasBibliograficasComponent } from './pages/fichas-bibliograficas/fichas-bibliograficas.component';
-import { MovimientosBibliograficosComponent } from './pages/movimientos-bibliograficos/movimientos-bibliograficos.component';
 import { AlumnosComponent } from './pages/alumnos/alumnos.component';
 import { MatriculasComponent } from './pages/matriculas/matriculas.component';
 import { MovimientosComponent } from './pages/movimientos/movimientos.component';
@@ -49,11 +45,7 @@ import { MovimientosComponent } from './pages/movimientos/movimientos.component'
     ActualizarUsuarioComponent,
     LoginComponent,
     InicioComponent,
-    ListarBitacorasComponent,
     CambiarContrasenaComponent,
-    VerBitacoraComponent,
-    FichasBibliograficasComponent,
-    MovimientosBibliograficosComponent,
     AlumnosComponent,
     MatriculasComponent,
     MovimientosComponent,

@@ -5,6 +5,8 @@ import { AppService } from 'src/app/servicios/app.service';
 import { Apoderado } from 'src/app/entidades/apoderado';
 import { AlumnoApoderado } from 'src/app/entidades/alumnoApoderado';
 import { AlumnoService } from 'src/app/servicios/alumno.service';
+import { AlumnoApoderadoService } from 'src/app/servicios/alumnoApoderado.service';
+import { ApoderadoService } from 'src/app/servicios/apoderado.service';
 
 declare const $: any;
 
@@ -18,8 +20,10 @@ export class AlumnosComponent implements OnInit {
   //Información de alumnos
   alumnos: Alumno[] = []
   alumnosIniciales: Alumno[] = [];
-  apoderados: Apoderado[] = [];
-  alumnosApoderados: AlumnoApoderado[] = [];
+
+  //apoderados: Apoderado[] = [];
+  //alumnosApoderados: AlumnoApoderado[] = [];
+
   alumno: Alumno = new Alumno();
   apoderado: Apoderado = new Apoderado();
   alumnoApoderado: AlumnoApoderado = new AlumnoApoderado();
@@ -30,7 +34,8 @@ export class AlumnosComponent implements OnInit {
   //Configurador del paginador
   config: any;
 
-  constructor(private appServicio: AppService, private alumnoService: AlumnoService) { }
+  constructor(private appServicio: AppService, private alumnoService: AlumnoService, 
+    private alumnoApoderadoService: AlumnoApoderadoService, private apoderadoService: ApoderadoService) { }
 
   ngOnInit() {
     this.listarTodos();
@@ -63,27 +68,36 @@ export class AlumnosComponent implements OnInit {
 
   //FUNCIONES PARA INFORMACIÓN DE ALUMNOS
   abrirModalInformacionAlumno(id: number){
+    id = id - 1;
     if (id == -1) {
       this.alumno = new Alumno();
     } else {
       this.editar = true;
-      this.alumno = this.alumnos[id];
+      this.alumno = JSON.parse(JSON.stringify(this.alumnos[id]));
     }
     $("#modalInformacionAlumno").modal("show");
   }
 
   abrirModalInformacionApoderado(id: number){
     $("#modalInformacionApoderado").modal("show");
-    this.alumno = this.alumnos[id];
-    this.alumnoApoderado = this.alumnosApoderados.find(n => this.alumnos[id].id == n.alumno);
-    if(this.alumnoApoderado != undefined){
-      this.editar = true;
-      this.apoderado = this.apoderados.find(n => this.alumnoApoderado.apoderado == n.id);
-    }
-    else{
-      this.apoderado = new Apoderado();
-      this.alumnoApoderado = new AlumnoApoderado();
-    }
+    this.alumno = JSON.parse(JSON.stringify(this.alumnos[id-1]));
+    this.alumnoApoderadoService.recuperarPorIdAlumno(this.alumno.id).subscribe(n => {
+      this.alumnoApoderado = JSON.parse(JSON.stringify(n));
+      if(this.alumnoApoderado != null){
+        this.editar = true;
+        this.apoderadoService.recuperar(this.alumnoApoderado.idApoderado).subscribe(m => {
+          this.apoderado = JSON.parse(JSON.stringify(m));
+        }, error => {
+          this.appServicio.mensajeSwal(4);
+        });
+      }
+      else{
+        this.apoderado = new Apoderado();
+        this.alumnoApoderado = new AlumnoApoderado();
+      }
+    }, error => {
+      console.log(error);
+    });
   }
 
   cerrarModalInformacionAlumno(id: number){
@@ -111,7 +125,7 @@ export class AlumnosComponent implements OnInit {
                 this.listarTodos();
                 this.appServicio.mensajeSwal(1);
               }, error => {
-                console.log(error);
+                this.appServicio.mensajeSwal(4);
               });
             }
             else{
@@ -119,7 +133,7 @@ export class AlumnosComponent implements OnInit {
                 this.listarTodos();
                 this.appServicio.mensajeSwal(2);
               }, error => {
-                console.log(error);
+                this.appServicio.mensajeSwal(4);
               });
             }
           }
@@ -149,19 +163,27 @@ export class AlumnosComponent implements OnInit {
         }).then((result) => {
           if (result.value) {
             if(!this.editar){
-              this.apoderado.id = this.apoderados.length + 1;
-              this.apoderados.push(this.apoderado);
+              this.apoderadoService.alta(this.apoderado).subscribe(n => {
+                this.alumnoApoderado.idAlumno = this.alumno.id;
+                this.alumnoApoderado.idApoderado = n.id;
 
-              this.alumnoApoderado.id = this.alumnosApoderados.length + 1;
-              this.alumnoApoderado.alumno = this.alumno.id;
-              this.alumnoApoderado.apoderado = this.apoderado.id;
-              this.alumnosApoderados.push(this.alumnoApoderado);
-
-              this.appServicio.mensajeSwal(1);
+                this.alumnoApoderadoService.alta(this.alumnoApoderado).subscribe(m => {
+                  this.appServicio.mensajeSwal(1);
+                }, error3 => {
+                  this.appServicio.mensajeSwal(4);
+                });
+              }, error1 => {
+                this.appServicio.mensajeSwal(4);
+              });
             }
             else{
-              this.appServicio.mensajeSwal(2);
+              this.apoderadoService.modificacion(this.apoderado.id, this.apoderado).subscribe(n => {
+                this.appServicio.mensajeSwal(2);
+              }, error2 =>{
+                this.appServicio.mensajeSwal(4);
+              });
             }
+            this.editar = false;
           }
         });
       }
@@ -200,7 +222,8 @@ export class AlumnosComponent implements OnInit {
   buscarAlumno(e: any){
     let valor = e.target.value;
     if(valor != ''){
-      this.alumnos = this.alumnosIniciales.filter(n => n.nombres.includes(valor) || n.nombres.includes(valor) || n.dni.includes(valor));
+      this.alumnos = this.alumnosIniciales.filter(n => n.nombres.toUpperCase().includes(valor.toUpperCase()) || 
+      n.nombres.toUpperCase().includes(valor.toUpperCase()) || n.dni.toUpperCase().includes(valor.toUpperCase()));
     }
     else{
       this.alumnos = this.alumnosIniciales;

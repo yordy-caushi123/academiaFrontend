@@ -5,15 +5,10 @@ import { UsuariosService } from '../../../servicios/usuarios.service';
 import { AppService } from 'src/app/servicios/app.service';
 import { Observable } from "rxjs";
 import swal from 'sweetalert2'
-import { DocumentosService } from 'src/app/servicios/documentos.service';
-import { Documento } from 'src/app/entidades/documento';
 import { ToastrService } from 'ngx-toastr';
 import * as CryptoJS from 'crypto-js';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { Bitacora } from 'src/app/entidades/bitacora';
-import { BitacorasService } from 'src/app/servicios/bitacoras.service';
 import { TokenService } from 'src/app/servicios/token.service';
-import { ArchivosService } from 'src/app/servicios/archivos.service';
 
 declare const $: any;
 declare const getBase64Simple: any;
@@ -80,7 +75,6 @@ export class ActualizarUsuarioComponent implements OnInit {
   documentos: Documento[] = [];
   archivos: File[] = [];
   fechas: String[] = [];
-  documento: Documento = new Documento();
   nombreArchivo: String = '';
   totalArchivos: number = 0;
   totalArchivosProcesados: number = 0;
@@ -95,9 +89,6 @@ export class ActualizarUsuarioComponent implements OnInit {
     private usuariosServicio: UsuariosService,
     public servicio: AppService,
     public toastr: ToastrService,
-    private documentosServicio: DocumentosService,
-    private archivosService: ArchivosService,
-    private bitacorasServicio: BitacorasService,
     private tokenService: TokenService) { }
 
   ngOnInit() {

@@ -2,8 +2,6 @@ import { AppService } from '../../servicios/app.service';
 import { Component, OnInit } from '@angular/core';
 import { TokenService } from 'src/app/servicios/token.service';
 import { Router } from '@angular/router';
-import { Bitacora } from 'src/app/entidades/bitacora';
-import { BitacorasService } from 'src/app/servicios/bitacoras.service';
 
 declare const $: any;
 
@@ -21,8 +19,7 @@ export class NavbarComponent implements OnInit {
   roles: string[];
   authority: string;
 
-  constructor(private appService: AppService, private tokenService: TokenService,
-              private router: Router, private bitacorasServicio: BitacorasService) { }
+  constructor(private appService: AppService, private tokenService: TokenService, private router: Router) { }
   isCollapsed = false;
   ngOnInit() {
     this.nombreUsuario = this.tokenService.getUserName();
@@ -60,13 +57,6 @@ export class NavbarComponent implements OnInit {
   }
 
   logOut(): void {
-    let bitacora: Bitacora = new Bitacora();
-    bitacora.nombreUsuario = this.tokenService.getUserName();
-    bitacora.accion = 1;
-    bitacora.descripcion = "Cierre de sesión exitoso";
-    bitacora.ip = sessionStorage.getItem("LOCAL_IP");
-    this.bitacorasServicio.alta(bitacora).subscribe();
-
     this.tokenService.logOut();
     this.isLogin = false;
     this.router.navigate(['/inicio']);

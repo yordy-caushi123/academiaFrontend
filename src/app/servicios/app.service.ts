@@ -335,6 +335,13 @@ export class AppService {
         "error"
       );
     }
+    if(id == 4){
+      return swal.fire(
+        "Error",
+        "Hubo un problema con el servidor",
+        "error"
+      );
+    }
   }
 
 

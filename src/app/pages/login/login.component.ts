@@ -6,8 +6,6 @@ import { TokenService } from 'src/app/servicios/token.service';
 import { ToastrService } from 'ngx-toastr';
 import { UsuariosService } from 'src/app/servicios/usuarios.service';
 import { AppService } from 'src/app/servicios/app.service';
-import { BitacorasService } from 'src/app/servicios/bitacoras.service';
-import { Bitacora } from 'src/app/entidades/bitacora';
 
 declare const $: any;
 
@@ -31,8 +29,7 @@ export class LoginComponent implements OnInit {
               public toastr: ToastrService,
 
               private usuariosService: UsuariosService,
-              private servicio: AppService,
-              private bitacorasServicio: BitacorasService) { }
+              private servicio: AppService) { }
 
   ngOnInit() {
     $(".modal").modal("hide");
@@ -63,14 +60,6 @@ export class LoginComponent implements OnInit {
             this.isLoginFail = false;
             this.roles = this.tokenService.getAuthorities();
             this.toastr.success('Bienvenido a SISBIBENI', data.nombreUsuario);
-
-            //await this.delay(1000);
-            let bitacora: Bitacora = new Bitacora();
-            bitacora.nombreUsuario = data.nombreUsuario;
-            bitacora.accion = 1;
-            bitacora.descripcion = "Inicio de sesión exitoso";
-            bitacora.ip = sessionStorage.getItem("LOCAL_IP");
-            this.bitacorasServicio.alta(bitacora).subscribe();
 
             window.location.reload();
         }
