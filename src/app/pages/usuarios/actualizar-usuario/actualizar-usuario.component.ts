@@ -72,7 +72,7 @@ export class ActualizarUsuarioComponent implements OnInit {
 
   procedenciaInicial: String;
 
-  documentos: Documento[] = [];
+  
   archivos: File[] = [];
   fechas: String[] = [];
   nombreArchivo: String = '';

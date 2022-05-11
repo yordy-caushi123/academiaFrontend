@@ -1,14 +1,14 @@
 <div>
-  <h4 class="text-muted mb-4">Listado de Escuelas</h4>
+  <h4 class="text-muted mb-4">Listado de Modalidades</h4>
 
   <div class="form-row">
     <div class="form-group col-xl-8">
       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
-        placeholder="Buscar Escuelas..." (keyup)="buscarEscuela($event)"/>
+        placeholder="Buscar Modalidades..." (keyup)="buscarModalidad($event)"/>
     </div>
     <div class="form-group col-xl-2">
       <button class="btn btn-success btn-sm float-right w-100 rounded-0"
-        (click)="abrirModalInformacionEscuela(-1)">
+        (click)="abrirModalInformacionModalidad(-1)">
         Nuevo &nbsp;<i class="fas fa-plus"></i>
       </button>
     </div>
@@ -24,27 +24,25 @@
       <div class="card border-0 rounded-0">
         <div class="card-body">
           <div class="table-responsive-md">
-            <table class="table table-hover table-sm" *ngIf="hayEscuelas(); else sinEscuelas">
+            <table class="table table-hover table-sm" *ngIf="hayModalidades(); else sinModalidades">
               <thead>
                 <tr>
                   <th scope="col" width="4%" style="text-align: center">N</th>
-                  <th scope="col" >Nombre</th>
-                  <th scope="col" width="8%" style="text-align: center">Sigla</th>
+                  <th scope="col" >Nombre</th>                  
                   <th scope="col" width="10%" style="text-align: center;">Acciones</th>                                 
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let escue of escuelas | paginate: config; let i = index">
+                <tr *ngFor="let modal of modalidades | paginate: config; let i = index">
                   <td scope="row" class="align-middle" style="text-align: center">{{config.itemsPerPage * (config.currentPage - 1) + (i + 1)}}</td>
-                  <td class="align-middle" >{{ escue.nombre }}</td> 
-                  <td class="align-middle" style="text-align: center;">{{ escue.sigla }}</td>                                 
+                  <td class="align-middle" >{{ modal.nombre }}</td>                                                  
                   <td class="align-middle" style="text-align: center;">
-                    <a class="btn btn-sm btn-primary rounded-0 mr-2" (click)="abrirModalInformacionEscuela(config.itemsPerPage * (config.currentPage - 1) + (i))"
-                      title="Ver / Editar información de la Escuela" style="cursor: pointer;">
+                    <a class="btn btn-sm btn-primary rounded-0 mr-2" (click)="abrirModalInformacionModalidad(config.itemsPerPage * (config.currentPage - 1) + (i))"
+                      title="Ver / Editar información del Modalidad" style="cursor: pointer;">
                       <i class="fas fa-edit"></i>
                     </a>
-                    <a class="btn btn-sm btn-primary rounded-0 " (click)="eliminarEscuela(config.itemsPerPage * (config.currentPage - 1) + (i))"
-                    title="eliminar información de la Escuela" style="cursor: pointer;">
+                    <a class="btn btn-sm btn-primary rounded-0 " (click)="eliminarModalidad(config.itemsPerPage * (config.currentPage - 1) + (i))"
+                    title="eliminar información del Modalidad" style="cursor: pointer;">
                     <i class="fas fa-trash"></i>
                   </a>                                        
                   </td>                  
@@ -52,22 +50,22 @@
               </tbody>
             </table>
 
-            <div class="col-md-12 mt-4 mx-auto" style="text-align: center" *ngIf="hayEscuelas() &&  escuelas.length >= 10">
-              <pagination-controls (pageChange)="pageChange($event)" id="escuelas" previousLabel="Anterior"
+            <div class="col-md-12 mt-4 mx-auto" style="text-align: center" *ngIf="hayModalidades() &&  modalidades.length >= 10">
+              <pagination-controls (pageChange)="pageChange($event)" id="modalidades" previousLabel="Anterior"
                 nextLabel="Siguiente" autoHide="true">
               </pagination-controls>
             </div>
 
-            <ng-template #sinEscuelas>
+            <ng-template #sinModalidades>
               <div class="row" style="text-align: center">
                 <td class="col-xl-12" style="text-align: center">
                   <h3>
                     No se encontraron
-                    <span class="text-muted">Escuelas</span>
+                    <span class="text-muted">Modalidades</span>
                   </h3>
                 </td>
                 <td class="col-xl-12">
-                  <img src="../../../../assets/img/vacio.png" alt="No hay Escuelas registrados"
+                  <img src="../../../../assets/img/vacio.png" alt="No hay Modalidades registrados"
                     width="30%" />
                 </td>
               </div>
@@ -80,16 +78,16 @@
 </div>
 
 
-  <!--Modal Información de Escuela-->
-  <div class="modal fade" id="modalInformacionEscuela" tabindex="-1" data-backdrop="static" data-keyboard="false"
+  <!--Modal Información de Modalidad-->
+  <div class="modal fade" id="modalInformacionModalidad" tabindex="-1" data-backdrop="static" data-keyboard="false"
     role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title text-muted">
-            <span *ngIf="!editar">Registrar</span><span *ngIf="editar">Editar</span> Escuela
+            <span *ngIf="!editar">Registrar</span><span *ngIf="editar">Editar</span> Modalidad
           </h4>
-          <button type="button" class="close" (click)="cerrarModalInformacionEscuela(0)" aria-label="Close"
+          <button type="button" class="close" (click)="cerrarModalInformacionModalidad(0)" aria-label="Close"
             title="Cerrar">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -100,24 +98,15 @@
             <div class="form-group col-xl-6">
               <label class="col-form-label text-nowrap">Nombre</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
-                [class.is-valid]="escuela.nombre.length != 0" [class.is-invalid]="escuela.nombre.length == 0"
-                [(ngModel)]="escuela.nombre" name="escuelaNombre" maxlength="50" />
+                [class.is-valid]="modalidad.nombre.length != 0" [class.is-invalid]="modalidad.nombre.length == 0"
+                [(ngModel)]="modalidad.nombre" name="modalidadNombre" maxlength="50" />
             </div>                       
-          </div> 
-          <div class="form-row">
-            <div class="form-group col-xl-6">
-              <label class="col-form-label text-nowrap">Sigla</label>
-              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
-                [class.is-valid]="escuela.sigla.length != 0" [class.is-invalid]="escuela.sigla.length == 0"
-                [(ngModel)]="escuela.sigla" name="escuelaSigla" maxlength="50" />
-            </div>                       
-          </div>           
-
+          </div>                  
           <br />
           <div class="form-row" style="justify-content: center">
             <div class="form-group col-lg-4">
               <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
-                (click)="cerrarModalInformacionEscuela(1)">
+                (click)="cerrarModalInformacionModalidad(1)">
                 <span *ngIf="!editar">Registrar</span> <span *ngIf="editar">Guardar cambios</span>
               </button>
             </div>
@@ -126,4 +115,4 @@
       </div>
     </div>
   </div>
-  <!--Fin modal Información de Escuela-->
+  <!--Fin modal Información de Modalidad-->

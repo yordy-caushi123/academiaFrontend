@@ -56,9 +56,7 @@ export class MatriculasComponent implements OnInit {
    referido: Referido = new Referido();
    
    //edicion
-  editar: boolean = false;
-  //eliminar
-  eliminar:boolean=false;
+  editar: boolean = false; 
 
   //Configurador del paginador
   config: any;
@@ -95,8 +93,8 @@ export class MatriculasComponent implements OnInit {
   listarTodos(){
     this.matriculaService.recuperarTodos().subscribe(n => {
       this.matriculasIniciales = JSON.parse(JSON.stringify(n));
-      this.matriculas = JSON.parse(JSON.stringify(this.matriculasIniciales));
-      //this.matriculas=this.matriculas.filter((matricula)=>matricula.estado!=false);
+      this.matriculasIniciales=this.matriculasIniciales.filter((matricula)=>matricula.estado!=false);
+      this.matriculas = JSON.parse(JSON.stringify(this.matriculasIniciales));      
       this.config = {
         id: "matriculas",
         itemsPerPage: 10,
@@ -169,7 +167,7 @@ export class MatriculasComponent implements OnInit {
       this.matricula = new Matricula();
     } else {
       this.editar = true;
-      this.matricula = this.matriculas[id];
+      this.matricula = JSON.parse(JSON.stringify(this.matriculas[id]));
     }
     $("#modalInformacionMatricula").modal("show");
   }
@@ -241,13 +239,9 @@ export class MatriculasComponent implements OnInit {
   }
 
 
-  eliminarMatricula(id:number){
-
-    this.eliminar = false;
-    console.log(this.eliminar);
+  eliminarMatricula(id:number){   
     
-    if (id != 0) {
-      
+    if (id >= 0) {      
       swal.fire({
         title: '¿Está seguro de continuar?',
         text: "Los datos quedarán eliminados del sistema",
@@ -259,18 +253,16 @@ export class MatriculasComponent implements OnInit {
         cancelButtonText: 'No'
       }).then((result) => {
         if (result.value) {
-          if(!this.eliminar){
-            this.matricula=this.matriculas[id];                    
-            this.matricula.estado =false;
-            this.matriculaService.modificacion(this.matricula.id, this.matricula).subscribe(n => {
-              this.listarTodos();
-              this.appServicio.mensajeSwal(1);
-            }, error => {
-              console.log(error);
+          this.matricula=JSON.parse(JSON.stringify(this.matriculas[id]));                      
+          this.matricula.estado =false;
+          this.matriculaService.modificacion(this.matricula.id, this.matricula).subscribe(n => {
+          this.listarTodos();
+          this.appServicio.mensajeSwal(5);
+          }, error => {
+              this.appServicio.mensajeSwal(4);
             });
-          }
-          
-        }
+        }        
+        
       });
     }
 

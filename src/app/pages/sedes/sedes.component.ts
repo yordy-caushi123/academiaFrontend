@@ -1,22 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import swal from "sweetalert2";
-import { Escuela } from 'src/app/entidades/escuela';
+import { Sede } from 'src/app/entidades/sede';
 import { AppService } from 'src/app/servicios/app.service';
-import { EscuelaService } from 'src/app/servicios/escuela.service';
-
+import { SedeService } from 'src/app/servicios/sede.service';
 
 declare const $: any;
 
 @Component({
-  selector: 'app-escuelas',
-  templateUrl: './escuelas.component.html',
-  styleUrls: ['./escuelas.component.scss']
+  selector: 'app-sedes',
+  templateUrl: './sedes.component.html',
+  styleUrls: ['./sedes.component.scss']
 })
-export class EscuelasComponent implements OnInit {
+export class SedesComponent implements OnInit {
 
-  escuelas: Escuela[] = [] 
-  escuelasIniciales: Escuela[] = [];
-  escuela: Escuela = new Escuela();
+  sedes: Sede[] = [] 
+  sedesIniciales: Sede[] = [];
+  sede: Sede = new Sede();
 
   //edicion
   editar: boolean = false;
@@ -25,8 +24,7 @@ export class EscuelasComponent implements OnInit {
   //Configurador del paginador
   config: any;
 
-
-  constructor(private appServicio: AppService, private escuelaService: EscuelaService) { }
+  constructor(private appServicio: AppService, private sedeService: SedeService) { }
 
   ngOnInit() {
     this.listarTodos();
@@ -36,8 +34,8 @@ export class EscuelasComponent implements OnInit {
     this.config.currentPage = event;
   }
 
-  hayEscuelas() {
-    if (this.escuelas.length == 0) {
+  haySedes() {
+    if (this.sedes.length == 0) {
       return false;
     } else {
       return true;
@@ -45,39 +43,37 @@ export class EscuelasComponent implements OnInit {
   }
 
   listarTodos(){
-    this.escuelaService.recuperarTodos().subscribe(n => {
-      this.escuelasIniciales = JSON.parse(JSON.stringify(n));
-      this.escuelasIniciales=this.escuelasIniciales.filter((escuela)=>escuela.estado!=false);
-      this.escuelasIniciales=this.escuelasIniciales.sort( (a, b) => a.nombre.localeCompare(b.nombre));
-      this.escuelas = JSON.parse(JSON.stringify(this.escuelasIniciales));
+    this.sedeService.recuperarTodos().subscribe(n => {
+      this.sedesIniciales = JSON.parse(JSON.stringify(n));
+      this.sedesIniciales=this.sedesIniciales.filter((sede)=>sede.estado!=false);
+      this.sedesIniciales=this.sedesIniciales.sort( (a, b) => a.nombre.localeCompare(b.nombre));
+      this.sedes = JSON.parse(JSON.stringify(this.sedesIniciales));
       this.config = {
-        id: "escuelas",
+        id: "sedes",
         itemsPerPage: 10,
         currentPage: 1,
-        totalItems: this.escuelas.length,
+        totalItems: this.sedes.length,
       };
     });
   }
 
-
-  //FUNCIONES PARA INFORMACIÓN DE ESCUELAS
-  abrirModalInformacionEscuela(id: number){    
+  //FUNCIONES PARA INFORMACIÓN DE SEDES
+  abrirModalInformacionSede(id: number){    
     if (id == -1) {
-      this.escuela = new Escuela();
+      this.sede = new Sede();
     } else {
       this.editar = true;
-      this.escuela = JSON.parse(JSON.stringify(this.escuelas[id]));
+      this.sede = JSON.parse(JSON.stringify(this.sedes[id]));
     }
-    $("#modalInformacionEscuela").modal("show");
+    $("#modalInformacionSede").modal("show");
   }
 
-
-  cerrarModalInformacionEscuela(id: number){
-    $("#modalInformacionEscuela").modal("hide");
+  cerrarModalInformacionSede(id: number){
+    $("#modalInformacionSede").modal("hide");
     this.editar = false;
 
     if (id != 0) {
-      if(this.validarInformacionEscuela()){
+      if(this.validarInformacionSede()){
         this.appServicio.mensajeSwal(3);
       }
       else{
@@ -93,19 +89,19 @@ export class EscuelasComponent implements OnInit {
         }).then((result) => {
           if (result.value) {
             if(!this.editar){
-              this.escuelaService.alta(this.escuela).subscribe(n => {
+              this.sedeService.alta(this.sede).subscribe(n => {
                 this.listarTodos();
                 this.appServicio.mensajeSwal(1);
               }, error => {
-                this.appServicio.mensajeSwal(4)
+                console.log(error);
               });
             }
             else{
-              this.escuelaService.modificacion(this.escuela.id, this.escuela).subscribe(n => {
+              this.sedeService.modificacion(this.sede.id, this.sede).subscribe(n => {
                 this.listarTodos();
                 this.appServicio.mensajeSwal(2);
               }, error => {
-                this.appServicio.mensajeSwal(4);
+                console.log(error);
               });
             }
           }
@@ -114,11 +110,10 @@ export class EscuelasComponent implements OnInit {
     }
   }
 
-  validarInformacionEscuela() {
+  validarInformacionSede() {
     let estado: boolean = false;
     if (
-      this.escuela.nombre == '' ||
-      this.escuela.sigla ==''
+      this.sede.nombre == ''       
      
     ) {
       estado = true;
@@ -127,9 +122,7 @@ export class EscuelasComponent implements OnInit {
     return estado;
   }
 
-
-  eliminarEscuela(id:number){  
-    
+  eliminarSede(id:number){      
     if (id >= 0) {      
       swal.fire({
         title: '¿Está seguro de continuar?',
@@ -142,9 +135,9 @@ export class EscuelasComponent implements OnInit {
         cancelButtonText: 'No'
       }).then((result) => {
         if (result.value) {   
-          this.escuela=JSON.parse(JSON.stringify(this.escuelas[id]));                        
-          this.escuela.estado =false;
-          this.escuelaService.modificacion(this.escuela.id, this.escuela).subscribe(n => {
+          this.sede=JSON.parse(JSON.stringify(this.sedes[id]));                        
+          this.sede.estado =false;
+          this.sedeService.modificacion(this.sede.id, this.sede).subscribe(n => {
           this.listarTodos();             
           this.appServicio.mensajeSwal(5);
           }, error => {              
@@ -154,17 +147,16 @@ export class EscuelasComponent implements OnInit {
         }
       });
     }
-
   }
 
-  buscarEscuela(e: any){
+  buscarSede(e: any){
     let valor = e.target.value;
     if(valor != ''){
-      this.escuelas = this.escuelasIniciales.filter(n => n.nombre.toUpperCase().includes(valor.toUpperCase()) || 
-      n.nombre.toUpperCase().includes(valor.toUpperCase()) || n.sigla.toUpperCase().includes(valor.toUpperCase()));
+      this.sedes = this.sedesIniciales.filter(n => n.nombre.toUpperCase().includes(valor.toUpperCase()) || 
+      n.nombre.toUpperCase().includes(valor.toUpperCase()) );
     }
     else{
-      this.escuelas = this.escuelasIniciales;
+      this.sedes = this.sedesIniciales;
     }
   }
 

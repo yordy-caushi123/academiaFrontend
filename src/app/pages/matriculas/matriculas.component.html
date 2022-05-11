@@ -58,14 +58,12 @@
                     <a class="btn btn-sm btn-primary rounded-0 mr-2" (click)="abrirModalInformacionMatricula(config.itemsPerPage * (config.currentPage - 1) + (i))"
                       title="Ver / Editar información de la Matricula" style="cursor: pointer;">
                       <i class="fas fa-edit"></i>
-                    </a>                                        
-                  </td>
-                  <td class="align-middle" style="text-align: center;">
-                    <a class="btn btn-sm btn-primary rounded-0 mr-2" (click)="eliminarMatricula(config.itemsPerPage * (config.currentPage - 1) + (i))"
+                    </a> 
+                    <a class="btn btn-sm btn-primary rounded-0" (click)="eliminarMatricula(config.itemsPerPage * (config.currentPage - 1) + (i))"
                       title="eliminar información de la Matricula" style="cursor: pointer;">
                       <i class="fas fa-trash"></i>
-                    </a> 
-                  </td>
+                    </a>                                        
+                  </td>                  
                 </tr>
               </tbody>
             </table>

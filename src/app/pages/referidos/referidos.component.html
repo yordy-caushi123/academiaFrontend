@@ -1,14 +1,14 @@
 <div>
-  <h4 class="text-muted mb-4">Listado de Escuelas</h4>
+  <h4 class="text-muted mb-4">Listado de Referidos</h4>
 
   <div class="form-row">
     <div class="form-group col-xl-8">
       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
-        placeholder="Buscar Escuelas..." (keyup)="buscarEscuela($event)"/>
+        placeholder="Buscar Referidos..." (keyup)="buscarReferido($event)"/>
     </div>
     <div class="form-group col-xl-2">
       <button class="btn btn-success btn-sm float-right w-100 rounded-0"
-        (click)="abrirModalInformacionEscuela(-1)">
+        (click)="abrirModalInformacionReferido(-1)">
         Nuevo &nbsp;<i class="fas fa-plus"></i>
       </button>
     </div>
@@ -24,27 +24,27 @@
       <div class="card border-0 rounded-0">
         <div class="card-body">
           <div class="table-responsive-md">
-            <table class="table table-hover table-sm" *ngIf="hayEscuelas(); else sinEscuelas">
+            <table class="table table-hover table-sm" *ngIf="hayReferidos(); else sinReferidos">
               <thead>
                 <tr>
                   <th scope="col" width="4%" style="text-align: center">N</th>
-                  <th scope="col" >Nombre</th>
-                  <th scope="col" width="8%" style="text-align: center">Sigla</th>
+                  <th scope="col" width="8%" style="text-align: center">DNI</th>
+                  <th scope="col" >Nombres y apellidos</th>                  
                   <th scope="col" width="10%" style="text-align: center;">Acciones</th>                                 
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let escue of escuelas | paginate: config; let i = index">
+                <tr *ngFor="let refer of referidos | paginate: config; let i = index">
                   <td scope="row" class="align-middle" style="text-align: center">{{config.itemsPerPage * (config.currentPage - 1) + (i + 1)}}</td>
-                  <td class="align-middle" >{{ escue.nombre }}</td> 
-                  <td class="align-middle" style="text-align: center;">{{ escue.sigla }}</td>                                 
+                  <td class="align-middle" style="text-align: center">{{ refer.dni }}</td>
+                  <td class="align-middle" >{{ refer.nombres }} , {{refer.apellidos}}</td>                                                  
                   <td class="align-middle" style="text-align: center;">
-                    <a class="btn btn-sm btn-primary rounded-0 mr-2" (click)="abrirModalInformacionEscuela(config.itemsPerPage * (config.currentPage - 1) + (i))"
-                      title="Ver / Editar información de la Escuela" style="cursor: pointer;">
+                    <a class="btn btn-sm btn-primary rounded-0 mr-2" (click)="abrirModalInformacionReferido(config.itemsPerPage * (config.currentPage - 1) + (i))"
+                      title="Ver / Editar información del Referido" style="cursor: pointer;">
                       <i class="fas fa-edit"></i>
                     </a>
-                    <a class="btn btn-sm btn-primary rounded-0 " (click)="eliminarEscuela(config.itemsPerPage * (config.currentPage - 1) + (i))"
-                    title="eliminar información de la Escuela" style="cursor: pointer;">
+                    <a class="btn btn-sm btn-primary rounded-0 " (click)="eliminarReferido(config.itemsPerPage * (config.currentPage - 1) + (i))"
+                    title="eliminar información del Referido" style="cursor: pointer;">
                     <i class="fas fa-trash"></i>
                   </a>                                        
                   </td>                  
@@ -52,22 +52,22 @@
               </tbody>
             </table>
 
-            <div class="col-md-12 mt-4 mx-auto" style="text-align: center" *ngIf="hayEscuelas() &&  escuelas.length >= 10">
-              <pagination-controls (pageChange)="pageChange($event)" id="escuelas" previousLabel="Anterior"
+            <div class="col-md-12 mt-4 mx-auto" style="text-align: center" *ngIf="hayReferidos() &&  referidos.length >= 10">
+              <pagination-controls (pageChange)="pageChange($event)" id="referidos" previousLabel="Anterior"
                 nextLabel="Siguiente" autoHide="true">
               </pagination-controls>
             </div>
 
-            <ng-template #sinEscuelas>
+            <ng-template #sinReferidos>
               <div class="row" style="text-align: center">
                 <td class="col-xl-12" style="text-align: center">
                   <h3>
                     No se encontraron
-                    <span class="text-muted">Escuelas</span>
+                    <span class="text-muted">Referidos</span>
                   </h3>
                 </td>
                 <td class="col-xl-12">
-                  <img src="../../../../assets/img/vacio.png" alt="No hay Escuelas registrados"
+                  <img src="../../../../assets/img/vacio.png" alt="No hay Referidos registrados"
                     width="30%" />
                 </td>
               </div>
@@ -80,16 +80,16 @@
 </div>
 
 
-  <!--Modal Información de Escuela-->
-  <div class="modal fade" id="modalInformacionEscuela" tabindex="-1" data-backdrop="static" data-keyboard="false"
+  <!--Modal Información de Referido-->
+  <div class="modal fade" id="modalInformacionReferido" tabindex="-1" data-backdrop="static" data-keyboard="false"
     role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title text-muted">
-            <span *ngIf="!editar">Registrar</span><span *ngIf="editar">Editar</span> Escuela
+            <span *ngIf="!editar">Registrar</span><span *ngIf="editar">Editar</span> Referido
           </h4>
-          <button type="button" class="close" (click)="cerrarModalInformacionEscuela(0)" aria-label="Close"
+          <button type="button" class="close" (click)="cerrarModalInformacionReferido(0)" aria-label="Close"
             title="Cerrar">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -98,26 +98,31 @@
         <div class="modal-body">
           <div class="form-row">
             <div class="form-group col-xl-6">
-              <label class="col-form-label text-nowrap">Nombre</label>
+              <label class="col-form-label text-nowrap">Nombres</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
-                [class.is-valid]="escuela.nombre.length != 0" [class.is-invalid]="escuela.nombre.length == 0"
-                [(ngModel)]="escuela.nombre" name="escuelaNombre" maxlength="50" />
-            </div>                       
-          </div> 
-          <div class="form-row">
+                [class.is-valid]="referido.nombres.length != 0" [class.is-invalid]="referido.nombres.length == 0"
+                [(ngModel)]="referido.nombres" name="referidoNombres" maxlength="50" />
+            </div>
             <div class="form-group col-xl-6">
-              <label class="col-form-label text-nowrap">Sigla</label>
+              <label class="col-form-label text-nowrap">Apellidos:</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
-                [class.is-valid]="escuela.sigla.length != 0" [class.is-invalid]="escuela.sigla.length == 0"
-                [(ngModel)]="escuela.sigla" name="escuelaSigla" maxlength="50" />
+                [class.is-valid]="referido.apellidos.length != 0" [class.is-invalid]="referido.apellidos.length == 0"
+                [(ngModel)]="referido.apellidos" name="referidoApellidos" maxlength="50"/>
             </div>                       
-          </div>           
-
+          </div>
+          <div class="form-row">
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">Dni:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="referido.dni.length != 0" [class.is-invalid]="referido.dni.length == 0"
+                [(ngModel)]="referido.dni" name="referidoDni" maxlength="8"/>
+            </div>          
+          </div>                  
           <br />
           <div class="form-row" style="justify-content: center">
             <div class="form-group col-lg-4">
               <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
-                (click)="cerrarModalInformacionEscuela(1)">
+                (click)="cerrarModalInformacionReferido(1)">
                 <span *ngIf="!editar">Registrar</span> <span *ngIf="editar">Guardar cambios</span>
               </button>
             </div>
@@ -126,4 +131,4 @@
       </div>
     </div>
   </div>
-  <!--Fin modal Información de Escuela-->
+  <!--Fin modal Información de Referido-->

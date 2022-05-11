@@ -14,6 +14,12 @@ import { AlumnosComponent } from './pages/alumnos/alumnos.component';
 import { MatriculasComponent } from './pages/matriculas/matriculas.component';
 import { MovimientosComponent } from './pages/movimientos/movimientos.component';
 import { EscuelasComponent } from './pages/escuelas/escuelas.component';
+import { SedesComponent } from './pages/sedes/sedes.component';
+import { CiclosComponent } from './pages/ciclos/ciclos.component';
+import { TurnosComponent } from './pages/turnos/turnos.component';
+import { ModalidadesComponent } from './pages/modalidades/modalidades.component';
+import { ProcedenciasComponent } from './pages/procedencias/procedencias.component';
+import { ReferidosComponent } from './pages/referidos/referidos.component';
 
 
 const routes: Routes = [
@@ -30,6 +36,13 @@ const routes: Routes = [
   {path: 'matriculas', component: MatriculasComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
   {path: 'movimientos', component: MovimientosComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
   {path: 'escuelas', component: EscuelasComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
+  {path: 'sedes', component: SedesComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
+  {path: 'ciclos', component: CiclosComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
+  {path: 'turnos', component: TurnosComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
+  {path: 'modalidades', component: ModalidadesComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
+  {path: 'procedencias', component: ProcedenciasComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
+  {path: 'referidos', component: ReferidosComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
+
 
   {path: '**', redirectTo: 'inicio', pathMatch: 'full'}
 ];

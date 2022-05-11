@@ -6,7 +6,8 @@ export class Escuela {
 
     constructor(){
       this.id = 0;      
-      this.nombre = '';      
+      this.nombre = '';  
+      this.sigla = '';    
       this.estado = true;
     }
 }

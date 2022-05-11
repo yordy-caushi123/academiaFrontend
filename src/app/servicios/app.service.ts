@@ -342,6 +342,13 @@ export class AppService {
         "error"
       );
     }
+    if(id == 5){
+      return swal.fire(
+        "Procesado",
+        "Los datos se eliminaron con éxito",
+        "success"
+      );
+    }
   }
 
 
