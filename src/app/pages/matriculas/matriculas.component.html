@@ -28,32 +28,22 @@
               <thead>
                 <tr>
                   <th scope="col" width="4%" style="text-align: center">N</th>
-                  <th scope="col" width="4%" style="text-align: center">Fecha</th>
-                  <th scope="col" width="8%" style="text-align: center">Alumno</th> 
+                  <th scope="col" width="18%" style="text-align: center">Fecha</th>
+                  <th scope="col" >Alumno</th> 
                   <th scope="col" width="8%" style="text-align: center">Sede</th>
-                  <th scope="col" width="10%" style="text-align: center;">Escuela</th>
-                  <th scope="col" width="12%" style="text-align: center;">Ciclo</th>  
-                  <th scope="col" width="14%" style="text-align: center;">Turno</th> 
-                  <th scope="col" width="16%" style="text-align: center;">Modalidad</th> 
-                  <th scope="col" width="18%" style="text-align: center;">Procedencia</th>
-                  <th scope="col" width="8%" style="text-align: center;">Referido</th>                   
-                  <th scope="col" width="20%" style="text-align: center;">Observacion</th>
+                  <th scope="col" width="8%" style="text-align: center;">Escuela</th>
+                  <th scope="col" width="8%" style="text-align: center;">Ciclo</th>                    
                   <th scope="col" width="10%" style="text-align: center;">Acciones</th>                
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let matri of matriculas | paginate: config; let i = index">
                   <td scope="row" class="align-middle" style="text-align: center">{{config.itemsPerPage * (config.currentPage - 1) + (i + 1)}}</td>
-                  <td class="align-middle" style="text-align: center">{{ matri.fecha }}</td>
+                  <td class="align-middle" style="text-align: center">{{ matri.fecha | date:'dd-MM-yyyy' }}</td>
                   <td class="align-middle">{{ matri.idAlumno }}</td>
                   <td class="align-middle" style="text-align: center;">{{ matri.idSede }}</td>
                   <td class="align-middle" style="text-align: center;">{{ matri.idEscuela }}</td>
-                  <td class="align-middle" style="text-align: center;">{{ matri.idCiclo }}</td>
-                  <td class="align-middle" style="text-align: center;">{{ matri.idTurno }}</td>
-                  <td class="align-middle" style="text-align: center;">{{ matri.idModalidad }}</td>
-                  <td class="align-middle" style="text-align: center;">{{ matri.idProcedencia }}</td>
-                  <td class="align-middle" style="text-align: center;">{{ matri.idReferido }}</td>                  
-                  <td class="align-middle" style="text-align: center;">{{ matri.observacion }}</td>                 
+                  <td class="align-middle" style="text-align: center;">{{ matri.idCiclo }}</td>                                  
                   <td class="align-middle" style="text-align: center;">
                     <a class="btn btn-sm btn-primary rounded-0 mr-2" (click)="abrirModalInformacionMatricula(config.itemsPerPage * (config.currentPage - 1) + (i))"
                       title="Ver / Editar información de la Matricula" style="cursor: pointer;">
@@ -177,8 +167,8 @@
               [class.is-valid]="matricula.idModalidad != 0" [class.is-invalid]="matricula.idModalidad == 0"
                  [(ngModel)]="matricula.idModalidad"    name="matricula.idModalidad">
                 <option value="0">Seleccione Modalidad</option>
-                <option *ngFor="let modali of modalidades" value="{{modali.id}}">
-                  {{modali.nombre}}</option>
+                <option *ngFor="let modal of modalidades" value="{{modal.id}}">
+                  {{modal.nombre}}</option>
               </select>
             </div> 
             <div class="form-group col-xl-4">
@@ -187,8 +177,8 @@
               [class.is-valid]="matricula.idProcedencia != 0" [class.is-invalid]="matricula.idProcedencia == 0"
                 [(ngModel)]="matricula.idProcedencia"  name="matricula.idProcedencia">
                 <option value="0">Seleccione Procedencia</option>
-                <option *ngFor="let proce of procedencias" value="{{proce.id}}">
-                  {{proce.nombre}}</option>
+                <option *ngFor="let proceden of procedencias" value="{{proceden.id}}">
+                  {{proceden.nombre}}</option>
               </select>
             </div>
             <div class="form-group col-xl-4">
@@ -197,8 +187,8 @@
               [class.is-valid]="matricula.idReferido != 0" [class.is-invalid]="matricula.idReferido == 0"
                  [(ngModel)]="matricula.idReferido"  name="matricula.idReferido">
                 <option value="0">Seleccione Referido</option>
-                <option *ngFor="let refe of referidos" value="{{refe.id}}">
-                  {{refe.nombres}}, {{refe.apellidos}}</option>
+                <option *ngFor="let refer of referidos" value="{{refer.id}}">
+                  {{refer.nombres}}, {{refer.apellidos}}</option>
               </select>
             </div> 
             <div class="form-group col-xl-4">
