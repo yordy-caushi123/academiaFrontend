@@ -19,6 +19,11 @@ export class SidebarComponent implements OnInit {
   modalidadActivoMenu: boolean;
   procedenciaActivoMenu: boolean;
   referidoActivoMenu: boolean;
+  tipoIngresoActivoMenu: boolean;
+  formaPagoActivoMenu: boolean;
+  entidadBancariaActivoMenu: boolean;
+  conceptoEgresoActivoMenu: boolean;
+
 
   vistaAdminCordi: boolean = false;
 
@@ -40,6 +45,10 @@ export class SidebarComponent implements OnInit {
     this.modalidadActivoMenu= false;
     this.procedenciaActivoMenu= false;
     this.referidoActivoMenu= false;
+    this.tipoIngresoActivoMenu= false;
+    this.formaPagoActivoMenu= false;
+    this.entidadBancariaActivoMenu= false;
+    this.conceptoEgresoActivoMenu= false;
 
     if (this.tokenService.getToken()) {
       this.isLogin = true;
@@ -78,6 +87,10 @@ export class SidebarComponent implements OnInit {
     this.modalidadActivoMenu= false;
     this.procedenciaActivoMenu= false;
     this.referidoActivoMenu= false;
+    this.tipoIngresoActivoMenu= false;
+    this.formaPagoActivoMenu= false;
+    this.entidadBancariaActivoMenu= false;
+    this.conceptoEgresoActivoMenu= false;
     
 
   }
@@ -94,6 +107,10 @@ export class SidebarComponent implements OnInit {
     this.modalidadActivoMenu= false;
     this.procedenciaActivoMenu= false;
     this.referidoActivoMenu= false;
+    this.tipoIngresoActivoMenu= false;
+    this.formaPagoActivoMenu= false;
+    this.entidadBancariaActivoMenu= false;
+    this.conceptoEgresoActivoMenu= false;
 
   }
 
@@ -109,6 +126,10 @@ export class SidebarComponent implements OnInit {
     this.modalidadActivoMenu= false;
     this.procedenciaActivoMenu= false;
     this.referidoActivoMenu= false;
+    this.tipoIngresoActivoMenu= false;
+    this.formaPagoActivoMenu= false;
+    this.entidadBancariaActivoMenu= false;
+    this.conceptoEgresoActivoMenu= false;
 
   }
 
@@ -124,6 +145,10 @@ export class SidebarComponent implements OnInit {
     this.modalidadActivoMenu= false;
     this.procedenciaActivoMenu= false;
     this.referidoActivoMenu= false;
+    this.tipoIngresoActivoMenu= false;
+    this.formaPagoActivoMenu= false;
+    this.entidadBancariaActivoMenu= false;
+    this.conceptoEgresoActivoMenu= false;
   }
 
   validarEscuelaMenu(){
@@ -138,6 +163,10 @@ export class SidebarComponent implements OnInit {
     this.modalidadActivoMenu= false;
     this.procedenciaActivoMenu= false;
     this.referidoActivoMenu= false;
+    this.tipoIngresoActivoMenu= false;
+    this.formaPagoActivoMenu= false;
+    this.entidadBancariaActivoMenu= false;
+    this.conceptoEgresoActivoMenu= false;
   }
 
   validarSedeMenu(){
@@ -152,6 +181,10 @@ export class SidebarComponent implements OnInit {
     this.modalidadActivoMenu= false;
     this.procedenciaActivoMenu= false;
     this.referidoActivoMenu= false;
+    this.tipoIngresoActivoMenu= false;
+    this.formaPagoActivoMenu= false;
+    this.entidadBancariaActivoMenu= false;
+    this.conceptoEgresoActivoMenu= false;
   }
 
   validarCicloMenu(){
@@ -166,6 +199,10 @@ export class SidebarComponent implements OnInit {
     this.modalidadActivoMenu= false;
     this.procedenciaActivoMenu= false;
     this.referidoActivoMenu= false;
+    this.tipoIngresoActivoMenu= false;
+    this.formaPagoActivoMenu= false;
+    this.entidadBancariaActivoMenu= false;
+    this.conceptoEgresoActivoMenu= false;
   }
 
   validarTurnoMenu(){
@@ -180,6 +217,10 @@ export class SidebarComponent implements OnInit {
     this.modalidadActivoMenu= false;
     this.procedenciaActivoMenu= false;
     this.referidoActivoMenu= false;
+    this.tipoIngresoActivoMenu= false;
+    this.formaPagoActivoMenu= false;
+    this.entidadBancariaActivoMenu= false;
+    this.conceptoEgresoActivoMenu= false;
   }
 
   validarModalidadMenu(){
@@ -194,6 +235,10 @@ export class SidebarComponent implements OnInit {
     this.modalidadActivoMenu= true;
     this.procedenciaActivoMenu= false;
     this.referidoActivoMenu= false;
+    this.tipoIngresoActivoMenu= false;
+    this.formaPagoActivoMenu= false;
+    this.entidadBancariaActivoMenu= false;
+    this.conceptoEgresoActivoMenu= false;
   }
 
   validarProcedenciaMenu(){
@@ -208,6 +253,10 @@ export class SidebarComponent implements OnInit {
     this.modalidadActivoMenu= false;
     this.procedenciaActivoMenu= true;
     this.referidoActivoMenu= false;
+    this.tipoIngresoActivoMenu= false;
+    this.formaPagoActivoMenu= false;
+    this.entidadBancariaActivoMenu= false;
+    this.conceptoEgresoActivoMenu= false;
   }
 
   validarReferidoMenu(){
@@ -222,6 +271,82 @@ export class SidebarComponent implements OnInit {
     this.modalidadActivoMenu= false;
     this.procedenciaActivoMenu= false;
     this.referidoActivoMenu= true;
+    this.tipoIngresoActivoMenu= false;
+    this.formaPagoActivoMenu= false;
+    this.entidadBancariaActivoMenu= false;
+    this.conceptoEgresoActivoMenu= false;
+  }
+
+  validarTipoIngresoMenu(){
+    this.inicioActivoMenu = false;
+    this.alumnoActivoMenu = false;
+    this.matriculaActivoMenu = false;
+    this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
+    this.sedeActivoMenu= false;
+    this.cicloActivoMenu= false;
+    this.turnoActivoMenu= false;
+    this.modalidadActivoMenu= false;
+    this.procedenciaActivoMenu= false;
+    this.referidoActivoMenu= false;
+    this.tipoIngresoActivoMenu= true;
+    this.formaPagoActivoMenu= false;
+    this.entidadBancariaActivoMenu= false;
+    this.conceptoEgresoActivoMenu= false;
+  }
+
+  validarFormaPagoMenu(){
+    this.inicioActivoMenu = false;
+    this.alumnoActivoMenu = false;
+    this.matriculaActivoMenu = false;
+    this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
+    this.sedeActivoMenu= false;
+    this.cicloActivoMenu= false;
+    this.turnoActivoMenu= false;
+    this.modalidadActivoMenu= false;
+    this.procedenciaActivoMenu= false;
+    this.referidoActivoMenu= false;
+    this.tipoIngresoActivoMenu= false;
+    this.formaPagoActivoMenu= true;
+    this.entidadBancariaActivoMenu= false;
+    this.conceptoEgresoActivoMenu= false;
+  }
+
+  validarEntidadBancariaMenu(){
+    this.inicioActivoMenu = false;
+    this.alumnoActivoMenu = false;
+    this.matriculaActivoMenu = false;
+    this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
+    this.sedeActivoMenu= false;
+    this.cicloActivoMenu= false;
+    this.turnoActivoMenu= false;
+    this.modalidadActivoMenu= false;
+    this.procedenciaActivoMenu= false;
+    this.referidoActivoMenu= false;
+    this.tipoIngresoActivoMenu= false;
+    this.formaPagoActivoMenu= false;
+    this.entidadBancariaActivoMenu= true;
+    this.conceptoEgresoActivoMenu= false;
+  }
+
+  validarConceptoEgresoMenu(){
+    this.inicioActivoMenu = false;
+    this.alumnoActivoMenu = false;
+    this.matriculaActivoMenu = false;
+    this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
+    this.sedeActivoMenu= false;
+    this.cicloActivoMenu= false;
+    this.turnoActivoMenu= false;
+    this.modalidadActivoMenu= false;
+    this.procedenciaActivoMenu= false;
+    this.referidoActivoMenu= false;
+    this.tipoIngresoActivoMenu= false;
+    this.formaPagoActivoMenu= false;
+    this.entidadBancariaActivoMenu= false;
+    this.conceptoEgresoActivoMenu= true;
   }
 
   logOut(): void {

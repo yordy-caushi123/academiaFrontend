@@ -20,6 +20,10 @@ import { TurnosComponent } from './pages/turnos/turnos.component';
 import { ModalidadesComponent } from './pages/modalidades/modalidades.component';
 import { ProcedenciasComponent } from './pages/procedencias/procedencias.component';
 import { ReferidosComponent } from './pages/referidos/referidos.component';
+import { TipoIngresoComponent } from './pages/tipo-ingreso/tipo-ingreso.component';
+import { FormaPagoComponent } from './pages/forma-pago/forma-pago.component';
+import { EntidadBancariaComponent } from './pages/entidad-bancaria/entidad-bancaria.component';
+import { ConceptoEgresoComponent } from './pages/concepto-egreso/concepto-egreso.component';
 
 
 const routes: Routes = [
@@ -42,6 +46,10 @@ const routes: Routes = [
   {path: 'modalidades', component: ModalidadesComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
   {path: 'procedencias', component: ProcedenciasComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
   {path: 'referidos', component: ReferidosComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
+  {path: 'tipoIngreso', component: TipoIngresoComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
+  {path: 'formaPago', component: FormaPagoComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
+  {path: 'entidadBancaria', component: EntidadBancariaComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
+  {path: 'conceptoEgreso', component: ConceptoEgresoComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
 
 
   {path: '**', redirectTo: 'inicio', pathMatch: 'full'}

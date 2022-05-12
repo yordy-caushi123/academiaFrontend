@@ -39,6 +39,10 @@ import { TurnosComponent } from './pages/turnos/turnos.component';
 import { ModalidadesComponent } from './pages/modalidades/modalidades.component';
 import { ProcedenciasComponent } from './pages/procedencias/procedencias.component';
 import { ReferidosComponent } from './pages/referidos/referidos.component';
+import { TipoIngresoComponent } from './pages/tipo-ingreso/tipo-ingreso.component';
+import { FormaPagoComponent } from './pages/forma-pago/forma-pago.component';
+import { EntidadBancariaComponent } from './pages/entidad-bancaria/entidad-bancaria.component';
+import { ConceptoEgresoComponent } from './pages/concepto-egreso/concepto-egreso.component';
 
 
 @NgModule({
@@ -63,6 +67,10 @@ import { ReferidosComponent } from './pages/referidos/referidos.component';
     ModalidadesComponent,
     ProcedenciasComponent,
     ReferidosComponent,
+    TipoIngresoComponent,
+    FormaPagoComponent,
+    EntidadBancariaComponent,
+    ConceptoEgresoComponent,
   ],
   imports: [
     BrowserModule,
