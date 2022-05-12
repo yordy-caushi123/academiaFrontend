@@ -27,16 +27,26 @@
             <table class="table table-hover table-sm" *ngIf="hayMovimientos(); else sinMovimientos">
               <thead>
                 <tr>
-                  <th scope="col" width="4%" style="text-align: center">N</th>
-                  <th scope="col">Id</th>
+                  <th scope="col" width="5%" style="text-align: center">N</th>
+                  <th scope="col" width="10%">Fecha</th>
+                  <th scope="col">Número de operación</th>
+                  <th scope="col" width="15%">Tipo de movimiento</th>
+                  <th scope="col" width="8%" style="text-align: center">Total</th>
+                  <th scope="col" width="8%" style="text-align: center">A cuenta</th>
                   <th scope="col" width="10%" style="text-align: center;">Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let alu of alumnos | paginate: config; let i = index">
+                <tr *ngFor="let mov of movimientos | paginate: config; let i = index">
                   <td scope="row" class="align-middle" style="text-align: center">{{config.itemsPerPage * (config.currentPage - 1) + (i + 1)}}</td>
+                  <td scope="row" class="align-middle">{{mov.fechaPago | date:'dd-MM-yyyy'}}</td>
+                  <td scope="row" class="align-middle">{{mov.numeroOperacion}}</td>
+                  <td scope="row" class="align-middle" style="text-align: center"><span *ngIf="mov.tipoMovimiento == 1" class="text-success font-weight-bold">
+                    Ingreso</span><span *ngIf="mov.tipoMovimiento == 2" class="text-danger font-weight-bold">Egreso</span></td>
+                  <td scope="row" class="align-middle" style="text-align: center">{{mov.total.toFixed(2)}}</td>
+                  <td scope="row" class="align-middle" style="text-align: center">{{mov.cuenta.toFixed(2)}}</td>
                   <td class="align-middle" style="text-align: center;">
-                    <a class="btn btn-sm btn-primary rounded-0" (click)="abrirModalInformacionMovimiento(i)"
+                    <a class="btn btn-sm btn-primary rounded-0" (click)="abrirModalInformacionMovimiento(config.itemsPerPage * (config.currentPage - 1) + (i))"
                       title="Ver / Editar información del Movimiento" style="cursor: pointer;">
                       <i class="fas fa-edit"></i>
                     </a>
@@ -91,41 +101,40 @@
           <div class="form-row">
             <div class="form-group col-xl-4">
               <label class="col-form-label text-nowrap">Tipo de movimiento:</label>
-              <select type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
-                [class.is-valid]="movimiento.tipo_movimiento != 0" [class.is-invalid]="movimiento.tipo_movimiento == 0"
-                [(ngModel)]="movimiento.tipo_movimiento" name="tipo_movimiento">
+              <select type="text" class="form-control form-control-sm rounded-0" autocomplete="off" [disabled]="editar"
+                [class.is-valid]="movimiento.tipoMovimiento != 0" [class.is-invalid]="movimiento.tipoMovimiento == 0"
+                [(ngModel)]="movimiento.tipoMovimiento" name="tipoMovimiento">
                 <option value="0">Seleccione tipo de movimiento</option>
                 <option value="1">Ingreso</option>
                 <option value="2">Egreso</option>
               </select>
             </div>
-            <div class="form-group col-xl-4" *ngIf="movimiento.tipo_movimiento != 0">
+            <div class="form-group col-xl-4" *ngIf="movimiento.tipoMovimiento != 0">
               <label class="col-form-label text-nowrap">Fecha:</label>
               <input type="date" class="form-control form-control-sm rounded-0 is-valid" autocomplete="off" disabled
-                name="fecha">
+                name="fecha" [(ngModel)]="fecha">
             </div>
-            <div class="form-group col-xl-4" *ngIf="movimiento.tipo_movimiento != 0">
+            <div class="form-group col-xl-4" *ngIf="movimiento.tipoMovimiento != 0">
               <label class="col-form-label text-nowrap">Número de operación:</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
-                [class.is-valid]="ingreso.numOperacion != 0" [class.is-invalid]="ingreso.numOperacion == 0"
-                [(ngModel)]="ingreso.numOperacion" name="numOperacion">
+                [class.is-valid]="movimiento.numeroOperacion != 0" [class.is-invalid]="movimiento.numeroOperacion == 0"
+                [(ngModel)]="movimiento.numeroOperacion" name="numeroOperacion">
             </div>
           </div>
 
-          <div class="form-row" *ngIf="movimiento.tipo_movimiento == 1">
+          <div class="form-row" *ngIf="movimiento.tipoMovimiento == 1">
             <div class="form-group col-xl-12">
               <label class="col-form-label text-nowrap">Alumno:</label>
               <select type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                 [class.is-valid]="ingreso.idAlumno != 0" [class.is-invalid]="ingreso.idAlumno == 0"
                 [(ngModel)]="ingreso.idAlumno" name="idAlumno">
                 <option value="0">Seleccione Alumno</option>
-                <option value="1">Alumno 1</option>
-                <option value="2">Alumno 2</option>
+                <option *ngFor="let alu of alumnos" value="{{alu.id}}">{{alu.apellidos}}, {{alu.nombres}}</option>
               </select>
             </div>
           </div>
 
-          <div class="form-row" *ngIf="movimiento.tipo_movimiento == 1">
+          <div class="form-row" *ngIf="movimiento.tipoMovimiento == 1">
             <div class="form-group col-xl-4">
               <label class="col-form-label text-nowrap">Tipo de ingreso:</label>
               <select type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
@@ -158,7 +167,7 @@
             </div>
           </div>
 
-          <div class="form-row" *ngIf="movimiento.tipo_movimiento == 1">
+          <div class="form-row" *ngIf="movimiento.tipoMovimiento == 1">
             <div class="form-group col-xl-12">
               <label class="col-form-label text-nowrap">Observación:</label>
               <textarea type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
@@ -168,18 +177,7 @@
             </div>
           </div>
 
-          <div class="form-row" *ngIf="movimiento.tipo_movimiento != 0">
-            <div class="form-group col-xl-12">
-              <label class="col-form-label text-nowrap">Imagen:</label>
-              <div class="custom-file">
-                <input type="file" class="custom-file-input form-control-sm" id="validatedCustomFile1 rounded-0"
-                  (change)="cambioImagen($event)"/>
-                <label class="custom-file-label" for="validatedCustomFile1">Seleccione imagen...</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-row" *ngIf="movimiento.tipo_movimiento == 1">
+          <div class="form-row" *ngIf="movimiento.tipoMovimiento == 1">
             <div class="form-group col-xl-8">
             </div>
             <div class="form-group col-xl-4">
@@ -190,7 +188,7 @@
             </div>
           </div>
 
-          <div class="form-row" *ngIf="movimiento.tipo_movimiento == 1">
+          <div class="form-row" *ngIf="movimiento.tipoMovimiento == 1">
             <div class="form-group col-xl-8">
 
             </div>
@@ -206,7 +204,7 @@
 
 
 
-          <div class="form-row" *ngIf="movimiento.tipo_movimiento == 2">
+          <div class="form-row" *ngIf="movimiento.tipoMovimiento == 2">
             <div class="form-group col-xl-12">
               <label class="col-form-label text-nowrap">Concepto de egreso:</label>
               <select type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
@@ -219,7 +217,7 @@
             </div>
           </div>
 
-          <div class="form-row" *ngIf="movimiento.tipo_movimiento == 2">
+          <div class="form-row" *ngIf="movimiento.tipoMovimiento == 2">
             <div class="form-group col-xl-12">
               <label class="col-form-label text-nowrap">Observación:</label>
               <textarea type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
@@ -229,7 +227,7 @@
             </div>
           </div>
 
-          <div class="form-row" *ngIf="movimiento.tipo_movimiento == 2">
+          <div class="form-row" *ngIf="movimiento.tipoMovimiento == 2">
             <div class="form-group col-xl-8">
             </div>
             <div class="form-group col-xl-4">
@@ -242,8 +240,8 @@
 
           
 
-          <br *ngIf="movimiento.tipo_movimiento != 0"/>
-          <div class="form-row" style="justify-content: center" *ngIf="movimiento.tipo_movimiento != 0">
+          <br *ngIf="movimiento.tipoMovimiento != 0"/>
+          <div class="form-row" style="justify-content: center" *ngIf="movimiento.tipoMovimiento != 0">
             <div class="form-group col-lg-3">
               <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
                 (click)="cerrarModalInformacionMovimiento(1)">

@@ -1,13 +1,15 @@
 export class Movimiento {
-    num_operacion: string;
-    fecha_pago: string;
-    tipo_movimiento: number;
+    numeroOperacion: string;
+    fechaPago: string;
+    tipoMovimiento: number;
     total: number;
+    cuenta: number;
 
     constructor(){
-      this.num_operacion = '';
-      this.fecha_pago = '';
-      this.tipo_movimiento = 0;
+      this.numeroOperacion = '';
+      this.fechaPago = '';
+      this.tipoMovimiento = 0;
       this.total = 0;
+      this.cuenta = 0;
     }
 }
