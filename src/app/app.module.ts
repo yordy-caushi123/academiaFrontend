@@ -32,6 +32,13 @@ import { CambiarContrasenaComponent } from './pages/usuarios/cambiar-contrasena/
 import { AlumnosComponent } from './pages/alumnos/alumnos.component';
 import { MatriculasComponent } from './pages/matriculas/matriculas.component';
 import { MovimientosComponent } from './pages/movimientos/movimientos.component';
+import { EscuelasComponent } from './pages/escuelas/escuelas.component';
+import { SedesComponent } from './pages/sedes/sedes.component';
+import { CiclosComponent } from './pages/ciclos/ciclos.component';
+import { TurnosComponent } from './pages/turnos/turnos.component';
+import { ModalidadesComponent } from './pages/modalidades/modalidades.component';
+import { ProcedenciasComponent } from './pages/procedencias/procedencias.component';
+import { ReferidosComponent } from './pages/referidos/referidos.component';
 
 
 @NgModule({
@@ -49,6 +56,13 @@ import { MovimientosComponent } from './pages/movimientos/movimientos.component'
     AlumnosComponent,
     MatriculasComponent,
     MovimientosComponent,
+    EscuelasComponent,
+    SedesComponent,
+    CiclosComponent,
+    TurnosComponent,
+    ModalidadesComponent,
+    ProcedenciasComponent,
+    ReferidosComponent,
   ],
   imports: [
     BrowserModule,

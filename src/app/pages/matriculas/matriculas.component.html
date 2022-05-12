@@ -1,3 +1,226 @@
-<p>
-  matriculas works!
-</p>
+<div>
+  <h4 class="text-muted mb-4">Listado de Matriculas</h4>
+
+  <div class="form-row">
+    <div class="form-group col-xl-8">
+      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+        placeholder="Buscar Matriculas..." (keyup)="buscarMatricula($event)"/>
+    </div>
+    <div class="form-group col-xl-2">
+      <button class="btn btn-success btn-sm float-right w-100 rounded-0"
+        (click)="abrirModalInformacionMatricula(-1)">
+        Nuevo &nbsp;<i class="fas fa-plus"></i>
+      </button>
+    </div>
+    <div class="form-group col-xl-2">
+      <button class="btn btn-success btn-sm float-right w-100 rounded-0">
+        Exportar &nbsp;<i class="far fa-file-pdf"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="card border-0 rounded-0">
+        <div class="card-body">
+          <div class="table-responsive-md">
+            <table class="table table-hover table-sm" *ngIf="hayMatriculas(); else sinMatriculas">
+              <thead>
+                <tr>
+                  <th scope="col" width="4%" style="text-align: center">N</th>
+                  <th scope="col" width="4%" style="text-align: center">Fecha</th>
+                  <th scope="col" width="8%" style="text-align: center">Alumno</th> 
+                  <th scope="col" width="8%" style="text-align: center">Sede</th>
+                  <th scope="col" width="10%" style="text-align: center;">Escuela</th>
+                  <th scope="col" width="12%" style="text-align: center;">Ciclo</th>  
+                  <th scope="col" width="14%" style="text-align: center;">Turno</th> 
+                  <th scope="col" width="16%" style="text-align: center;">Modalidad</th> 
+                  <th scope="col" width="18%" style="text-align: center;">Procedencia</th>
+                  <th scope="col" width="8%" style="text-align: center;">Referido</th>                   
+                  <th scope="col" width="20%" style="text-align: center;">Observacion</th>
+                  <th scope="col" width="10%" style="text-align: center;">Acciones</th>                
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let matri of matriculas | paginate: config; let i = index">
+                  <td scope="row" class="align-middle" style="text-align: center">{{config.itemsPerPage * (config.currentPage - 1) + (i + 1)}}</td>
+                  <td class="align-middle" style="text-align: center">{{ matri.fecha }}</td>
+                  <td class="align-middle">{{ matri.idAlumno }}</td>
+                  <td class="align-middle" style="text-align: center;">{{ matri.idSede }}</td>
+                  <td class="align-middle" style="text-align: center;">{{ matri.idEscuela }}</td>
+                  <td class="align-middle" style="text-align: center;">{{ matri.idCiclo }}</td>
+                  <td class="align-middle" style="text-align: center;">{{ matri.idTurno }}</td>
+                  <td class="align-middle" style="text-align: center;">{{ matri.idModalidad }}</td>
+                  <td class="align-middle" style="text-align: center;">{{ matri.idProcedencia }}</td>
+                  <td class="align-middle" style="text-align: center;">{{ matri.idReferido }}</td>                  
+                  <td class="align-middle" style="text-align: center;">{{ matri.observacion }}</td>                 
+                  <td class="align-middle" style="text-align: center;">
+                    <a class="btn btn-sm btn-primary rounded-0 mr-2" (click)="abrirModalInformacionMatricula(config.itemsPerPage * (config.currentPage - 1) + (i))"
+                      title="Ver / Editar información de la Matricula" style="cursor: pointer;">
+                      <i class="fas fa-edit"></i>
+                    </a> 
+                    <a class="btn btn-sm btn-primary rounded-0" (click)="eliminarMatricula(config.itemsPerPage * (config.currentPage - 1) + (i))"
+                      title="eliminar información de la Matricula" style="cursor: pointer;">
+                      <i class="fas fa-trash"></i>
+                    </a>                                        
+                  </td>                  
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="col-md-12 mt-4 mx-auto" style="text-align: center" *ngIf="hayMatriculas() &&  matriculas.length >= 10">
+              <pagination-controls (pageChange)="pageChange($event)" id="matriculas" previousLabel="Anterior"
+                nextLabel="Siguiente" autoHide="true">
+              </pagination-controls>
+            </div>
+
+            <ng-template #sinMatriculas>
+              <div class="row" style="text-align: center">
+                <td class="col-xl-12" style="text-align: center">
+                  <h3>
+                    No se encontraron
+                    <span class="text-muted">Matriculas</span>
+                  </h3>
+                </td>
+                <td class="col-xl-12">
+                  <img src="../../../../assets/img/vacio.png" alt="No hay Matriculas registrados"
+                    width="30%" />
+                </td>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!--Modal Información de Alumno-->
+  <div class="modal fade" id="modalInformacionMatricula" tabindex="-1" data-backdrop="static" data-keyboard="false"
+    role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted">
+            <span *ngIf="!editar">Registrar</span><span *ngIf="editar">Editar</span> Matricula
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalInformacionMatricula(0)" aria-label="Close"
+            title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-6">
+              <label class="col-form-label text-nowrap">Alumno</label>
+              <select class="form-control form-control-sm rounded-0" 
+              [class.is-valid]="matricula.idAlumno != 0" [class.is-invalid]="matricula.idAlumno == 0"
+                 [(ngModel)]="matricula.idAlumno" name="matricula.idAlumno">
+                <option value="0">Seleccione Alumno</option>
+                <option *ngFor="let alu of alumnos" value="{{alu.id}}">
+                  {{alu.nombres}}, {{alu.apellidos}} </option>
+              </select>
+            </div>
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">Fecha:</label>
+              <input type="date" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="matricula.fecha.length != 0" [class.is-invalid]="matricula.fecha.length == 0"
+                [(ngModel)]="matricula.fecha" name="matriculaFecha" maxlength="10"/>
+            </div>            
+          </div>
+          <div class="form-row">
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">Escuela</label>
+              <select class="form-control form-control-sm rounded-0" 
+              [class.is-valid]="matricula.idEscuela != 0" [class.is-invalid]="matricula.idEscuela == 0"
+                [(ngModel)]="matricula.idEscuela" name="matricula.idEscuela">
+                <option value="0">Seleccione Escuela</option>
+                <option *ngFor="let escue of escuelas" value="{{escue.id}}">
+                  {{escue.nombre}}</option>
+              </select>
+            </div>
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">Sede:</label>
+              <select class="form-control form-control-sm rounded-0" 
+              [class.is-valid]="matricula.idSede != 0" [class.is-invalid]="matricula.idSede == 0"
+                [(ngModel)]="matricula.idSede" name="matricula.idSede">
+                <option value="0">Seleccione Sede</option>
+                <option *ngFor="let sed of sedes" value="{{sed.id}}">
+                  {{sed.nombre}}</option>
+              </select>
+            </div>           
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">Ciclo:</label>
+              <select class="form-control form-control-sm rounded-0" 
+              [class.is-valid]="matricula.idCiclo != 0" [class.is-invalid]="matricula.idCiclo == 0"
+                 [(ngModel)]="matricula.idCiclo"  name="matricula.idCiclo">
+                <option value="0">Seleccione Ciclo</option>
+                <option *ngFor="let cicl of ciclos" value="{{cicl.id}}">
+                  {{cicl.nombre}}</option>
+              </select>
+            </div> 
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">Turno:</label>
+              <select class="form-control form-control-sm rounded-0" 
+              [class.is-valid]="matricula.idTurno != 0" [class.is-invalid]="matricula.idTurno == 0"
+                [(ngModel)]="matricula.idTurno"  name="matricula.idTurno">
+                <option value="0">Seleccione Turno</option>
+                <option *ngFor="let turn of turnos" value="{{turn.id}}">
+                  {{turn.nombre}}</option>
+              </select>
+            </div> 
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">Modalidad:</label>
+              <select class="form-control form-control-sm rounded-0" 
+              [class.is-valid]="matricula.idModalidad != 0" [class.is-invalid]="matricula.idModalidad == 0"
+                 [(ngModel)]="matricula.idModalidad"    name="matricula.idModalidad">
+                <option value="0">Seleccione Modalidad</option>
+                <option *ngFor="let modali of modalidades" value="{{modali.id}}">
+                  {{modali.nombre}}</option>
+              </select>
+            </div> 
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">Procedencia:</label>
+              <select class="form-control form-control-sm rounded-0" 
+              [class.is-valid]="matricula.idProcedencia != 0" [class.is-invalid]="matricula.idProcedencia == 0"
+                [(ngModel)]="matricula.idProcedencia"  name="matricula.idProcedencia">
+                <option value="0">Seleccione Procedencia</option>
+                <option *ngFor="let proce of procedencias" value="{{proce.id}}">
+                  {{proce.nombre}}</option>
+              </select>
+            </div>
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">Referido:</label>
+              <select class="form-control form-control-sm rounded-0" 
+              [class.is-valid]="matricula.idReferido != 0" [class.is-invalid]="matricula.idReferido == 0"
+                 [(ngModel)]="matricula.idReferido"  name="matricula.idReferido">
+                <option value="0">Seleccione Referido</option>
+                <option *ngFor="let refe of referidos" value="{{refe.id}}">
+                  {{refe.nombres}}, {{refe.apellidos}}</option>
+              </select>
+            </div> 
+            <div class="form-group col-xl-4">
+              <label class="col-form-label text-nowrap">Observacion:</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="matricula.observacion.length != 0" [class.is-invalid]="matricula.observacion.length == 0"
+                [(ngModel)]="matricula.observacion" name="matriculaObservacion" maxlength="50"/>
+            </div>         
+
+          </div>
+
+          <br />
+          <div class="form-row" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalInformacionMatricula(1)">
+                <span *ngIf="!editar">Registrar</span> <span *ngIf="editar">Guardar cambios</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal Información de Alumno-->

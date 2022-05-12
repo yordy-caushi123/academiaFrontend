@@ -71,7 +71,7 @@ export class ActualizarUsuarioComponent implements OnInit {
   mostrarPersonales: boolean = false;
 
   procedenciaInicial: String;
-
+  
   archivos: File[] = [];
   fechas: String[] = [];
   nombreArchivo: String = '';

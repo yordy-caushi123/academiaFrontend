@@ -12,6 +12,13 @@ export class SidebarComponent implements OnInit {
   alumnoActivoMenu: boolean;
   matriculaActivoMenu: boolean;
   movimientoActivoMenu: boolean;
+  escuelaActivoMenu: boolean;
+  sedeActivoMenu: boolean;
+  cicloActivoMenu: boolean;
+  turnoActivoMenu: boolean;
+  modalidadActivoMenu: boolean;
+  procedenciaActivoMenu: boolean;
+  referidoActivoMenu: boolean;
 
   vistaAdminCordi: boolean = false;
 
@@ -26,6 +33,13 @@ export class SidebarComponent implements OnInit {
     this.alumnoActivoMenu = false;
     this.matriculaActivoMenu = false;
     this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
+    this.sedeActivoMenu= false;
+    this.cicloActivoMenu= false;
+    this.turnoActivoMenu= false;
+    this.modalidadActivoMenu= false;
+    this.procedenciaActivoMenu= false;
+    this.referidoActivoMenu= false;
 
     if (this.tokenService.getToken()) {
       this.isLogin = true;
@@ -57,6 +71,15 @@ export class SidebarComponent implements OnInit {
     this.alumnoActivoMenu = false;
     this.matriculaActivoMenu = false;
     this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
+    this.sedeActivoMenu= false;
+    this.cicloActivoMenu= false;
+    this.turnoActivoMenu= false;
+    this.modalidadActivoMenu= false;
+    this.procedenciaActivoMenu= false;
+    this.referidoActivoMenu= false;
+    
+
   }
 
   validarAlumnoMenu(){
@@ -64,6 +87,14 @@ export class SidebarComponent implements OnInit {
     this.alumnoActivoMenu = true;
     this.matriculaActivoMenu = false;
     this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
+    this.sedeActivoMenu= false;
+    this.cicloActivoMenu= false;
+    this.turnoActivoMenu= false;
+    this.modalidadActivoMenu= false;
+    this.procedenciaActivoMenu= false;
+    this.referidoActivoMenu= false;
+
   }
 
   validarMatriculaMenu(){
@@ -71,6 +102,14 @@ export class SidebarComponent implements OnInit {
     this.alumnoActivoMenu = false;
     this.matriculaActivoMenu = true;
     this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
+    this.sedeActivoMenu= false;
+    this.cicloActivoMenu= false;
+    this.turnoActivoMenu= false;
+    this.modalidadActivoMenu= false;
+    this.procedenciaActivoMenu= false;
+    this.referidoActivoMenu= false;
+
   }
 
   validarMovimientoMenu(){
@@ -78,6 +117,111 @@ export class SidebarComponent implements OnInit {
     this.alumnoActivoMenu = false;
     this.matriculaActivoMenu = false;
     this.movimientoActivoMenu = true;
+    this.escuelaActivoMenu= false;
+    this.sedeActivoMenu= false;
+    this.cicloActivoMenu= false;
+    this.turnoActivoMenu= false;
+    this.modalidadActivoMenu= false;
+    this.procedenciaActivoMenu= false;
+    this.referidoActivoMenu= false;
+  }
+
+  validarEscuelaMenu(){
+    this.inicioActivoMenu = false;
+    this.alumnoActivoMenu = false;
+    this.matriculaActivoMenu = false;
+    this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= true;
+    this.sedeActivoMenu= false;
+    this.cicloActivoMenu= false;
+    this.turnoActivoMenu= false;
+    this.modalidadActivoMenu= false;
+    this.procedenciaActivoMenu= false;
+    this.referidoActivoMenu= false;
+  }
+
+  validarSedeMenu(){
+    this.inicioActivoMenu = false;
+    this.alumnoActivoMenu = false;
+    this.matriculaActivoMenu = false;
+    this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
+    this.sedeActivoMenu= true;
+    this.cicloActivoMenu= false;
+    this.turnoActivoMenu= false;
+    this.modalidadActivoMenu= false;
+    this.procedenciaActivoMenu= false;
+    this.referidoActivoMenu= false;
+  }
+
+  validarCicloMenu(){
+    this.inicioActivoMenu = false;
+    this.alumnoActivoMenu = false;
+    this.matriculaActivoMenu = false;
+    this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
+    this.sedeActivoMenu= false;
+    this.cicloActivoMenu= true;
+    this.turnoActivoMenu= false;
+    this.modalidadActivoMenu= false;
+    this.procedenciaActivoMenu= false;
+    this.referidoActivoMenu= false;
+  }
+
+  validarTurnoMenu(){
+    this.inicioActivoMenu = false;
+    this.alumnoActivoMenu = false;
+    this.matriculaActivoMenu = false;
+    this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
+    this.sedeActivoMenu= false;
+    this.cicloActivoMenu= false;
+    this.turnoActivoMenu= true;
+    this.modalidadActivoMenu= false;
+    this.procedenciaActivoMenu= false;
+    this.referidoActivoMenu= false;
+  }
+
+  validarModalidadMenu(){
+    this.inicioActivoMenu = false;
+    this.alumnoActivoMenu = false;
+    this.matriculaActivoMenu = false;
+    this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
+    this.sedeActivoMenu= false;
+    this.cicloActivoMenu= false;
+    this.turnoActivoMenu= false;
+    this.modalidadActivoMenu= true;
+    this.procedenciaActivoMenu= false;
+    this.referidoActivoMenu= false;
+  }
+
+  validarProcedenciaMenu(){
+    this.inicioActivoMenu = false;
+    this.alumnoActivoMenu = false;
+    this.matriculaActivoMenu = false;
+    this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
+    this.sedeActivoMenu= false;
+    this.cicloActivoMenu= false;
+    this.turnoActivoMenu= false;
+    this.modalidadActivoMenu= false;
+    this.procedenciaActivoMenu= true;
+    this.referidoActivoMenu= false;
+  }
+
+  validarReferidoMenu(){
+    this.inicioActivoMenu = false;
+    this.alumnoActivoMenu = false;
+    this.matriculaActivoMenu = false;
+    this.movimientoActivoMenu = false;
+    this.escuelaActivoMenu= false;
+    this.sedeActivoMenu= false;
+    this.cicloActivoMenu= false;
+    this.turnoActivoMenu= false;
+    this.modalidadActivoMenu= false;
+    this.procedenciaActivoMenu= false;
+    this.referidoActivoMenu= true;
   }
 
   logOut(): void {

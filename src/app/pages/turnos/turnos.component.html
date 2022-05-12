@@ -1,0 +1,118 @@
+<div>
+  <h4 class="text-muted mb-4">Listado de Turnos</h4>
+
+  <div class="form-row">
+    <div class="form-group col-xl-8">
+      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+        placeholder="Buscar Turnos..." (keyup)="buscarTurno($event)"/>
+    </div>
+    <div class="form-group col-xl-2">
+      <button class="btn btn-success btn-sm float-right w-100 rounded-0"
+        (click)="abrirModalInformacionTurno(-1)">
+        Nuevo &nbsp;<i class="fas fa-plus"></i>
+      </button>
+    </div>
+    <div class="form-group col-xl-2">
+      <button class="btn btn-success btn-sm float-right w-100 rounded-0">
+        Exportar &nbsp;<i class="far fa-file-pdf"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="card border-0 rounded-0">
+        <div class="card-body">
+          <div class="table-responsive-md">
+            <table class="table table-hover table-sm" *ngIf="hayTurnos(); else sinTurnos">
+              <thead>
+                <tr>
+                  <th scope="col" width="4%" style="text-align: center">N</th>
+                  <th scope="col" >Nombre</th>                  
+                  <th scope="col" width="10%" style="text-align: center;">Acciones</th>                                 
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let turn of turnos | paginate: config; let i = index">
+                  <td scope="row" class="align-middle" style="text-align: center">{{config.itemsPerPage * (config.currentPage - 1) + (i + 1)}}</td>
+                  <td class="align-middle" >{{ turn.nombre }}</td>                                                  
+                  <td class="align-middle" style="text-align: center;">
+                    <a class="btn btn-sm btn-primary rounded-0 mr-2" (click)="abrirModalInformacionTurno(config.itemsPerPage * (config.currentPage - 1) + (i))"
+                      title="Ver / Editar información del Turno" style="cursor: pointer;">
+                      <i class="fas fa-edit"></i>
+                    </a>
+                    <a class="btn btn-sm btn-primary rounded-0 " (click)="eliminarTurno(config.itemsPerPage * (config.currentPage - 1) + (i))"
+                    title="eliminar información del Turno" style="cursor: pointer;">
+                    <i class="fas fa-trash"></i>
+                  </a>                                        
+                  </td>                  
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="col-md-12 mt-4 mx-auto" style="text-align: center" *ngIf="hayTurnos() &&  turnos.length >= 10">
+              <pagination-controls (pageChange)="pageChange($event)" id="turnos" previousLabel="Anterior"
+                nextLabel="Siguiente" autoHide="true">
+              </pagination-controls>
+            </div>
+
+            <ng-template #sinTurnos>
+              <div class="row" style="text-align: center">
+                <td class="col-xl-12" style="text-align: center">
+                  <h3>
+                    No se encontraron
+                    <span class="text-muted">Turnos</span>
+                  </h3>
+                </td>
+                <td class="col-xl-12">
+                  <img src="../../../../assets/img/vacio.png" alt="No hay Turnos registrados"
+                    width="30%" />
+                </td>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!--Modal Información de Ciclo-->
+  <div class="modal fade" id="modalInformacionTurno" tabindex="-1" data-backdrop="static" data-keyboard="false"
+    role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-muted">
+            <span *ngIf="!editar">Registrar</span><span *ngIf="editar">Editar</span> Turno
+          </h4>
+          <button type="button" class="close" (click)="cerrarModalInformacionTurno(0)" aria-label="Close"
+            title="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-xl-6">
+              <label class="col-form-label text-nowrap">Nombre</label>
+              <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+                [class.is-valid]="turno.nombre.length != 0" [class.is-invalid]="turno.nombre.length == 0"
+                [(ngModel)]="turno.nombre" name="turnoNombre" maxlength="50" />
+            </div>                       
+          </div>                  
+          <br />
+          <div class="form-row" style="justify-content: center">
+            <div class="form-group col-lg-4">
+              <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
+                (click)="cerrarModalInformacionTurno(1)">
+                <span *ngIf="!editar">Registrar</span> <span *ngIf="editar">Guardar cambios</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal Información de Turno-->

@@ -46,6 +46,56 @@
         </a>
       </li>
 
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Escuelas">
+        <a (click)="validarEscuelaMenu()" routerLink="/escuelas" [class.active]="escuelaActivoMenu">
+          <i class="fas fa-school"></i>         
+          <span>Escuelas</span>
+        </a>
+      </li>
+
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Sedes">
+        <a (click)="validarSedeMenu()" routerLink="/sedes" [class.active]="sedeActivoMenu">
+          <i class="fas fa-building"></i>         
+          <span>Sedes</span>
+        </a>
+      </li>
+
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Ciclos">
+        <a (click)="validarCicloMenu()" routerLink="/ciclos" [class.active]="cicloActivoMenu">
+          <i class="fas fa-atom"></i>                
+          <span>Ciclos</span>
+        </a>
+      </li>
+
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Turnos">
+        <a (click)="validarTurnoMenu()" routerLink="/turnos" [class.active]="turnoActivoMenu">
+          <i class="fas fa-bell"></i>                
+          <span>Turnos</span>
+        </a>
+      </li>
+
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Modalidades">
+        <a (click)="validarModalidadMenu()" routerLink="/modalidades" [class.active]="modalidadActivoMenu">
+          <i class="fas fa-book"></i>                
+          <span>Modalidades</span>
+        </a>
+      </li>
+
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Procedencias">
+        <a (click)="validarProcedenciaMenu()" routerLink="/procedencias" [class.active]="procedenciaActivoMenu">
+          <i class="fas fa-car"></i>                
+          <span>Procedencias</span>
+        </a>
+      </li>
+
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Referidos">
+        <a (click)="validarReferidoMenu()" routerLink="/referidos" [class.active]="referidoActivoMenu">
+          <i class="fas fa-user"></i>                
+          <span>Referidos</span>
+        </a>
+      </li>
+
+
 
       <!--<li class="sidebar-dropdown" *ngIf="user==1">
         <a style="cursor: pointer;" (click)="validarUsuarioMenu()" aria-expanded="true" [class.active]="usuarioActivoMenu">
