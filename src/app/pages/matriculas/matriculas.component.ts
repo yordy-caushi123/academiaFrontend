@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe } from '@angular/core';
 import { Matricula } from 'src/app/entidades/matricula';
 import { Alumno } from 'src/app/entidades/alumno';
 import { Sede } from 'src/app/entidades/sede';
@@ -19,6 +19,7 @@ import { TurnoService } from 'src/app/servicios/turno.service';
 import { ModalidadService } from 'src/app/servicios/modalidad.service';
 import { ProcedenciaService } from 'src/app/servicios/procedencia.service';
 import { ReferidoService } from 'src/app/servicios/referido.service';
+
 
 
 
@@ -53,7 +54,7 @@ export class MatriculasComponent implements OnInit {
    turno: Turno = new Turno();
    modalidad: Modalidad = new Modalidad();
    procedencia: Procedencia = new Procedencia();
-   referido: Referido = new Referido();
+   referido: Referido = new Referido(); 
    
    //edicion
   editar: boolean = false; 
@@ -94,7 +95,7 @@ export class MatriculasComponent implements OnInit {
     this.matriculaService.recuperarTodos().subscribe(n => {
       this.matriculasIniciales = JSON.parse(JSON.stringify(n));
       this.matriculasIniciales=this.matriculasIniciales.filter((matricula)=>matricula.estado!=false);
-      this.matriculas = JSON.parse(JSON.stringify(this.matriculasIniciales));      
+      this.matriculas = JSON.parse(JSON.stringify(this.matriculasIniciales));     
       this.config = {
         id: "matriculas",
         itemsPerPage: 10,
@@ -104,16 +105,19 @@ export class MatriculasComponent implements OnInit {
     });
   }
 
+  
+
   listarAlumnos(){
     this.alumnoService.recuperarTodos().subscribe(n => {
-      this.alumnos = JSON.parse(JSON.stringify(n));
-      
+    this.alumnos = JSON.parse(JSON.stringify(n)); 
+    this.alumnos=this.alumnos.filter((alumno)=>alumno.estado!=false);     
     });
   }
 
   listarSedes(){
     this.sedeService.recuperarTodos().subscribe(n => {
-      this.sedes = JSON.parse(JSON.stringify(n));
+    this.sedes = JSON.parse(JSON.stringify(n));
+    this.sedes=this.sedes.filter((sede)=>sede.estado!=false);
       
       
     });
@@ -121,42 +125,47 @@ export class MatriculasComponent implements OnInit {
 
   listarEscuelas(){
     this.escuelaService.recuperarTodos().subscribe(n => {
-      this.escuelas = JSON.parse(JSON.stringify(n));
+    this.escuelas = JSON.parse(JSON.stringify(n));
+    this.escuelas=this.escuelas.filter((escuela)=>escuela.estado!=false);
      
     });
   }
 
   listarCiclos(){
     this.cicloService.recuperarTodos().subscribe(n => {
-      this.ciclos = JSON.parse(JSON.stringify(n));
-      
+    this.ciclos = JSON.parse(JSON.stringify(n));
+    this.ciclos=this.ciclos.filter((ciclo)=>ciclo.estado!=false);  
     });
   }
 
   listarTurnos(){
     this.turnoService.recuperarTodos().subscribe(n => {
-      this.turnos = JSON.parse(JSON.stringify(n));
+    this.turnos = JSON.parse(JSON.stringify(n));
+    this.turnos=this.turnos.filter((turno)=>turno.estado!=false);
      
     });
   }
 
   listarModalidades(){
     this.modalidadService.recuperarTodos().subscribe(n => {
-      this.modalidades = JSON.parse(JSON.stringify(n));
+    this.modalidades = JSON.parse(JSON.stringify(n));
+    this.modalidades=this.modalidades.filter((modalidad)=>modalidad.estado!=false);
       
     });
   }
 
   listarProcedencias(){
     this.procedenciaService.recuperarTodos().subscribe(n => {
-      this.procedencias = JSON.parse(JSON.stringify(n));
+    this.procedencias = JSON.parse(JSON.stringify(n));
+    this.procedencias=this.procedencias.filter((procedencia)=>this.procedencia.estado!=false);
       
     });
   }
   
   listarReferidos(){
     this.referidoService.recuperarTodos().subscribe(n => {
-      this.referidos = JSON.parse(JSON.stringify(n));
+    this.referidos = JSON.parse(JSON.stringify(n));
+    this.referidos=this.referidos.filter((referido)=>referido.estado!=false);
      
     });
   }

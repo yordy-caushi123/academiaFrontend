@@ -68,12 +68,12 @@ export class AlumnosComponent implements OnInit {
 
   //FUNCIONES PARA INFORMACIÓN DE ALUMNOS
   abrirModalInformacionAlumno(id: number){
-    id = id - 1;
+    
     if (id == -1) {
       this.alumno = new Alumno();
     } else {
       this.editar = true;
-      this.alumno = JSON.parse(JSON.stringify(this.alumnos[id]));
+      this.alumno = JSON.parse(JSON.stringify(this.alumnos[id-1]));
     }
     $("#modalInformacionAlumno").modal("show");
   }

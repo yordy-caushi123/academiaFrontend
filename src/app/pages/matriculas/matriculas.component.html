@@ -31,7 +31,7 @@
                   <th scope="col" width="18%" style="text-align: center">Fecha</th>
                   <th scope="col" >Alumno</th> 
                   <th scope="col" width="8%" style="text-align: center">Sede</th>
-                  <th scope="col" width="8%" style="text-align: center;">Escuela</th>
+                  <th scope="col" width="16%" style="text-align: center;">Escuela</th>
                   <th scope="col" width="8%" style="text-align: center;">Ciclo</th>                    
                   <th scope="col" width="10%" style="text-align: center;">Acciones</th>                
                 </tr>
@@ -40,7 +40,7 @@
                 <tr *ngFor="let matri of matriculas | paginate: config; let i = index">
                   <td scope="row" class="align-middle" style="text-align: center">{{config.itemsPerPage * (config.currentPage - 1) + (i + 1)}}</td>
                   <td class="align-middle" style="text-align: center">{{ matri.fecha | date:'dd-MM-yyyy' }}</td>
-                  <td class="align-middle">{{ matri.idAlumno }}</td>
+                  <td class="align-middle">{{ matri.idAlumno}} </td>
                   <td class="align-middle" style="text-align: center;">{{ matri.idSede }}</td>
                   <td class="align-middle" style="text-align: center;">{{ matri.idEscuela }}</td>
                   <td class="align-middle" style="text-align: center;">{{ matri.idCiclo }}</td>                                  
