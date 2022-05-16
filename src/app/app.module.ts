@@ -70,7 +70,8 @@ import { ConceptoEgresoComponent } from './pages/concepto-egreso/concepto-egreso
     TipoIngresoComponent,
     FormaPagoComponent,
     EntidadBancariaComponent,
-    ConceptoEgresoComponent,
+    ConceptoEgresoComponent,   
+  
   ],
   imports: [
     BrowserModule,
