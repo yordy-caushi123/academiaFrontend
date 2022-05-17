@@ -20,77 +20,79 @@
       
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Inicio">
         <a (click)="validarInicioMenu()" routerLink="/inicio" [class.active]="inicioActivoMenu">
-          <i class="fas fa-home"></i>
+          <i class="fas fa-home" style="width: 15px;"></i>
           <span>Inicio</span>
         </a>
       </li>
 
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Alumnos">
         <a (click)="validarAlumnoMenu()" routerLink="/alumnos" [class.active]="alumnoActivoMenu">
-          <i class="fas fa-graduation-cap"></i>
+          <i class="fas fa-graduation-cap" style="width: 15px;"></i>
           <span>Alumnos</span>
         </a>
       </li>
 
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Matriculas">
         <a (click)="validarMatriculaMenu()" routerLink="/matriculas" [class.active]="matriculaActivoMenu">
-          <i class="fas fa-ticket-alt"></i>
+          <i class="fas fa-ticket-alt" style="width: 15px;"></i>
           <span>Matriculas</span>
         </a>
       </li>
 
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Alumnos">
         <a (click)="validarMovimientoMenu()" routerLink="/movimientos" [class.active]="movimientoActivoMenu">
-          <i class="fas fa-coins"></i>
+          <i class="fas fa-coins" style="width: 15px;"></i>
           <span>Movimientos</span>
         </a>
       </li>
 
+      <hr>
+
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Escuelas">
         <a (click)="validarEscuelaMenu()" routerLink="/escuelas" [class.active]="escuelaActivoMenu">
-          <i class="fas fa-school"></i>         
+          <i class="fas fa-school" style="width: 15px;"></i>         
           <span>Escuelas</span>
         </a>
       </li>
 
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Sedes">
         <a (click)="validarSedeMenu()" routerLink="/sedes" [class.active]="sedeActivoMenu">
-          <i class="fas fa-building"></i>         
+          <i class="fas fa-building" style="width: 15px;"></i>         
           <span>Sedes</span>
         </a>
       </li>
 
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Ciclos">
         <a (click)="validarCicloMenu()" routerLink="/ciclos" [class.active]="cicloActivoMenu">
-          <i class="fas fa-atom"></i>                
+          <i class="fas fa-atom" style="width: 15px;"></i>                
           <span>Ciclos</span>
         </a>
       </li>
 
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Turnos">
         <a (click)="validarTurnoMenu()" routerLink="/turnos" [class.active]="turnoActivoMenu">
-          <i class="fas fa-bell"></i>                
+          <i class="fas fa-bell" style="width: 15px;"></i>                
           <span>Turnos</span>
         </a>
       </li>
 
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Modalidades">
         <a (click)="validarModalidadMenu()" routerLink="/modalidades" [class.active]="modalidadActivoMenu">
-          <i class="fas fa-book"></i>                
+          <i class="fas fa-book" style="width: 15px;"></i>                
           <span>Modalidades</span>
         </a>
       </li>
 
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Procedencias">
         <a (click)="validarProcedenciaMenu()" routerLink="/procedencias" [class.active]="procedenciaActivoMenu">
-          <i class="fas fa-car"></i>                
+          <i class="fas fa-car" style="width: 15px;"></i>                
           <span>Procedencias</span>
         </a>
       </li>
 
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Referidos">
         <a (click)="validarReferidoMenu()" routerLink="/referidos" [class.active]="referidoActivoMenu">
-          <i class="fas fa-user"></i>                
+          <i class="fas fa-user" style="width: 15px;"></i>                
           <span>Referidos</span>
         </a>
 
@@ -98,28 +100,28 @@
 
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="TipoIngreso">
         <a (click)="validarTipoIngresoMenu()" routerLink="/tipoIngreso" [class.active]="tipoIngresoActivoMenu">
-          <i class="fas fa-user"></i>                
+          <i class="fas fa-dollar" style="width: 15px;"></i>                
           <span>TipoIngresos</span>
         </a>
       </li>
 
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="formaPago">
         <a (click)="validarFormaPagoMenu()" routerLink="/formaPago" [class.active]="formaPagoActivoMenu">
-          <i class="fas fa-user"></i>                
+          <i class="fas fa-copy" style="width: 15px;"></i>                
           <span>FormaPagos</span>
         </a>
       </li>
 
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="entidadBancaria">
         <a (click)="validarEntidadBancariaMenu()" routerLink="/entidadBancaria" [class.active]="entidadBancariaActivoMenu">
-          <i class="fas fa-user"></i>                
+          <i class="fas fa-landmark" style="width: 15px;"></i>                
           <span>EntidadBancarias</span>
         </a>
       </li>
 
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="conceptoEgreso">
         <a (click)="validarConceptoEgresoMenu()" routerLink="/conceptoEgreso" [class.active]="conceptoEgresoActivoMenu">
-          <i class="fas fa-user"></i>                
+          <i class="fas fa-file" style="width: 15px;"></i>                
           <span>ConceptoEgresos</span>
         </a>
       </li>

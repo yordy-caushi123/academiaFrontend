@@ -20,10 +20,6 @@ import { ModalidadService } from 'src/app/servicios/modalidad.service';
 import { ProcedenciaService } from 'src/app/servicios/procedencia.service';
 import { ReferidoService } from 'src/app/servicios/referido.service';
 
-
-
-
-
 declare const $: any;
 
 @Component({
@@ -31,7 +27,6 @@ declare const $: any;
   templateUrl: './matriculas.component.html',
   styleUrls: ['./matriculas.component.scss']
 })
-
 
 export class MatriculasComponent implements OnInit {
 
@@ -109,32 +104,33 @@ export class MatriculasComponent implements OnInit {
 
   listarAlumnos(){
     this.alumnoService.recuperarTodos().subscribe(n => {
-    this.alumnos = JSON.parse(JSON.stringify(n)); 
-    this.alumnos=this.alumnos.filter((alumno)=>alumno.estado!=false);     
+      this.alumnos = JSON.parse(JSON.stringify(n)); 
+      this.alumnos=this.alumnos.filter((alumno)=>alumno.estado!=false);
+      sessionStorage.setItem("alumnos", JSON.stringify(this.alumnos));   
     });
   }
 
   listarSedes(){
     this.sedeService.recuperarTodos().subscribe(n => {
-    this.sedes = JSON.parse(JSON.stringify(n));
-    this.sedes=this.sedes.filter((sede)=>sede.estado!=false);
-      
-      
+      this.sedes = JSON.parse(JSON.stringify(n));
+      this.sedes=this.sedes.filter((sede)=>sede.estado!=false);
+      sessionStorage.setItem("sedes", JSON.stringify(this.sedes)); 
     });
   }
 
   listarEscuelas(){
     this.escuelaService.recuperarTodos().subscribe(n => {
-    this.escuelas = JSON.parse(JSON.stringify(n));
-    this.escuelas=this.escuelas.filter((escuela)=>escuela.estado!=false);
-     
+      this.escuelas = JSON.parse(JSON.stringify(n));
+      this.escuelas=this.escuelas.filter((escuela)=>escuela.estado!=false);
+      sessionStorage.setItem("escuelas", JSON.stringify(this.escuelas)); 
     });
   }
 
   listarCiclos(){
     this.cicloService.recuperarTodos().subscribe(n => {
-    this.ciclos = JSON.parse(JSON.stringify(n));
-    this.ciclos=this.ciclos.filter((ciclo)=>ciclo.estado!=false);  
+      this.ciclos = JSON.parse(JSON.stringify(n));
+      this.ciclos=this.ciclos.filter((ciclo)=>ciclo.estado!=false); 
+      sessionStorage.setItem("ciclos", JSON.stringify(this.ciclos));  
     });
   }
 
@@ -276,6 +272,7 @@ export class MatriculasComponent implements OnInit {
     }
 
   }
+
 
 
 

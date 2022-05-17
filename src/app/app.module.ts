@@ -43,6 +43,10 @@ import { TipoIngresoComponent } from './pages/tipo-ingreso/tipo-ingreso.componen
 import { FormaPagoComponent } from './pages/forma-pago/forma-pago.component';
 import { EntidadBancariaComponent } from './pages/entidad-bancaria/entidad-bancaria.component';
 import { ConceptoEgresoComponent } from './pages/concepto-egreso/concepto-egreso.component';
+import { AlumnoPipe } from './pipes/alumno.pipe';
+import { CicloPipe } from './pipes/ciclo.pipe';
+import { EscuelaPipe } from './pipes/escuela.pipe';
+import { SedePipe } from './pipes/sede.pipe';
 
 
 @NgModule({
@@ -70,8 +74,11 @@ import { ConceptoEgresoComponent } from './pages/concepto-egreso/concepto-egreso
     TipoIngresoComponent,
     FormaPagoComponent,
     EntidadBancariaComponent,
-    ConceptoEgresoComponent,   
-  
+    ConceptoEgresoComponent,
+    AlumnoPipe,
+    CicloPipe,
+    EscuelaPipe,
+    SedePipe,
   ],
   imports: [
     BrowserModule,

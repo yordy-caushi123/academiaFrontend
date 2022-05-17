@@ -9,7 +9,6 @@ const cabecera = {headers: new HttpHeaders({'Content-TYpe': 'application/json'})
   providedIn: 'root'
 })
 export class AppService {
-
   isSidebarPinned = false;
   isSidebarToggeled = false;
 
@@ -43,68 +42,11 @@ export class AppService {
     return this.llaveEncriptacion;
   }
 
-  recuperarCodigo(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/recuperar/${id}`, cabecera);
-  }
-
-  modificacionCodigo(id: number, value: any): Observable<Object> {
-    return this.http.put(`${this.baseUrl}/actualizar/${id}`, value, cabecera);
-  }
-
-  generarCodigo(id: number, tipo: String){
-    let codigo=tipo;
-
-    let diferencia;number:
-    diferencia = 8 - codigo.length - id.toString().length;
-
-    for(let i=0;i<diferencia;i++){
-      codigo = codigo + "0";
-    }
-
-    codigo = codigo + id.toString();
-    return codigo;
-  }
-
-  recuperarIp(): Observable<any> {
-    return this.http.get(`https://academiabe.herokuapp.com/api/login/ip`, {responseType: "text"});
-  }
-
-  recuperarPaises(): Observable<any> {
-    return this.http.get(`https://academiabe.herokuapp.com/api/pais/listar`, cabecera);
-  }
-
-  recuperarRegiones(): Observable<any> {
-    return this.http.get(`https://academiabe.herokuapp.com/api/region/listar`, cabecera);
-  }
-
-  recuperarRegionPorId(id: String): Observable<any> {
-    return this.http.get(`https://academiabe.herokuapp.com/api/region/recuperar/${id}`, cabecera);
-  }
-
-  recuperarProvinciasPorRegion(region: String): Observable<any> {
-    return this.http.get(`https://academiabe.herokuapp.com/api/provincia/listarPorRegion/${region}`, cabecera);
-  }
-
-  recuperarProvinciaPorId(id: String): Observable<any> {
-    return this.http.get(`https://academiabe.herokuapp.com/api/provincia/recuperar/${id}`, cabecera);
-  }
-
-  recuperarDistritosPorProvincia(provincia: String): Observable<any> {
-    return this.http.get(`https://academiabe.herokuapp.com/api/distrito/listarPorProvincia/${provincia}`, cabecera);
-  }
-
-  recuperarDistritosPorProvinciaYRegion(provincia: String, region: String): Observable<any> {
-    return this.http.get(`https://academiabe.herokuapp.com/api/distrito/listarPorProvinciaYRegion/${provincia}/${region}`, cabecera);
-  }
-
-  recuperarDistritoPorId(id: String): Observable<any> {
-    return this.http.get(`https://academiabe.herokuapp.com/api/distrito/recuperar/${id}`, cabecera);
-  }
 
 
 
 
-
+  
 
   soloNumeros(texto: String){
     let numeros ="0123456789";
@@ -350,6 +292,5 @@ export class AppService {
       );
     }
   }
-
 
 }

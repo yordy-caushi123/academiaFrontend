@@ -2,10 +2,10 @@
   <h4 class="text-muted mb-4">Listado de Matriculas</h4>
 
   <div class="form-row">
-    <div class="form-group col-xl-8">
+    <div class="form-group col-xl-4">
       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
         placeholder="Buscar Matriculas..." (keyup)="buscarMatricula($event)"/>
-    </div>
+    </div>       
     <div class="form-group col-xl-2">
       <button class="btn btn-success btn-sm float-right w-100 rounded-0"
         (click)="abrirModalInformacionMatricula(-1)">
@@ -27,11 +27,11 @@
             <table class="table table-hover table-sm" *ngIf="hayMatriculas(); else sinMatriculas">
               <thead>
                 <tr>
-                  <th scope="col" width="4%" style="text-align: center">N</th>
-                  <th scope="col" width="18%" style="text-align: center">Fecha</th>
-                  <th scope="col" >Alumno</th> 
+                  <th scope="col" width="5%" style="text-align: center">N</th>
+                  <th scope="col" width="10%" style="text-align: center">Fecha</th>
+                  <th scope="col">Alumno</th> 
                   <th scope="col" width="8%" style="text-align: center">Sede</th>
-                  <th scope="col" width="16%" style="text-align: center;">Escuela</th>
+                  <th scope="col" width="8%" style="text-align: center;">Escuela</th>
                   <th scope="col" width="8%" style="text-align: center;">Ciclo</th>                    
                   <th scope="col" width="10%" style="text-align: center;">Acciones</th>                
                 </tr>
@@ -40,10 +40,10 @@
                 <tr *ngFor="let matri of matriculas | paginate: config; let i = index">
                   <td scope="row" class="align-middle" style="text-align: center">{{config.itemsPerPage * (config.currentPage - 1) + (i + 1)}}</td>
                   <td class="align-middle" style="text-align: center">{{ matri.fecha | date:'dd-MM-yyyy' }}</td>
-                  <td class="align-middle">{{ matri.idAlumno}} </td>
-                  <td class="align-middle" style="text-align: center;">{{ matri.idSede }}</td>
-                  <td class="align-middle" style="text-align: center;">{{ matri.idEscuela }}</td>
-                  <td class="align-middle" style="text-align: center;">{{ matri.idCiclo }}</td>                                  
+                  <td class="align-middle">{{ matri.idAlumno | nombreAlumno}} </td>
+                  <td class="align-middle" style="text-align: center;">{{ matri.idSede | nombreSede }}</td>
+                  <td class="align-middle" style="text-align: center;">{{ matri.idEscuela | nombreEscuela }}</td>
+                  <td class="align-middle" style="text-align: center;">{{ matri.idCiclo | nombreCiclo }}</td>                                  
                   <td class="align-middle" style="text-align: center;">
                     <a class="btn btn-sm btn-primary rounded-0 mr-2" (click)="abrirModalInformacionMatricula(config.itemsPerPage * (config.currentPage - 1) + (i))"
                       title="Ver / Editar información de la Matricula" style="cursor: pointer;">
