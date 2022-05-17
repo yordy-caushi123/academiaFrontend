@@ -56,6 +56,11 @@ export class MatriculasComponent implements OnInit {
 
   //Configurador del paginador
   config: any;
+
+  //buscador
+  buscar: string = '';
+  fechaInicio: string = '';
+  fechaFin: string = '';
    
 
   constructor(private appServicio: AppService, private matriculaService: MatriculaService, private alumnoService: AlumnoService, private sedeService: SedeService, private escuelaService: EscuelaService, 
@@ -273,18 +278,67 @@ export class MatriculasComponent implements OnInit {
 
   }
 
+  buscarMatricula(e: any, campo: number){
+    if(campo == 1){
+      this.buscar = e.target.value;
+    }
+    if(campo == 2){
+      this.fechaInicio = e.target.value;
+    }
+    if(campo == 3){
+      this.fechaFin = e.target.value;
+    }
 
-
-/*
-  buscarMatricula(e: any){
-    let valor = e.target.value;
-    if(valor != ''){
-      this.matriculas = this.matriculasIniciales.filter(n => n.alumno.includes(valor) || n.alumno.includes(valor) || n.fecha.includes(valor));
+    if(this.buscar.length == 0){
+      if(this.fechaInicio.length == 0){
+        if(this.fechaFin.length == 0){
+          this.listarTodos();
+        }
+        else{
+          this.matriculas = this.matriculasIniciales.filter(n => n.fecha <= this.fechaFin);
+        }
+      }
+      else{
+        if(this.fechaFin.length == 0){
+          this.matriculas = this.matriculasIniciales.filter(n => n.fecha >= this.fechaInicio);
+        }
+        else{
+          this.matriculas = this.matriculasIniciales.filter(n => n.fecha <= this.fechaFin);
+          this.matriculas = this.matriculas.filter(n => n.fecha >= this.fechaInicio);
+        }
+      }
     }
     else{
-      this.matriculas = this.matriculasIniciales;
+      let alumnosIds = this.filtroAlumnos(this.buscar);
+      this.matriculas = this.matriculasIniciales.filter(n => alumnosIds.includes(n.idAlumno));
+      if(this.fechaInicio.length == 0){
+        if(this.fechaFin.length == 0){
+          
+        }
+        else{
+          this.matriculas = this.matriculas.filter(n => n.fecha <= this.fechaFin);
+        }
+      }
+      else{
+        if(this.fechaFin.length == 0){
+          this.matriculas = this.matriculas.filter(n => n.fecha >= this.fechaInicio);
+        }
+        else{
+          this.matriculas = this.matriculas.filter(n => n.fecha <= this.fechaFin);
+          this.matriculas = this.matriculas.filter(n => n.fecha >= this.fechaInicio);
+        }
+      }
     }
   }
 
-*/
+  filtroAlumnos(buscar: string){
+    let alums = this.alumnos.filter(n => n.nombres.toUpperCase().includes(buscar.toUpperCase()) || 
+    n.apellidos.toUpperCase().includes(buscar.toUpperCase()) || n.dni.toUpperCase().includes(buscar.toUpperCase()));
+    let ids = [];
+    for(let i = 0; i < alums.length; i++){
+      ids.push(alums[i].id);
+    }
+    return ids;
+  }
+
 }

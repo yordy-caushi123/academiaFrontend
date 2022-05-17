@@ -2,9 +2,17 @@
   <h4 class="text-muted mb-4">Listado de Matriculas</h4>
 
   <div class="form-row">
-    <div class="form-group col-xl-8">
+    <div class="form-group col-xl-4">
       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
-        placeholder="Buscar Matriculas..." (keyup)="buscarMatricula($event)"/>
+        placeholder="Buscar Matriculas..." (keyup)="buscarMatricula($event, 1)" [(ngModel)]="buscar"/>
+    </div>
+    <div class="form-group col-xl-2">
+      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+        [(ngModel)]="fechaInicio" placeholder="Fecha inicio" onfocus="(this.type='date')" (change)="buscarMatricula($event, 2)"/>
+    </div>
+    <div class="form-group col-xl-2">
+      <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
+        [(ngModel)]="fechaFin" placeholder="Fecha fin" onfocus="(this.type='date')" (change)="buscarMatricula($event, 3)"/>
     </div>
     <div class="form-group col-xl-2">
       <button class="btn btn-success btn-sm float-right w-100 rounded-0"
@@ -49,7 +57,7 @@
                       title="Ver / Editar información de la Matricula" style="cursor: pointer;">
                       <i class="fas fa-edit"></i>
                     </a> 
-                    <a class="btn btn-sm btn-primary rounded-0" (click)="eliminarMatricula(config.itemsPerPage * (config.currentPage - 1) + (i))"
+                    <a class="btn btn-sm btn-danger rounded-0" (click)="eliminarMatricula(config.itemsPerPage * (config.currentPage - 1) + (i))"
                       title="eliminar información de la Matricula" style="cursor: pointer;">
                       <i class="fas fa-trash"></i>
                     </a>                                        
