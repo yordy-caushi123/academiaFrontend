@@ -42,6 +42,12 @@ export class MovimientosComponent implements OnInit {
   //fecha
   fecha: string = '';
 
+  //buscador
+  buscar: string = '';
+  tipo: number = 0;
+  fechaInicio: string = '';
+  fechaFin: string = '';
+
   constructor(private appServicio: AppService, private ingresoService: IngresoService, private egresoService: EgresoService,
     private alumnoService: AlumnoService) { }
 
@@ -84,6 +90,7 @@ export class MovimientosComponent implements OnInit {
   listarIngresos(){
     this.ingresoService.recuperarTodos().subscribe(n => {
       this.ingresosIniciales = JSON.parse(JSON.stringify(n));
+      this.ingresosIniciales = this.ingresosIniciales.filter(k => k.estado == true);
       this.ingresos = JSON.parse(JSON.stringify(this.ingresosIniciales));
       this.datos = this.datos + 1;
       if(this.datos == 2){
@@ -95,6 +102,7 @@ export class MovimientosComponent implements OnInit {
   listarEgresos(){
     this.egresoService.recuperarTodos().subscribe(n => {
       this.egresosIniciales = JSON.parse(JSON.stringify(n));
+      this.egresosIniciales = this.egresosIniciales.filter(k => k.estado == true);
       this.egresos = JSON.parse(JSON.stringify(this.egresosIniciales));
       this.datos = this.datos + 1;
       if(this.datos == 2){
@@ -245,4 +253,152 @@ export class MovimientosComponent implements OnInit {
     return estado;
   }
 
+  eliminarMovimiento(id:number){   
+    if (id >= 0) {      
+      swal.fire({
+        title: '¿Está seguro de continuar?',
+        text: "Los datos quedarán eliminados del sistema",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No'
+      }).then((result) => {
+        if (result.value) {
+          this.movimiento = JSON.parse(JSON.stringify(this.movimientos[id]));
+          
+          if(this.movimiento.tipoMovimiento == 1){
+            this.ingreso = this.ingresos.find(i => i.numeroOperacion == this.movimiento.numeroOperacion);
+            this.ingreso.estado =false;
+            this.ingresoService.modificacion(this.ingreso.id, this.ingreso).subscribe(n => {
+              this.listarTodos();
+              this.appServicio.mensajeSwal(5);
+            }, error => {
+              this.appServicio.mensajeSwal(4);
+            });
+          }
+          if(this.movimiento.tipoMovimiento == 2){
+            this.egreso = this.egresos.find(i => i.numeroOperacion == this.movimiento.numeroOperacion);
+            this.egreso.estado =false;
+            this.egresoService.modificacion(this.egreso.id, this.egreso).subscribe(n => {
+              this.listarTodos();
+              this.appServicio.mensajeSwal(5);
+            }, error => {
+              this.appServicio.mensajeSwal(4);
+            });
+          }
+        }        
+      });
+    }
+  }
+
+  buscarMatricula(e: any, campo: number){
+    if(campo == 1){
+      this.buscar = e.target.value;
+    }
+    if(campo == 2){
+      this.tipo = e.target.value;
+    }
+    if(campo == 3){
+      this.fechaInicio = e.target.value;
+    }
+    if(campo == 4){
+      this.fechaFin = e.target.value;
+    }
+
+    if(this.buscar.length == 0){
+      if(this.tipo == 0){
+        if(this.fechaInicio.length == 0){
+          if(this.fechaFin.length == 0){
+            this.listarTodos();
+          }
+          else{
+            this.movimientos = this.movimientosIniciales.filter(n => n.fechaPago <= this.fechaFin);
+          }
+        }
+        else{
+          if(this.fechaFin.length == 0){
+            this.movimientos = this.movimientosIniciales.filter(n => n.fechaPago >= this.fechaInicio);
+          }
+          else{
+            this.movimientos = this.movimientosIniciales.filter(n => n.fechaPago <= this.fechaFin);
+            this.movimientos = this.movimientos.filter(n => n.fechaPago >= this.fechaInicio);
+          }
+        }
+      }
+      else{
+        if(this.fechaInicio.length == 0){
+          if(this.fechaFin.length == 0){
+            this.movimientos = this.movimientosIniciales.filter(n => n.tipoMovimiento == this.tipo);
+          }
+          else{
+            this.movimientos = this.movimientosIniciales.filter(n => n.tipoMovimiento == this.tipo);
+            this.movimientos = this.movimientos.filter(n => n.fechaPago <= this.fechaFin);
+          }
+        }
+        else{
+          if(this.fechaFin.length == 0){
+            this.movimientos = this.movimientosIniciales.filter(n => n.tipoMovimiento == this.tipo);
+            this.movimientos = this.movimientos.filter(n => n.fechaPago >= this.fechaInicio);
+          }
+          else{
+            this.movimientos = this.movimientosIniciales.filter(n => n.tipoMovimiento == this.tipo);
+            this.movimientos = this.movimientos.filter(n => n.fechaPago <= this.fechaFin);
+            this.movimientos = this.movimientos.filter(n => n.fechaPago >= this.fechaInicio);
+          }
+        }
+      }
+    }
+    else{
+      if(this.tipo == 0){
+        if(this.fechaInicio.length == 0){
+          if(this.fechaFin.length == 0){
+            this.movimientos = this.movimientosIniciales.filter(n => n.numeroOperacion.toUpperCase().includes(this.buscar.toUpperCase()));
+          }
+          else{
+            this.movimientos = this.movimientosIniciales.filter(n => n.numeroOperacion.toUpperCase().includes(this.buscar.toUpperCase()));
+            this.movimientos = this.movimientos.filter(n => n.fechaPago <= this.fechaFin);
+          }
+        }
+        else{
+          if(this.fechaFin.length == 0){
+            this.movimientos = this.movimientosIniciales.filter(n => n.numeroOperacion.toUpperCase().includes(this.buscar.toUpperCase()));
+            this.movimientos = this.movimientos.filter(n => n.fechaPago >= this.fechaInicio);
+          }
+          else{
+            this.movimientos = this.movimientosIniciales.filter(n => n.numeroOperacion.toUpperCase().includes(this.buscar.toUpperCase()));
+            this.movimientos = this.movimientos.filter(n => n.fechaPago <= this.fechaFin);
+            this.movimientos = this.movimientos.filter(n => n.fechaPago >= this.fechaInicio);
+          }
+        }
+      }
+      else{
+        if(this.fechaInicio.length == 0){
+          if(this.fechaFin.length == 0){
+            this.movimientos = this.movimientosIniciales.filter(n => n.numeroOperacion.toUpperCase().includes(this.buscar.toUpperCase()));
+            this.movimientos = this.movimientos.filter(n => n.tipoMovimiento == this.tipo);
+          }
+          else{
+            this.movimientos = this.movimientosIniciales.filter(n => n.numeroOperacion.toUpperCase().includes(this.buscar.toUpperCase()));
+            this.movimientos = this.movimientos.filter(n => n.tipoMovimiento == this.tipo);
+            this.movimientos = this.movimientos.filter(n => n.fechaPago <= this.fechaFin);
+          }
+        }
+        else{
+          if(this.fechaFin.length == 0){
+            this.movimientos = this.movimientosIniciales.filter(n => n.numeroOperacion.toUpperCase().includes(this.buscar.toUpperCase()));
+            this.movimientos = this.movimientos.filter(n => n.tipoMovimiento == this.tipo);
+            this.movimientos = this.movimientos.filter(n => n.fechaPago >= this.fechaInicio);
+          }
+          else{
+            this.movimientos = this.movimientosIniciales.filter(n => n.numeroOperacion.toUpperCase().includes(this.buscar.toUpperCase()));
+            this.movimientos = this.movimientos.filter(n => n.tipoMovimiento == this.tipo);
+            this.movimientos = this.movimientos.filter(n => n.fechaPago <= this.fechaFin);
+            this.movimientos = this.movimientos.filter(n => n.fechaPago >= this.fechaInicio);
+          }
+        }
+      }
+    }
+  }
 }

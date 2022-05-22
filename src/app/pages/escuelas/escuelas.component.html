@@ -1,22 +1,25 @@
 <div>
-  <h4 class="text-muted mb-4">Listado de Escuelas</h4>
-
   <div class="form-row">
-    <div class="form-group col-xl-8">
+    <div class="form-group mr-2">
+      <button class="btn btn-success btn-sm float-right rounded-circle" style="width: 35px; height: 35px;"
+        (click)="abrirModalInformacionEscuela(-1)" title="Agregar nueva escuela">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+    <div class="form-group mr-2">
+      <button class="btn btn-success btn-sm float-right rounded-circle" style="width: 35px; height: 35px;"
+        title="Exportar a Excel">
+        <i class="far fa-file-pdf"></i>
+      </button>
+    </div>
+    <h4 class="text-muted mb-4">Listado de Escuelas</h4>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-xl-12">
       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
         placeholder="Buscar Escuelas..." (keyup)="buscarEscuela($event)"/>
-    </div>
-    <div class="form-group col-xl-2">
-      <button class="btn btn-success btn-sm float-right w-100 rounded-0"
-        (click)="abrirModalInformacionEscuela(-1)">
-        Nuevo &nbsp;<i class="fas fa-plus"></i>
-      </button>
-    </div>
-    <div class="form-group col-xl-2">
-      <button class="btn btn-success btn-sm float-right w-100 rounded-0">
-        Exportar &nbsp;<i class="far fa-file-pdf"></i>
-      </button>
-    </div>
+    </div> 
+    
   </div>
 
   <div class="row mb-4">
@@ -43,7 +46,7 @@
                       title="Ver / Editar información de la Escuela" style="cursor: pointer;">
                       <i class="fas fa-edit"></i>
                     </a>
-                    <a class="btn btn-sm btn-primary rounded-0 " (click)="eliminarEscuela(config.itemsPerPage * (config.currentPage - 1) + (i))"
+                    <a class="btn btn-sm btn-danger rounded-0" (click)="eliminarEscuela(config.itemsPerPage * (config.currentPage - 1) + (i))"
                     title="eliminar información de la Escuela" style="cursor: pointer;">
                     <i class="fas fa-trash"></i>
                   </a>                                        

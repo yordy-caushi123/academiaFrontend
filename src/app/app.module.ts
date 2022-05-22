@@ -47,6 +47,8 @@ import { AlumnoPipe } from './pipes/alumno.pipe';
 import { CicloPipe } from './pipes/ciclo.pipe';
 import { EscuelaPipe } from './pipes/escuela.pipe';
 import { SedePipe } from './pipes/sede.pipe';
+import { AsistenciasComponent } from './pages/asistencias/asistencias.component';
+import { TipoAsistenciaComponent } from './pages/tipo-asistencia/tipo-asistencia.component';
 
 
 @NgModule({
@@ -79,6 +81,8 @@ import { SedePipe } from './pipes/sede.pipe';
     CicloPipe,
     EscuelaPipe,
     SedePipe,
+    AsistenciasComponent,
+    TipoAsistenciaComponent,
   ],
   imports: [
     BrowserModule,

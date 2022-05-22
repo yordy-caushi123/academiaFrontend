@@ -223,7 +223,7 @@ export class AlumnosComponent implements OnInit {
     let valor = e.target.value;
     if(valor != ''){
       this.alumnos = this.alumnosIniciales.filter(n => n.nombres.toUpperCase().includes(valor.toUpperCase()) || 
-      n.nombres.toUpperCase().includes(valor.toUpperCase()) || n.dni.toUpperCase().includes(valor.toUpperCase()));
+      n.apellidos.toUpperCase().includes(valor.toUpperCase()) || n.dni.toUpperCase().includes(valor.toUpperCase()));
     }
     else{
       this.alumnos = this.alumnosIniciales;

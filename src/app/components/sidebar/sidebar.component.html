@@ -105,24 +105,38 @@
         </a>
       </li>
 
-      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="formaPago">
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="FormaPago">
         <a (click)="validarFormaPagoMenu()" routerLink="/formaPago" [class.active]="formaPagoActivoMenu">
           <i class="fas fa-copy" style="width: 15px;"></i>                
           <span>FormaPagos</span>
         </a>
       </li>
 
-      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="entidadBancaria">
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="EntidadBancaria">
         <a (click)="validarEntidadBancariaMenu()" routerLink="/entidadBancaria" [class.active]="entidadBancariaActivoMenu">
           <i class="fas fa-landmark" style="width: 15px;"></i>                
           <span>EntidadBancarias</span>
         </a>
       </li>
 
-      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="conceptoEgreso">
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="ConceptoEgreso">
         <a (click)="validarConceptoEgresoMenu()" routerLink="/conceptoEgreso" [class.active]="conceptoEgresoActivoMenu">
           <i class="fas fa-file" style="width: 15px;"></i>                
           <span>ConceptoEgresos</span>
+        </a>
+      </li>
+
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="Asistencias">
+        <a (click)="validarAsistenciaMenu()" routerLink="/asistencias" [class.active]="asistenciaActivoMenu">
+          <i class="fas fa-calendar" style="width: 15px;"></i>                
+          <span>Asistencias</span>
+        </a>
+      </li>
+
+      <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="TipoAsistencia">
+        <a (click)="validarTipoAsistenciaMenu()" routerLink="/tipoAsistencia" [class.active]="tipoAsistenciaActivoMenu">
+          <i class="fas fa-check" style="width: 15px;"></i>                
+          <span>TipoAsistencias</span>
         </a>
       </li>
 

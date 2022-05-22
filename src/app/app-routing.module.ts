@@ -24,6 +24,8 @@ import { TipoIngresoComponent } from './pages/tipo-ingreso/tipo-ingreso.componen
 import { FormaPagoComponent } from './pages/forma-pago/forma-pago.component';
 import { EntidadBancariaComponent } from './pages/entidad-bancaria/entidad-bancaria.component';
 import { ConceptoEgresoComponent } from './pages/concepto-egreso/concepto-egreso.component';
+import { AsistenciasComponent } from './pages/asistencias/asistencias.component';
+import { TipoAsistenciaComponent } from './pages/tipo-asistencia/tipo-asistencia.component';
 
 
 const routes: Routes = [
@@ -50,6 +52,8 @@ const routes: Routes = [
   {path: 'formaPago', component: FormaPagoComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
   {path: 'entidadBancaria', component: EntidadBancariaComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
   {path: 'conceptoEgreso', component: ConceptoEgresoComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
+  {path: 'asistencias', component: AsistenciasComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
+  {path: 'tipoAsistencia', component: TipoAsistenciaComponent, canActivate: [guard], data: { expectedRol: ['administrador']}},
 
 
   {path: '**', redirectTo: 'inicio', pathMatch: 'full'}
