@@ -83,7 +83,7 @@
   <!--Modal Información de Escuela-->
   <div class="modal fade" id="modalInformacionEscuela" tabindex="-1" data-backdrop="static" data-keyboard="false"
     role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title text-muted">
@@ -97,7 +97,7 @@
 
         <div class="modal-body">
           <div class="form-row">
-            <div class="form-group col-xl-6">
+            <div class="form-group col-xl-12">
               <label class="col-form-label text-nowrap">Nombre</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                 [class.is-valid]="escuela.nombre.length != 0" [class.is-invalid]="escuela.nombre.length == 0"
@@ -105,7 +105,7 @@
             </div>                       
           </div> 
           <div class="form-row">
-            <div class="form-group col-xl-6">
+            <div class="form-group col-xl-12">
               <label class="col-form-label text-nowrap">Sigla</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                 [class.is-valid]="escuela.sigla.length != 0" [class.is-invalid]="escuela.sigla.length == 0"

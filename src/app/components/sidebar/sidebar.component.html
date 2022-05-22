@@ -1,4 +1,4 @@
-<aside class="sidebar shadow-sm">
+<aside class="sidebar shadow-sm side">
 
   <div class="sidebar-profile d-flex flex-column justify-content-center pt-3 pb-3">
     <div class="picture-wrapper mb-2">
@@ -98,31 +98,33 @@
 
       </li>
 
+      <hr>
+
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="TipoIngreso">
         <a (click)="validarTipoIngresoMenu()" routerLink="/tipoIngreso" [class.active]="tipoIngresoActivoMenu">
           <i class="fas fa-user" style="width: 15px;"></i>                
-          <span>TipoIngresos</span>
+          <span>Tipos de ingreso</span>
         </a>
       </li>
 
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="formaPago">
         <a (click)="validarFormaPagoMenu()" routerLink="/formaPago" [class.active]="formaPagoActivoMenu">
           <i class="fas fa-user" style="width: 15px;"></i>                
-          <span>FormaPagos</span>
+          <span>Formas de Pago</span>
         </a>
       </li>
 
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="entidadBancaria">
         <a (click)="validarEntidadBancariaMenu()" routerLink="/entidadBancaria" [class.active]="entidadBancariaActivoMenu">
           <i class="fas fa-user" style="width: 15px;"></i>                
-          <span>EntidadBancarias</span>
+          <span>Entidades bancarias</span>
         </a>
       </li>
 
       <li class="sidebar-dropdown" *ngIf="user==1 || user==2 || user==3 || user==4" title="conceptoEgreso">
         <a (click)="validarConceptoEgresoMenu()" routerLink="/conceptoEgreso" [class.active]="conceptoEgresoActivoMenu">
           <i class="fas fa-user" style="width: 15px;"></i>                
-          <span>ConceptoEgresos</span>
+          <span>Conceptos de egreso</span>
         </a>
       </li>
 
