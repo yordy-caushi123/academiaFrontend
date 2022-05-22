@@ -1,22 +1,26 @@
 <div>
-  <h4 class="text-muted mb-4">Listado de EntidadBancarias</h4>
-
   <div class="form-row">
-    <div class="form-group col-xl-8">
+    <div class="form-group mr-2">
+      <button class="btn btn-success btn-sm float-right rounded-circle" style="width: 35px; height: 35px;"
+        (click)="abrirModalInformacionEntidadBancaria(-1)" title="Agregar nueva entidadbancaria">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+    <div class="form-group mr-2">
+      <button class="btn btn-success btn-sm float-right rounded-circle" style="width: 35px; height: 35px;"
+        title="Exportar a Excel">
+        <i class="far fa-file-pdf"></i>
+      </button>
+    </div>
+    <h4 class="text-muted mb-4">Listado de Entidades bancarias</h4>
+  </div>
+ 
+  <div class="form-row">
+    <div class="form-group col-md-12">
       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
         placeholder="Buscar EntidadBancarias..." (keyup)="buscarEntidadBancaria($event)"/>
-    </div>
-    <div class="form-group col-xl-2">
-      <button class="btn btn-success btn-sm float-right w-100 rounded-0"
-        (click)="abrirModalInformacionEntidadBancaria(-1)">
-        Nuevo &nbsp;<i class="fas fa-plus"></i>
-      </button>
-    </div>
-    <div class="form-group col-xl-2">
-      <button class="btn btn-success btn-sm float-right w-100 rounded-0">
-        Exportar &nbsp;<i class="far fa-file-pdf"></i>
-      </button>
-    </div>
+    </div>  
+    
   </div>
 
   <div class="row mb-4">
@@ -41,7 +45,7 @@
                       title="Ver / Editar información de EntidadBancaria" style="cursor: pointer;">
                       <i class="fas fa-edit"></i>
                     </a>
-                    <a class="btn btn-sm btn-primary rounded-0 " (click)="eliminarEntidadBancaria(config.itemsPerPage * (config.currentPage - 1) + (i))"
+                    <a class="btn btn-sm btn-danger rounded-0 " (click)="eliminarEntidadBancaria(config.itemsPerPage * (config.currentPage - 1) + (i))"
                     title="eliminar información de EntidadBancaria" style="cursor: pointer;">
                     <i class="fas fa-trash"></i>
                   </a>                                        
@@ -58,13 +62,13 @@
 
             <ng-template #sinEntidadBancarias>
               <div class="row" style="text-align: center">
-                <td class="col-xl-12" style="text-align: center">
+                <td class="col-md-12" style="text-align: center">
                   <h3>
                     No se encontraron
                     <span class="text-muted">EntidadBancarias</span>
                   </h3>
                 </td>
-                <td class="col-xl-12">
+                <td class="col-md-12">
                   <img src="../../../../assets/img/vacio.png" alt="No hay EntidadBancarias registrados"
                     width="30%" />
                 </td>
@@ -81,7 +85,7 @@
   <!--Modal Información de EntidadBancaria-->
   <div class="modal fade" id="modalInformacionEntidadBancaria" tabindex="-1" data-backdrop="static" data-keyboard="false"
     role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title text-muted">
@@ -95,7 +99,7 @@
 
         <div class="modal-body">
           <div class="form-row">
-            <div class="form-group col-xl-6">
+            <div class="form-group col-md-12">
               <label class="col-form-label text-nowrap">Nombre</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                 [class.is-valid]="entidadbancaria.nombre.length != 0" [class.is-invalid]="entidadbancaria.nombre.length == 0"

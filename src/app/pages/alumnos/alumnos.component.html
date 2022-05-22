@@ -2,17 +2,17 @@
   <h4 class="text-muted mb-4">Listado de Alumnos</h4>
 
   <div class="form-row">
-    <div class="form-group col-xl-8">
+    <div class="form-group col-md-8">
       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
         placeholder="Buscar Alumno..." (keyup)="buscarAlumno($event)"/>
     </div>
-    <div class="form-group col-xl-2">
+    <div class="form-group col-md-2">
       <button class="btn btn-success btn-sm float-right w-100 rounded-0"
         (click)="abrirModalInformacionAlumno(-1)">
         Nuevo &nbsp;<i class="fas fa-plus"></i>
       </button>
     </div>
-    <div class="form-group col-xl-2">
+    <div class="form-group col-md-2">
       <button class="btn btn-success btn-sm float-right w-100 rounded-0">
         Exportar &nbsp;<i class="far fa-file-pdf"></i>
       </button>
@@ -61,13 +61,13 @@
 
             <ng-template #sinAlumnos>
               <div class="row" style="text-align: center">
-                <td class="col-xl-12" style="text-align: center">
+                <td class="col-md-12" style="text-align: center">
                   <h3>
                     No se encontraron
                     <span class="text-muted">Alumnos</span>
                   </h3>
                 </td>
-                <td class="col-xl-12">
+                <td class="col-md-12">
                   <img src="../../../../assets/img/vacio.png" alt="No hay Alumnos registrados"
                     width="30%" />
                 </td>
@@ -98,13 +98,13 @@
 
         <div class="modal-body">
           <div class="form-row">
-            <div class="form-group col-xl-6">
+            <div class="form-group col-md-6">
               <label class="col-form-label text-nowrap">Nombres:</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                 [class.is-valid]="alumno.nombres.length != 0" [class.is-invalid]="alumno.nombres.length == 0"
                 [(ngModel)]="alumno.nombres" name="alumnoNombres" maxlength="50" />
             </div>
-            <div class="form-group col-xl-6">
+            <div class="form-group col-md-6">
               <label class="col-form-label text-nowrap">Apellidos:</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                 [class.is-valid]="alumno.apellidos.length != 0" [class.is-invalid]="alumno.apellidos.length == 0"
@@ -113,19 +113,19 @@
           </div>
 
           <div class="form-row">
-            <div class="form-group col-xl-4">
+            <div class="form-group col-md-4">
               <label class="col-form-label text-nowrap">Dni:</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                 [class.is-valid]="alumno.dni.length != 0" [class.is-invalid]="alumno.dni.length == 0"
                 [(ngModel)]="alumno.dni" name="alumnoDni" maxlength="8"/>
             </div>
-            <div class="form-group col-xl-4">
+            <div class="form-group col-md-4">
               <label class="col-form-label text-nowrap">Fecha de nacimiento:</label>
               <input type="date" class="form-control form-control-sm rounded-0" autocomplete="off"
                 [class.is-valid]="alumno.fechaNacimiento.length != 0" [class.is-invalid]="alumno.fechaNacimiento.length == 0"
                 [(ngModel)]="alumno.fechaNacimiento" name="alumnoFechaNacimiento" maxlength="10"/>
             </div>
-            <div class="form-group col-xl-4">
+            <div class="form-group col-md-4">
               <label class="col-form-label text-nowrap">Teléfono:</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                 [class.is-valid]="alumno.telefono.length != 0" [class.is-invalid]="alumno.telefono.length == 0"
@@ -165,13 +165,13 @@
 
         <div class="modal-body">
           <div class="form-row">
-            <div class="form-group col-xl-6">
+            <div class="form-group col-md-6">
               <label class="col-form-label text-nowrap">Nombres:</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                 [class.is-valid]="apoderado.nombres.length != 0" [class.is-invalid]="apoderado.nombres.length == 0"
                 [(ngModel)]="apoderado.nombres" name="apoderadoNombres" maxlength="50" />
             </div>
-            <div class="form-group col-xl-6">
+            <div class="form-group col-md-6">
               <label class="col-form-label text-nowrap">Apellidos:</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                 [class.is-valid]="apoderado.apellidos.length != 0" [class.is-invalid]="apoderado.apellidos.length == 0"
@@ -180,13 +180,13 @@
           </div>
 
           <div class="form-row">
-            <div class="form-group col-xl-6">
+            <div class="form-group col-md-6">
               <label class="col-form-label text-nowrap">Dni:</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                 [class.is-valid]="apoderado.dni.length != 0" [class.is-invalid]="apoderado.dni.length == 0"
                 [(ngModel)]="apoderado.dni" name="apoderadoDni" maxlength="8"/>
             </div>
-            <div class="form-group col-xl-6">
+            <div class="form-group col-md-6">
               <label class="col-form-label text-nowrap">Teléfono:</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                 [class.is-valid]="apoderado.telefono.length != 0" [class.is-invalid]="apoderado.telefono.length == 0"

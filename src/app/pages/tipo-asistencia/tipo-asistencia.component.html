@@ -2,7 +2,7 @@
   <div class="form-row">
     <div class="form-group mr-2">
       <button class="btn btn-success btn-sm float-right rounded-circle" style="width: 35px; height: 35px;"
-        (click)="abrirModalInformacionFormaPago(-1)" title="Agregar nueva formapago">
+        (click)="abrirModalInformacionTipoAsistencia(-1)" title="Agregar nuevo tipoasistencia">
         <i class="fas fa-plus"></i>
       </button>
     </div>
@@ -12,14 +12,14 @@
         <i class="far fa-file-pdf"></i>
       </button>
     </div>
-    <h4 class="text-muted mb-4">Listado de Formas de pago</h4>
-  </div> 
-
+    <h4 class="text-muted mb-4">Listado de TipoAsistencias</h4>
+  </div>
+  
   <div class="form-row">
     <div class="form-group col-md-12">
       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
-        placeholder="Buscar FormaPagos..." (keyup)="buscarFormaPago($event)"/>
-    </div>   
+        placeholder="Buscar TipoAsistencias..." (keyup)="buscarTipoAsistencia($event)"/>
+    </div>    
     
   </div>
 
@@ -28,7 +28,7 @@
       <div class="card border-0 rounded-0">
         <div class="card-body">
           <div class="table-responsive-md">
-            <table class="table table-hover table-sm" *ngIf="hayFormaPagos(); else sinFormaPagos">
+            <table class="table table-hover table-sm" *ngIf="hayTipoAsistencias(); else sinTipoAsistencias">
               <thead>
                 <tr>
                   <th scope="col" width="4%" style="text-align: center">N</th>
@@ -37,16 +37,16 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let formaPag of formapagos | paginate: config; let i = index">
+                <tr *ngFor="let tipoAsisten of tipoasistencias | paginate: config; let i = index">
                   <td scope="row" class="align-middle" style="text-align: center">{{config.itemsPerPage * (config.currentPage - 1) + (i + 1)}}</td>
-                  <td class="align-middle" >{{ formaPag.nombre }}</td>                                                  
+                  <td class="align-middle" >{{ tipoAsisten.nombre }}</td>                                                  
                   <td class="align-middle" style="text-align: center;">
-                    <a class="btn btn-sm btn-primary rounded-0 mr-2" (click)="abrirModalInformacionFormaPago(config.itemsPerPage * (config.currentPage - 1) + (i))"
-                      title="Ver / Editar información de FormaPago" style="cursor: pointer;">
+                    <a class="btn btn-sm btn-primary rounded-0 mr-2" (click)="abrirModalInformacionTipoAsistencia(config.itemsPerPage * (config.currentPage - 1) + (i))"
+                      title="Ver / Editar información de TipoAsistencia" style="cursor: pointer;">
                       <i class="fas fa-edit"></i>
                     </a>
-                    <a class="btn btn-sm btn-danger rounded-0 " (click)="eliminarFormaPago(config.itemsPerPage * (config.currentPage - 1) + (i))"
-                    title="eliminar información de FormaPago" style="cursor: pointer;">
+                    <a class="btn btn-sm btn-danger rounded-0 " (click)="eliminarTipoAsistencia(config.itemsPerPage * (config.currentPage - 1) + (i))"
+                    title="eliminar información de TipoAsistencia" style="cursor: pointer;">
                     <i class="fas fa-trash"></i>
                   </a>                                        
                   </td>                  
@@ -54,22 +54,22 @@
               </tbody>
             </table>
 
-            <div class="col-md-12 mt-4 mx-auto" style="text-align: center" *ngIf="hayFormaPagos() &&  formapago.length >= 10">
-              <pagination-controls (pageChange)="pageChange($event)" id="formapagos" previousLabel="Anterior"
+            <div class="col-md-12 mt-4 mx-auto" style="text-align: center" *ngIf="hayTipoAsistencias() &&  tipoasistencia.length >= 10">
+              <pagination-controls (pageChange)="pageChange($event)" id="tipoasistencias" previousLabel="Anterior"
                 nextLabel="Siguiente" autoHide="true">
               </pagination-controls>
             </div>
 
-            <ng-template #sinFormaPagos>
+            <ng-template #sinTipoAsistencias>
               <div class="row" style="text-align: center">
                 <td class="col-md-12" style="text-align: center">
                   <h3>
                     No se encontraron
-                    <span class="text-muted">FormaPagos</span>
+                    <span class="text-muted">TipoAsistencias</span>
                   </h3>
                 </td>
                 <td class="col-md-12">
-                  <img src="../../../../assets/img/vacio.png" alt="No hay FormaPagos registrados"
+                  <img src="../../../../assets/img/vacio.png" alt="No hay TipoAsistencias registrados"
                     width="30%" />
                 </td>
               </div>
@@ -82,16 +82,16 @@
 </div>
 
 
-  <!--Modal Información de FormaPago-->
-  <div class="modal fade" id="modalInformacionFormaPago" tabindex="-1" data-backdrop="static" data-keyboard="false"
+  <!--Modal Información de TipoAsistencia-->
+  <div class="modal fade" id="modalInformacionTipoAsistencia" tabindex="-1" data-backdrop="static" data-keyboard="false"
     role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title text-muted">
-            <span *ngIf="!editar">Registrar</span><span *ngIf="editar">Editar</span> FormaPago
+            <span *ngIf="!editar">Registrar</span><span *ngIf="editar">Editar</span> TipoAsistencia
           </h4>
-          <button type="button" class="close" (click)="cerrarModalInformacionFormaPago(0)" aria-label="Close"
+          <button type="button" class="close" (click)="cerrarModalInformacionTipoAsistencia(0)" aria-label="Close"
             title="Cerrar">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -99,18 +99,18 @@
 
         <div class="modal-body">
           <div class="form-row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
               <label class="col-form-label text-nowrap">Nombre</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
-                [class.is-valid]="formapago.nombre.length != 0" [class.is-invalid]="formapago.nombre.length == 0"
-                [(ngModel)]="formapago.nombre" name="formapagoNombre" maxlength="50" />
+                [class.is-valid]="tipoasistencia.nombre.length != 0" [class.is-invalid]="tipoasistencia.nombre.length == 0"
+                [(ngModel)]="tipoasistencia.nombre" name="tipoasistenciaNombre" maxlength="50" />
             </div>                       
           </div>                  
           <br />
           <div class="form-row" style="justify-content: center">
             <div class="form-group col-lg-4">
               <button type="button" class="form-control btn btn-info rounded-0 col-lg-12"
-                (click)="cerrarModalInformacionFormaPago(1)">
+                (click)="cerrarModalInformacionTipoAsistencia(1)">
                 <span *ngIf="!editar">Registrar</span> <span *ngIf="editar">Guardar cambios</span>
               </button>
             </div>
@@ -119,4 +119,4 @@
       </div>
     </div>
   </div>
-  <!--Fin modal Información de FormaPago-->
+  <!--Fin modal Información de TipoAsistencia-->

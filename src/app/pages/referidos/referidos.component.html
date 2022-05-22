@@ -1,22 +1,26 @@
 <div>
-  <h4 class="text-muted mb-4">Listado de Referidos</h4>
-
   <div class="form-row">
-    <div class="form-group col-xl-8">
+    <div class="form-group mr-2">
+      <button class="btn btn-success btn-sm float-right rounded-circle" style="width: 35px; height: 35px;"
+        (click)="abrirModalInformacionReferido(-1)" title="Agregar nuevo referido">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+    <div class="form-group mr-2">
+      <button class="btn btn-success btn-sm float-right rounded-circle" style="width: 35px; height: 35px;"
+        title="Exportar a Excel">
+        <i class="far fa-file-pdf"></i>
+      </button>
+    </div>
+    <h4 class="text-muted mb-4">Listado de Referidos</h4>
+  </div>
+  
+  <div class="form-row">
+    <div class="form-group col-md-12">
       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
         placeholder="Buscar Referidos..." (keyup)="buscarReferido($event)"/>
-    </div>
-    <div class="form-group col-xl-2">
-      <button class="btn btn-success btn-sm float-right w-100 rounded-0"
-        (click)="abrirModalInformacionReferido(-1)">
-        Nuevo &nbsp;<i class="fas fa-plus"></i>
-      </button>
-    </div>
-    <div class="form-group col-xl-2">
-      <button class="btn btn-success btn-sm float-right w-100 rounded-0">
-        Exportar &nbsp;<i class="far fa-file-pdf"></i>
-      </button>
-    </div>
+    </div>   
+    
   </div>
 
   <div class="row mb-4">
@@ -43,7 +47,7 @@
                       title="Ver / Editar información del Referido" style="cursor: pointer;">
                       <i class="fas fa-edit"></i>
                     </a>
-                    <a class="btn btn-sm btn-primary rounded-0 " (click)="eliminarReferido(config.itemsPerPage * (config.currentPage - 1) + (i))"
+                    <a class="btn btn-sm btn-danger rounded-0 " (click)="eliminarReferido(config.itemsPerPage * (config.currentPage - 1) + (i))"
                     title="eliminar información del Referido" style="cursor: pointer;">
                     <i class="fas fa-trash"></i>
                   </a>                                        
@@ -60,13 +64,13 @@
 
             <ng-template #sinReferidos>
               <div class="row" style="text-align: center">
-                <td class="col-xl-12" style="text-align: center">
+                <td class="col-md-12" style="text-align: center">
                   <h3>
                     No se encontraron
                     <span class="text-muted">Referidos</span>
                   </h3>
                 </td>
-                <td class="col-xl-12">
+                <td class="col-md-12">
                   <img src="../../../../assets/img/vacio.png" alt="No hay Referidos registrados"
                     width="30%" />
                 </td>
@@ -83,7 +87,7 @@
   <!--Modal Información de Referido-->
   <div class="modal fade" id="modalInformacionReferido" tabindex="-1" data-backdrop="static" data-keyboard="false"
     role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title text-muted">
@@ -97,21 +101,23 @@
 
         <div class="modal-body">
           <div class="form-row">
-            <div class="form-group col-xl-6">
+            <div class="form-group col-md-12">
               <label class="col-form-label text-nowrap">Nombres</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                 [class.is-valid]="referido.nombres.length != 0" [class.is-invalid]="referido.nombres.length == 0"
                 [(ngModel)]="referido.nombres" name="referidoNombres" maxlength="50" />
-            </div>
-            <div class="form-group col-xl-6">
+            </div>                       
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
               <label class="col-form-label text-nowrap">Apellidos:</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                 [class.is-valid]="referido.apellidos.length != 0" [class.is-invalid]="referido.apellidos.length == 0"
                 [(ngModel)]="referido.apellidos" name="referidoApellidos" maxlength="50"/>
-            </div>                       
+            </div>
           </div>
           <div class="form-row">
-            <div class="form-group col-xl-4">
+            <div class="form-group col-md-12">
               <label class="col-form-label text-nowrap">Dni:</label>
               <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                 [class.is-valid]="referido.dni.length != 0" [class.is-invalid]="referido.dni.length == 0"

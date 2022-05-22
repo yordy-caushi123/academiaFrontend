@@ -13,7 +13,7 @@
                 <div class="col-sm-10">
 
                   <div class="form-row">
-                    <div class="form-group col-xl-3">
+                    <div class="form-group col-md-3">
                       <label class="col-form-label text-nowrap">DNI:</label>
                       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
                         [(ngModel)]="dni" name="dni" readonly maxlength="8">
@@ -21,13 +21,13 @@
                         *ngIf="(dni.length!=8 || !servicio.soloNumeros(dni))">Obligatorio - 8 dígitos</span>
                     </div>
 
-                    <div class="form-group col-xl-3">
+                    <div class="form-group col-md-3">
                       <label class="col-form-label text-nowrap">Nombre de Usuario:</label>
                       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
                         [(ngModel)]="username" name="username" readonly>
                     </div>
 
-                    <div class="form-group col-xl-3">
+                    <div class="form-group col-md-3">
                       <label class="col-form-label text-nowrap">Fecha de alta</label>
                       <input type="date" class="form-control form-control-sm rounded-0" autocomplete="off" required
                         [(ngModel)]="fechaAlta" name="fechaAlta" readonly>
@@ -35,7 +35,7 @@
                         obligatorio</span>
                     </div>
 
-                    <div class="form-group col-xl-3">
+                    <div class="form-group col-md-3">
                       <label class="col-form-label text-nowrap">Fecha de baja</label>
                       <input type="date" class="form-control form-control-sm rounded-0" autocomplete="off" required
                         [(ngModel)]="fechaBaja" name="fechaBaja" [disabled]="!mostrarCampos">
@@ -43,7 +43,7 @@
                   </div>
 
                   <div class="form-row">
-                    <div class="form-group col-xl-3">
+                    <div class="form-group col-md-3">
                       <label class="col-form-label text-nowrap">Apellido Paterno:</label>
                       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
                         [(ngModel)]="paterno" name="paterno"
@@ -52,7 +52,7 @@
                         *ngIf="(!servicio.caracteresEspacio(paterno) || paterno.length==0)">*Obligatorio - Sólo
                         letras</span>
                     </div>
-                    <div class="form-group col-xl-3">
+                    <div class="form-group col-md-3">
                       <label class="col-form-label text-nowrap">Apellido Materno:</label>
                       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
                         [(ngModel)]="materno" name="materno" [disabled]="!mostrarPersonales" maxlength="50">
@@ -60,7 +60,7 @@
                         *ngIf="(!servicio.caracteresEspacio(materno) || materno.length==0)">*Obligatorio - Sólo
                         letras</span>
                     </div>
-                    <div class="form-group col-xl-6">
+                    <div class="form-group col-md-6">
                       <label class="col-form-label text-nowrap ">Nombres:</label>
                       <div class="input-group">
                         <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
@@ -80,7 +80,7 @@
                   <hr>
 
                   <div class="form-row">
-                    <div class="form-group col-xl-3">
+                    <div class="form-group col-md-3">
                       <label class="col-form-label text-nowrap ">Correo Electrónico:</label>
                       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
                         [(ngModel)]="correo" name="correo" [disabled]="!mostrarCampos" maxlength="50">
@@ -88,7 +88,7 @@
                         *ngIf="(servicio.esEmail(correo) || correo.length==0)">*Obligatorio - Correo válido</span>
                     </div>
 
-                    <div class="form-group col-xl-3">
+                    <div class="form-group col-md-3">
                       <label class="col-form-label text-nowrap">Tipo de Usuario:</label>
                       <select class="form-control form-control-sm rounded-0" required [(ngModel)]="tipo" name="tipo"
                         (change)="cambioTipo($event)" [disabled]="!mostrarCampos">
@@ -102,13 +102,13 @@
                         obligatorio</span>
                     </div>
 
-                    <div class="form-group col-xl-6" *ngIf="mostrarLocal">
+                    <div class="form-group col-md-6" *ngIf="mostrarLocal">
                       <label class="col-form-label text-nowrap">Entidad a la que pertenece:</label>
                       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
                         [(ngModel)]="procedencia" name="procedencia" [disabled]="true" maxlength="200">
                     </div>
 
-                    <div class="form-group col-xl-6" *ngIf="mostrarSectores">
+                    <div class="form-group col-md-6" *ngIf="mostrarSectores">
                       <label class="col-form-label text-nowrap">Entidad a la que pertenece</label>
                       <select class="form-control form-control-sm rounded-0" [disabled]="!mostrarCampos"
                         (change)="cambioSector($event)" [(ngModel)]="sectorSeleccionado" name="sectorSeleccionado">
@@ -120,7 +120,7 @@
                         *ngIf="sectorSeleccionado==0">*Campo obligatorio</span>
                     </div>
 
-                    <div class="form-group col-xl-6" *ngIf="mostrarOperadores">
+                    <div class="form-group col-md-6" *ngIf="mostrarOperadores">
                       <label class="col-form-label text-nowrap">Entidad a la que pertenece</label>
                       <select class="form-control form-control-sm rounded-0" [disabled]="!mostrarCampos"
                         (change)="cambioOperador($event)" [(ngModel)]="operadorSeleccionado"
@@ -135,7 +135,7 @@
                   </div>
 
                   <div class="form-row">
-                    <div class="form-group col-xl-3">
+                    <div class="form-group col-md-3">
                       <label class="col-form-label text-nowrap">Teléfono Fijo:</label>
                       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
                         [(ngModel)]="fijo" name="fijo" [disabled]="!mostrarCampos" minlength="7" maxlength="9">
@@ -144,7 +144,7 @@
                         8 o 9 dígitos</span>
                     </div>
 
-                    <div class="form-group col-xl-3">
+                    <div class="form-group col-md-3">
                       <label class="col-form-label text-nowrap">Anexo:</label>
                       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
                         [(ngModel)]="anexo" name="anexo" [disabled]="!mostrarCampos" minlength="1" maxlength="4">
@@ -153,7 +153,7 @@
                         a 4 dígitos</span>
                     </div>
 
-                    <div class="form-group col-xl-3">
+                    <div class="form-group col-md-3">
                       <label class="col-form-label text-nowrap">Celular 1:</label>
                       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
                         [(ngModel)]="movil" name="movil" [disabled]="!mostrarCampos" maxlength="9">
@@ -161,7 +161,7 @@
                         *ngIf="(!servicio.soloNumeros(movil) || movil.length!=9)">*Obligatorio - 9 dígitos</span>
                     </div>
 
-                    <div class="form-group col-xl-3">
+                    <div class="form-group col-md-3">
                       <label class="col-form-label text-nowrap">Celular 2:</label>
                       <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off" required
                         [(ngModel)]="movil2" name="movil2" [disabled]="!mostrarCampos" maxlength="9">
@@ -234,7 +234,7 @@
 
                         <br>
                         <div class="form-row">
-                          <div class="form-group col-xl-12">
+                          <div class="form-group col-md-12">
                             <table *ngIf="archivos.length>=0" width="100%">
                               <tr *ngFor="let x of archivos; let i = index"
                                 style=" border-bottom-style: dashed; border-bottom-width: 2px; height: 40px;">
@@ -281,23 +281,23 @@
                       </div>
                       <div class="modal-body">
                         <div class="row" style="text-align: center;" *ngIf="totalArchivosProcesados!=totalArchivos">
-                          <td class="col-xl-12">
+                          <td class="col-md-12">
                             <img src="../../../../assets/img/loading4.gif" width="30%">
                           </td>
                         </div>
                         <div class="row" style="text-align: center;" *ngIf="totalArchivosProcesados!=totalArchivos">
-                          <td class="col-xl-12">
+                          <td class="col-md-12">
                             <h3 class="modal-title text-danger" style="font-weight: bold;">Procesando, por favor
                               espere...</h3>
                           </td>
                         </div>
                         <div class="row" style="text-align: center;" *ngIf="totalArchivosProcesados==totalArchivos">
-                          <td class="col-xl-12">
+                          <td class="col-md-12">
                             <img src="../../../../assets/img/check.gif" width="50%">
                           </td>
                         </div>
                         <div class="row" style="text-align: center;" *ngIf="totalArchivosProcesados==totalArchivos">
-                          <td class="col-xl-12">
+                          <td class="col-md-12">
                             <h3 class="modal-title text-succes" style="font-weight: bold;">¡COMPLETADO!</h3>
                           </td>
                         </div>
@@ -361,10 +361,10 @@
                           </table>
 
                           <div class="row" style="text-align: center;" *ngIf="documentos.length==0">
-                            <td class="col-xl-12" style="text-align: center;">
+                            <td class="col-md-12" style="text-align: center;">
                               <h4>No se encontraron <span class="text-muted">Documentos anexos</span></h4>
                             </td>
-                            <td class="col-xl-12">
+                            <td class="col-md-12">
                               <img src="../../../../assets/img/vacio.png" alt="No hay documentos almacenados"
                                 width="30%">
                             </td>
@@ -397,7 +397,7 @@
                         <div class="row">
                           <div class="col-sm-10">
                             <div class="form-row">
-                              <div class="form-group col-xl-3">
+                              <div class="form-group col-md-3">
                                 <label class="col-form-label text-nowrap">DNI:</label>
                                 <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                                   required [(ngModel)]="funcionario2.dni_persona" name="dni2" maxlength="8">
@@ -406,13 +406,13 @@
                                   - 8 dígitos</span>
                               </div>
 
-                              <div class="form-group col-xl-9">
+                              <div class="form-group col-md-9">
 
                               </div>
                             </div>
 
                             <div class="form-row">
-                              <div class="form-group col-xl-3">
+                              <div class="form-group col-md-3">
                                 <label class="col-form-label text-nowrap">Apellido Paterno:</label>
                                 <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                                   required [(ngModel)]="funcionario2.paterno_persona" name="paterno2"
@@ -422,7 +422,7 @@
                                   - Sólo
                                   letras</span>
                               </div>
-                              <div class="form-group col-xl-3">
+                              <div class="form-group col-md-3">
                                 <label class="col-form-label text-nowrap">Apellido Materno:</label>
                                 <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                                   required [(ngModel)]="funcionario2.materno_persona" name="materno2"
@@ -432,7 +432,7 @@
                                   - Sólo
                                   letras</span>
                               </div>
-                              <div class="form-group col-xl-6">
+                              <div class="form-group col-md-6">
                                 <label class="col-form-label text-nowrap ">Nombres:</label>
                                 <input type="text" class="form-control form-control-sm rounded-0" autocomplete="off"
                                   required [(ngModel)]="funcionario2.nombres_persona" name="nombres2"
