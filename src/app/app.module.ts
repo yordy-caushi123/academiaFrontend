@@ -9,7 +9,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ProgressBarModule } from "angular-progress-bar"
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgChatModule } from 'ng-chat';
-import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -98,7 +98,7 @@ import { TipoAsistenciaComponent } from './pages/tipo-asistencia/tipo-asistencia
     ReactiveFormsModule,
     ProgressBarModule,
     NgChatModule,
-    AutocompleteLibModule,
+    
     NgxJsonViewerModule
     ],
   providers: [

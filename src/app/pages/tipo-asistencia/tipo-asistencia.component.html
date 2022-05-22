@@ -54,7 +54,7 @@
               </tbody>
             </table>
 
-            <div class="col-md-12 mt-4 mx-auto" style="text-align: center" *ngIf="hayTipoAsistencias() &&  tipoasistencia.length >= 10">
+            <div class="col-md-12 mt-4 mx-auto" style="text-align: center" *ngIf="hayTipoAsistencias() &&  tipoasistencias.length >= 10">
               <pagination-controls (pageChange)="pageChange($event)" id="tipoasistencias" previousLabel="Anterior"
                 nextLabel="Siguiente" autoHide="true">
               </pagination-controls>

@@ -1,4 +1,4 @@
-<div>
+ <!-- <div>
   <h4 class="mb-4 text-muted">Registrar Usuario</h4>
 
   <div class="row mb-4">
@@ -177,7 +177,7 @@
                       alt="avatar">
                     <img *ngIf="mostrarImagen" src="{{imagen}}" class="img-thumbnail" alt="avatar">
                     <br><br>
-                    <!--<input type="file" name="file-5[]" (change)="comprobarExtension2()" id="file-5"
+                    <input type="file" name="file-5[]" (change)="comprobarExtension2()" id="file-5"
                       class="inputfile inputfile-4" data-multiple-caption="{count} files selected" multiple
                       [disabled]="!mostrarCampos" />
                     <div style="text-align: center;">
@@ -185,21 +185,21 @@
                         <a class="btn text-muted rounded-0"><i class="fa fa-upload"></i></a>
                         <span class="text-muted" style="font-weight: bold; cursor: pointer;">Cambiar imagen</span>
                       </label>
-                    </div>-->
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div class="form-row mt-3">
                 <div class="form-group col-lg-12" style="text-align: left;">
-                  <!--Llamada al Modal-->
+                  
                   <a class="btn btn-sm btn-info mr-2" (click)="abrirModalAgregarDocumento()"
                     title="Agregar Documento: {{archivos.length}} documento(s) agregado(s)">
                     <i class="far fa-file"></i>
                   </a>
                 </div>
 
-                <!--Modal Agregar Documento-->
+               
                 <div class="modal fade" id="asignarDocumento" tabindex="-1" data-backdrop="static" data-keyboard="false"
                   role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
                   <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
@@ -250,9 +250,9 @@
                     </div>
                   </div>
                 </div>
-                <!--Fin modal Agregar Documento-->
+               
 
-                <!--Modal ProgressBar-->
+                
                 <div class="modal fade" id="barraProgreso" tabindex="-1" data-backdrop="static" data-keyboard="false"
                   role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
                   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -299,9 +299,9 @@
                     </div>
                   </div>
                 </div>
-                <!--Fin modal Registrar Tipo de Documento-->
+                
 
-                <!--Modal Editar Persona-->
+              
                 <div class="modal fade" id="editarPersona" tabindex="-1" data-backdrop="static" data-keyboard="false"
                   role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
                   <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
@@ -385,12 +385,12 @@
                     </div>
                   </div>
                 </div>
-                <!--Fin modal Editar Persona-->
+                
               </div>
 
             </div>
 
-            <!--<input type="button" name="submit" class="btn btn-success rounded-0 col-lg-2 mt-2 mb-3" value="Registrar"
+            <input type="button" name="submit" class="btn btn-success rounded-0 col-lg-2 mt-2 mb-3" value="Registrar"
               (click)="alta()" [disabled]="
               (!servicio.caracteresEspacio(nombres) || nombres.length==0) || 
               (!servicio.caracteresEspacio(paterno) || paterno.length==0) ||
@@ -404,7 +404,7 @@
               fechaAlta.length==0 ||
               (procedencia.length==0 && sectorSeleccionado==0 && operadorSeleccionado==0) ||
               username.length==0"
-            />-->
+            />
             <input type="button" name="submit" class="btn btn-success rounded-0 col-lg-2 mt-2 mb-3" value="Registrar"
               (click)="alta()" />
           </form>
@@ -413,4 +413,4 @@
     </div>
   </div>
 
-</div>
+</div>-->
